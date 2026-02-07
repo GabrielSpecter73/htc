@@ -1,8 +1,10 @@
 version: '3.8'
 services:
-  htc-landing:
+  htc-site:
+    image: htc-landing:latest
     build: .
-    container_name: htc_website
-    restart: always
     ports:
       - "3000:80"
+    deploy:
+      restart_policy:
+        condition: on-failure
