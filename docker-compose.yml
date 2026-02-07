@@ -2,9 +2,8 @@ version: '3.8'
 services:
   htc-site:
     image: htc-landing:latest
-    build: .
     networks:
-      - traefik_public 
+      - portainerhtclube
     deploy:
       labels:
         - "traefik.enable=true"
@@ -12,6 +11,7 @@ services:
         - "traefik.http.routers.htc-site.entrypoints=websecure"
         - "traefik.http.routers.htc-site.tls.certresolver=letsencrypt"
         - "traefik.http.services.htc-site.loadbalancer.server.port=80"
+
 networks:
-  traefik_public:
+  portainerhtclube:
     external: true
