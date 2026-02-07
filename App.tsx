@@ -345,7 +345,7 @@ const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
                       <span className="text-green-500 text-xs font-black uppercase">Grátis</span>
                    </li>
                    <li className="flex items-center justify-between text-white font-bold text-lg">
-                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> Pack +45 Snapshots</div>
+                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> Pack +15 Snapshots</div>
                       <span className="text-green-500 text-xs font-black uppercase">Grátis</span>
                    </li>
                    <li className="flex items-center justify-between text-white font-bold text-lg">
