@@ -3,8 +3,15 @@ services:
   htc-site:
     image: htc-landing:latest
     build: .
-    ports:
-      - "3000:80"
+    networks:
+      - traefik_public 
     deploy:
-      restart_policy:
-        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.htc-site.rule=Host(`htclube.com`)"
+        - "traefik.http.routers.htc-site.entrypoints=websecure"
+        - "traefik.http.routers.htc-site.tls.certresolver=letsencrypt"
+        - "traefik.http.services.htc-site.loadbalancer.server.port=80"
+networks:
+  traefik_public:
+    external: true
