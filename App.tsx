@@ -692,7 +692,7 @@ export default function App() {
             </div>
             <div className="flex-1 bg-black">
                <iframe 
-                src="lp.https://htclube.com/mural-depoimentos-htc" 
+                src="https://lp.htclube.com/mural-depoimentos-htc" 
                 className="w-full h-full border-0"
                 title="Mural de Depoimentos"
                ></iframe>
