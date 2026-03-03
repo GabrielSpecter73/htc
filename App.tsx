@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
@@ -550,14 +549,14 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               </div>
            </div>
 
-           {/* Opção 2: Anuidade/Vitalício */}
+           {/* Opção 2: Anuidade */}
            <div className="group relative bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
               <div className="flex flex-col gap-4">
                  <div className="flex items-center justify-between">
                     <span className="px-4 py-1.5 bg-purple-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 02</span>
                     <Gift className="w-6 h-6 text-purple-400" />
                  </div>
-                 <h4 className="text-2xl font-black text-left">HTC Anuidade / Vitalício</h4>
+                 <h4 className="text-2xl font-black text-left">HTC Anuidade</h4>
                  <p className="text-slate-400 text-sm leading-relaxed text-left">
                     Prefere não mudar sua afiliação? Você pode pagar pela anuidade e ter acesso a todo o nosso ecossistema, snapshots e mentorias.
                  </p>
