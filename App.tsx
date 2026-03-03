@@ -44,7 +44,7 @@ import {
 // Declarar AOS para o TypeScript
 declare var AOS: any;
 
-const Hero = ({ onOpenForm }: { onOpenForm: () => void }) => (
+const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGHLModal: () => void }) => (
   <section className="relative pt-32 pb-32 px-6 overflow-hidden min-h-screen flex flex-col justify-center text-center">
     <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-purple-600/10 blur-[150px] rounded-full -z-10"></div>
@@ -99,6 +99,13 @@ const Hero = ({ onOpenForm }: { onOpenForm: () => void }) => (
         >
           GARANTIR 30 DIAS GRÁTIS + BÔNUS
           <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+        </button>
+
+        <button 
+          onClick={onOpenGHLModal}
+          className="group px-10 py-7 bg-white/5 border border-white/10 hover:bg-white/10 rounded-3xl font-black text-lg transition-all flex items-center gap-3 text-slate-300"
+        >
+          JÁ TENHO O GHL
         </button>
       </div>
     </div>
@@ -345,7 +352,7 @@ const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
                       <span className="text-green-500 text-xs font-black uppercase">Grátis</span>
                    </li>
                    <li className="flex items-center justify-between text-white font-bold text-lg">
-                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> Pack +15 Snapshots</div>
+                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> Pack +45 Snapshots</div>
                       <span className="text-green-500 text-xs font-black uppercase">Grátis</span>
                    </li>
                    <li className="flex items-center justify-between text-white font-bold text-lg">
@@ -490,9 +497,90 @@ const Footer = () => (
   </footer>
 );
 
+const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div 
+      className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/95 backdrop-blur-3xl transition-all duration-500 animate-in fade-in"
+      onClick={onClose}
+    >
+      <div 
+        className="relative w-full max-w-[600px] bg-slate-950 rounded-[3rem] border border-white/10 overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.2)] flex flex-col scale-up"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-10 pb-6 flex justify-between items-start">
+           <div className="flex items-center gap-5">
+              <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center">
+                <ShieldCheck className="text-purple-400 w-8 h-8" />
+              </div>
+              <div>
+                <h3 className="text-3xl font-black tracking-tight mb-1">Já tem o GHL?</h3>
+                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest text-left">Escolha como deseja entrar no HTC</p>
+              </div>
+           </div>
+           <button 
+            onClick={onClose}
+            className="p-4 bg-white/5 hover:bg-white/10 rounded-2xl transition-all border border-white/10"
+           >
+             <X className="w-6 h-6 text-slate-400" />
+           </button>
+        </div>
+        
+        <div className="p-10 pt-4 space-y-6">
+           {/* Opção 1: Upgrade */}
+           <div className="group relative bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
+              <div className="flex flex-col gap-4">
+                 <div className="flex items-center justify-between">
+                    <span className="px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 01</span>
+                    <TrendingUp className="w-6 h-6 text-blue-400" />
+                 </div>
+                 <h4 className="text-2xl font-black text-left">Fazer Upgrade de Plano</h4>
+                 <p className="text-slate-400 text-sm leading-relaxed text-left">
+                    Se você já tem uma conta, pode fazer o upgrade através do nosso link de afiliado para ganhar acesso imediato à nossa comunidade e bônus.
+                 </p>
+                 <a 
+                    href="https://app.gohighlevel.com/offers/affiliate-upgrade?fp_ref=high-ticket-clube54" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="mt-4 w-full py-5 bg-blue-600 text-white font-black rounded-2xl text-center hover:scale-[1.02] transition-transform flex items-center justify-center gap-3"
+                 >
+                    FAZER UPGRADE AGORA <ExternalLink className="w-5 h-5" />
+                 </a>
+              </div>
+           </div>
+
+           {/* Opção 2: Anuidade/Vitalício */}
+           <div className="group relative bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
+              <div className="flex flex-col gap-4">
+                 <div className="flex items-center justify-between">
+                    <span className="px-4 py-1.5 bg-purple-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 02</span>
+                    <Gift className="w-6 h-6 text-purple-400" />
+                 </div>
+                 <h4 className="text-2xl font-black text-left">HTC Anuidade / Vitalício</h4>
+                 <p className="text-slate-400 text-sm leading-relaxed text-left">
+                    Prefere não mudar sua afiliação? Você pode pagar pela anuidade e ter acesso a todo o nosso ecossistema, snapshots e mentorias.
+                 </p>
+                 <a 
+                    href="https://lp.htclube.com/oferta-vitalicia" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="mt-4 w-full py-5 bg-white text-black font-black rounded-2xl text-center hover:scale-[1.02] transition-transform flex items-center justify-center gap-3"
+                 >
+                    AGENDAR CALL COM JOHN <PhoneCall className="w-5 h-5" />
+                 </a>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [muralOpen, setMuralOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
+  const [ghlModalOpen, setGhlModalOpen] = useState(false);
 
   useEffect(() => {
     if (typeof AOS !== 'undefined') {
@@ -506,7 +594,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-100 selection:bg-purple-600 selection:text-white">
-      <Hero onOpenForm={() => setFormOpen(true)} />
+      <Hero onOpenForm={() => setFormOpen(true)} onOpenGHLModal={() => setGhlModalOpen(true)} />
       <AssetBentoGrid />
       <TwoStepProcess onOpenForm={() => setFormOpen(true)} />
       <ArsenalSection />
@@ -661,6 +749,9 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Already have GHL Modal */}
+      <GHLAlreadyModal isOpen={ghlModalOpen} onClose={() => setGhlModalOpen(false)} />
 
       {/* Mural Modal */}
       {muralOpen && (
