@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
@@ -410,8 +411,8 @@ const FAQ = () => {
       a: "Sim. Como parceiros oficiais da ferramenta, reinvestimos nossa comissão entregando a melhor comunidade e ativos do Brasil sem custo adicional para você." 
     },
     { 
-      q: "Serve para quem está começando agora?", 
-      a: "Absolutamente. O Curso Turbo e as Trilhas pegam você pela mão até a escala de múltiplos clientes." 
+      q: "Quais Snapshots (modelos de entrega) estão inclusos no High Ticket Clube?", 
+      a: "Nós entregamos 11 Snapshots completos (esses ficam disponíveis depois que você sai do período de teste!) e validados para você importar e começar a operar imediatamente. Atendemos os principais nichos do mercado para que você ganhe velocidade na entrega: Clínicas, Odontologia, Infoprodutores, Advocacia, Imobiliárias, Petshops, Seguros, Concessionárias, Eventos, Contabilidade e Prestadores de Serviços. Com esses modelos de entrega prontos, você elimina o trabalho braçal e foca no que importa: vender e escalar sua agência." 
     }
   ];
 
@@ -549,14 +550,14 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               </div>
            </div>
 
-           {/* Opção 2: Anuidade */}
+           {/* Opção 2: Anuidade/Vitalício */}
            <div className="group relative bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
               <div className="flex flex-col gap-4">
                  <div className="flex items-center justify-between">
                     <span className="px-4 py-1.5 bg-purple-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 02</span>
                     <Gift className="w-6 h-6 text-purple-400" />
                  </div>
-                 <h4 className="text-2xl font-black text-left">HTC Anuidade</h4>
+                 <h4 className="text-2xl font-black text-left">HTC Anuidade / Vitalício</h4>
                  <p className="text-slate-400 text-sm leading-relaxed text-left">
                     Prefere não mudar sua afiliação? Você pode pagar pela anuidade e ter acesso a todo o nosso ecossistema, snapshots e mentorias.
                  </p>
@@ -580,6 +581,7 @@ export default function App() {
   const [muralOpen, setMuralOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [ghlModalOpen, setGhlModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof AOS !== 'undefined') {
@@ -604,7 +606,7 @@ export default function App() {
           <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-tighter">Quem anda sozinho é presa. <br /><span className="text-purple-500 italic">Quem anda em grupo caça.</span></h2>
         </div>
 
-        <div className="flex gap-6 animate-marquee mb-24 opacity-60 hover:opacity-100 transition-opacity">
+        <div className="flex gap-6 animate-marquee mb-24 opacity-60 hover:opacity-100 transition-opacity hover:[animation-play-state:paused]">
           {[
             { name: "Frederik Ebener", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783ca81f2e2c7a.png" },
             { name: "Your Fav Agency", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3266d7332f405173e.png" },
@@ -618,7 +620,11 @@ export default function App() {
             { name: "Lais Araújo", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783cce122e2c79.png" },
             { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
           ]).map((item, i) => (
-            <div key={i} className="w-80 flex-none glass p-5 rounded-[2rem] border border-white/5">
+            <div 
+              key={i} 
+              className="w-80 flex-none glass p-5 rounded-[2rem] border border-white/5 cursor-pointer group hover:border-purple-500/50 transition-all hover:-translate-y-2"
+              onClick={() => setSelectedImage(item.img)}
+            >
               <div className="flex items-center gap-3 mb-4">
                  <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-black text-[10px] uppercase">{item.name.charAt(0)}</div>
                  <div>
@@ -626,7 +632,14 @@ export default function App() {
                     <p className="text-[10px] text-green-500 font-bold uppercase tracking-widest">Resultado Real</p>
                  </div>
               </div>
-              <img src={item.img} alt={`Prova Social ${item.name}`} className="rounded-2xl w-full h-auto object-cover border border-white/5 shadow-lg" />
+              <div className="relative overflow-hidden rounded-2xl border border-white/5 shadow-lg">
+                <img src={item.img} alt={`Prova Social ${item.name}`} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute inset-0 bg-purple-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                  <span className="bg-white text-black px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-2 shadow-xl">
+                    <Plus className="w-4 h-4" /> Ampliar
+                  </span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -787,6 +800,28 @@ export default function App() {
                 title="Mural de Depoimentos"
                ></iframe>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Lightbox Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[130] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl transition-all duration-500 animate-in fade-in"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-5xl w-full h-full max-h-[90vh] flex items-center justify-center flex-col" onClick={(e) => e.stopPropagation()}>
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 md:-right-16 md:top-0 p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10 text-white z-50"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img 
+              src={selectedImage} 
+              alt="Comprovante ampliado" 
+              className="max-w-full max-h-full object-contain rounded-2xl shadow-[0_0_100px_rgba(139,92,246,0.15)] border border-white/10 scale-up"
+            />
           </div>
         </div>
       )}
