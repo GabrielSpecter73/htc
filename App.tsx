@@ -710,16 +710,15 @@ export default function App() {
       <FAQ />
       <Footer />
 
-      {/* Sign-up Form Modal */}
-      {formOpen && (
+      {/* Sign-up Form Modal (Preloaded) */}
+      <div 
+        className={`fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-[40px] transition-all duration-500 ${formOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setFormOpen(false)}
+      >
         <div 
-          className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-[40px] transition-all duration-500 animate-in fade-in"
-          onClick={() => setFormOpen(false)}
+          className={`relative w-full max-w-[550px] bg-slate-950 rounded-[2.5rem] border border-white/10 overflow-hidden shadow-[0_0_150px_rgba(139,92,246,0.15)] flex flex-col transition-all duration-500 ${formOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
+          onClick={(e) => e.stopPropagation()}
         >
-          <div 
-            className="relative w-full max-w-[550px] bg-slate-950 rounded-[2.5rem] border border-white/10 overflow-hidden shadow-[0_0_150px_rgba(139,92,246,0.15)] flex flex-col scale-up"
-            onClick={(e) => e.stopPropagation()}
-          >
             <div className="p-8 pb-4 flex justify-between items-center">
                <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center">
@@ -759,7 +758,6 @@ export default function App() {
             </div>
           </div>
         </div>
-      )}
 
       {/* Already have GHL Modal */}
       <GHLAlreadyModal isOpen={ghlModalOpen} onClose={() => setGhlModalOpen(false)} />
