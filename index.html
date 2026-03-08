@@ -13,20 +13,20 @@
     <!-- AOS Animate On Scroll -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
-    <!-- GoHighLevel Form Script -->
-    <script src="https://link.msgsndr.com/js/form_embed.js"></script>
 
     <style>
         :root {
             --bg-dark: #020617;
         }
         
-        body {
+        html, body {
             font-family: 'Outfit', sans-serif;
             background-color: var(--bg-dark);
             color: #f8fafc;
             overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+            position: relative;
             -webkit-font-smoothing: antialiased;
             scroll-behavior: smooth;
         }
@@ -103,9 +103,5 @@
 <body>
     <div id="root"></div>
 <script type="module" src="/index.tsx"></script>
-<script 
-  src="https://link.msgsndr.com/js/external-tracking.js"
-  data-tracking-id="tk_f5b2ed433f864fb69316f5891d40679f">
-</script>
 </body>
 </html>
