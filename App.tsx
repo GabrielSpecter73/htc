@@ -94,15 +94,15 @@ const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGH
       <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center relative z-50">
         <button 
           onClick={onOpenForm}
-          className="w-full sm:w-auto group relative px-8 md:px-12 py-5 md:py-7 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl font-black text-lg md:text-xl shadow-[0_0_50px_rgba(139,92,246,0.3)] hover:scale-105 transition-all flex items-center justify-center gap-4 animate-pulse"
+          className="w-full sm:w-auto group relative px-8 md:px-12 py-5 md:py-7 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl font-black text-lg md:text-xl shadow-[0_0_50px_rgba(139,92,246,0.3)] md:hover:scale-105 active:opacity-80 transition-all flex items-center justify-center gap-4 animate-pulse"
         >
           GARANTIR 30 DIAS GRÁTIS + BÔNUS
-          <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-2 transition-transform" />
+          <ArrowRight className="w-5 h-5 md:w-6 md:h-6 md:group-hover:translate-x-2 transition-transform" />
         </button>
 
         <button 
           onClick={onOpenGHLModal}
-          className="w-full sm:w-auto group px-8 md:px-10 py-5 md:py-7 bg-white/5 border border-white/10 hover:bg-white/10 rounded-3xl font-black text-base md:text-lg transition-all flex items-center justify-center gap-3 text-slate-300"
+          className="w-full sm:w-auto group px-8 md:px-10 py-5 md:py-7 bg-white/5 border border-white/10 md:hover:bg-white/10 active:bg-white/10 rounded-3xl font-black text-base md:text-lg transition-all flex items-center justify-center gap-3 text-slate-300"
         >
           JÁ TENHO O GHL
         </button>
@@ -183,7 +183,7 @@ const AssetBentoGrid = () => (
 );
 
 const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
-  <section id="passos" className="py-32 px-6 relative">
+  <section id="passos" className="py-32 px-6 relative overflow-x-hidden">
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/5 blur-[120px] rounded-full pointer-events-none"></div>
     <div className="max-w-6xl mx-auto relative z-10">
       <div className="text-center mb-16 md:mb-20" data-aos="fade-up">
@@ -212,7 +212,7 @@ const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
           <div className="mt-auto relative z-50">
             <button 
               onClick={onOpenForm}
-              className="w-full py-5 md:py-6 bg-white text-black font-black rounded-2xl text-base md:text-lg hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3"
+              className="w-full py-5 md:py-6 bg-white text-black font-black rounded-2xl text-base md:text-lg md:hover:scale-[1.02] active:opacity-80 transition-all shadow-2xl flex items-center justify-center gap-3"
             >
               ATIVAR TRIAL 30 DIAS <ArrowRight className="w-5 h-5" />
             </button>
@@ -290,7 +290,7 @@ const ArsenalSection = () => (
 );
 
 const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
-  <section id="oferta" className="py-32 px-6 overflow-visible relative">
+  <section id="oferta" className="py-32 px-6 overflow-x-hidden relative">
     <div className="max-w-6xl mx-auto">
        <div className="text-center mb-16 md:mb-24 relative z-20">
           <div className="inline-block relative">
@@ -367,7 +367,7 @@ const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
                    </div>
                    <button 
                     onClick={onOpenForm}
-                    className="w-full md:w-auto px-8 md:px-10 py-5 md:py-6 bg-white text-black font-black rounded-2xl md:rounded-[1.5rem] hover:scale-105 transition-transform shadow-2xl flex items-center justify-center gap-3 relative z-50"
+                    className="w-full md:w-auto px-8 md:px-10 py-5 md:py-6 bg-white text-black font-black rounded-2xl md:rounded-[1.5rem] md:hover:scale-105 active:opacity-80 transition-transform shadow-2xl flex items-center justify-center gap-3 relative z-50"
                    >
                      GARANTIR 30 DIAS AGORA <MousePointerClick className="w-5 h-5" />
                    </button>
@@ -542,7 +542,7 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                     href="https://app.gohighlevel.com/offers/affiliate-upgrade?fp_ref=high-ticket-clube54" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="mt-4 w-full py-5 bg-blue-600 text-white font-black rounded-2xl text-center hover:scale-[1.02] transition-transform flex items-center justify-center gap-3"
+                    className="mt-4 w-full py-5 bg-blue-600 text-white font-black rounded-2xl text-center md:hover:scale-[1.02] active:opacity-80 transition-transform flex items-center justify-center gap-3"
                  >
                     FAZER UPGRADE AGORA <ExternalLink className="w-5 h-5" />
                  </a>
@@ -564,7 +564,7 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                     href="https://lp.htclube.com/oferta-vitalicia" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="mt-4 w-full py-5 bg-white text-black font-black rounded-2xl text-center hover:scale-[1.02] transition-transform flex items-center justify-center gap-3"
+                    className="mt-4 w-full py-5 bg-white text-black font-black rounded-2xl text-center md:hover:scale-[1.02] active:opacity-80 transition-transform flex items-center justify-center gap-3"
                  >
                     Agendar Reunião de Demonstração da Comunidade <PhoneCall className="w-5 h-5" />
                  </a>
@@ -593,7 +593,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-100 selection:bg-purple-600 selection:text-white">
+    <div className="relative min-h-screen bg-[#020617] text-slate-100 selection:bg-purple-600 selection:text-white overflow-x-hidden w-full">
       <Hero onOpenForm={() => setFormOpen(true)} onOpenGHLModal={() => setGhlModalOpen(true)} />
       <AssetBentoGrid />
       <TwoStepProcess onOpenForm={() => setFormOpen(true)} />
@@ -670,11 +670,11 @@ export default function App() {
         <div className="flex justify-center px-4 md:px-0" data-aos="fade-up">
            <button 
             onClick={() => setMuralOpen(true)}
-            className="w-full md:w-auto group relative px-6 md:px-16 py-6 md:py-8 glass border-2 border-white/10 hover:border-purple-500/50 rounded-3xl md:rounded-[2.5rem] font-black text-base sm:text-lg md:text-xl transition-all flex items-center justify-center gap-3 md:gap-5 shadow-2xl bg-white/5"
+            className="w-full md:w-auto group relative px-6 md:px-16 py-6 md:py-8 glass border-2 border-white/10 md:hover:border-purple-500/50 active:opacity-80 rounded-3xl md:rounded-[2.5rem] font-black text-base sm:text-lg md:text-xl transition-all flex items-center justify-center gap-3 md:gap-5 shadow-2xl bg-white/5"
            >
              <span className="hidden sm:inline">[ VEJA +50 DEPOIMENTOS NO MURAL ]</span>
              <span className="sm:hidden">VER +50 DEPOIMENTOS</span>
-             <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-purple-500 group-hover:rotate-12 transition-transform" />
+             <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-purple-500 md:group-hover:rotate-12 transition-transform" />
            </button>
         </div>
       </div>
@@ -713,7 +713,7 @@ export default function App() {
 
       {/* Sign-up Form Modal (Preloaded) */}
       <div 
-        className={`fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-[40px] transition-all duration-500 ${formOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-[40px] transition-all duration-500 ${formOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'}`}
         onClick={() => setFormOpen(false)}
       >
         <div 
@@ -832,10 +832,10 @@ export default function App() {
       )}
 
       {/* Floating Mobile Sticky CTA */}
-      <div className="fixed bottom-6 left-4 right-4 md:hidden z-[90]">
+      <div className="fixed bottom-8 left-4 right-4 md:hidden z-[99]">
         <button 
           onClick={() => setFormOpen(true)}
-          className="w-full py-5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-[1.5rem] font-black text-base shadow-[0_10px_40px_rgba(139,92,246,0.6)] flex items-center justify-center gap-3 active:scale-95 transition-transform border border-white/20"
+          className="w-full py-5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-[1.5rem] font-black text-base shadow-[0_10px_40px_rgba(139,92,246,0.6)] flex items-center justify-center gap-3 active:opacity-80 transition-transform border border-white/20"
         >
            GARANTIR 30 DIAS + BÔNUS <ArrowRight className="w-5 h-5" />
         </button>
