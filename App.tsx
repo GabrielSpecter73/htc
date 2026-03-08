@@ -46,7 +46,7 @@ declare var AOS: any;
 const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGHLModal: () => void }) => (
   <section className="relative pt-32 pb-32 px-6 overflow-hidden min-h-screen flex flex-col justify-center text-center">
     <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-purple-600/10 blur-[150px] rounded-full -z-10"></div>
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-purple-600/10 blur-[150px] rounded-full -z-10 pointer-events-none"></div>
 
     <div className="max-w-5xl mx-auto relative z-10" data-aos="fade-up">
       
@@ -82,27 +82,27 @@ const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGH
         </div>
       </div>
       
-      <h1 className="text-5xl md:text-8xl font-black leading-[1.05] tracking-tighter mb-10 text-white">
-        Não Assine o GoHighLevel <br />
-        Sozinho. <span className="text-red-500 italic drop-shadow-[0_0_15px_rgba(239,68,68,0.4)]">Você Vai Falhar.</span>
+      <h1 className="text-4xl sm:text-5xl md:text-8xl font-black leading-[1.1] tracking-tighter mb-8 md:mb-10 text-white">
+        Não Assine o GoHighLevel <br className="hidden md:block" />
+        Sozinho. <span className="text-red-500 italic drop-shadow-[0_0_15px_rgba(239,68,68,0.4)] block md:inline mt-2 md:mt-0">Você Vai Falhar.</span>
       </h1>
       
-      <p className="text-lg md:text-2xl text-slate-400 mb-14 max-w-4xl mx-auto font-light leading-relaxed">
-        Comece com <span className="text-white font-black underline decoration-purple-500 decoration-4 underline-offset-8">30 DIAS GRÁTIS</span> (Exclusivo HTC) e receba +R$ 12.485 em Snapshots, IA e Mentoria... <span className="text-white font-bold italic">Gratuitamente.</span>
+      <p className="text-base sm:text-lg md:text-2xl text-slate-400 mb-10 md:mb-14 max-w-4xl mx-auto font-light leading-relaxed px-4 md:px-0">
+        Comece com <span className="text-white font-black underline decoration-purple-500 decoration-4 underline-offset-4 md:underline-offset-8">30 DIAS GRÁTIS</span> (Exclusivo HTC) e receba +R$ 12.485 em Snapshots, IA e Mentoria... <span className="text-white font-bold italic">Gratuitamente.</span>
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+      <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center relative z-50">
         <button 
           onClick={onOpenForm}
-          className="group relative px-12 py-7 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl font-black text-xl shadow-[0_0_50px_rgba(139,92,246,0.3)] hover:scale-105 transition-all flex items-center gap-4 animate-pulse"
+          className="w-full sm:w-auto group relative px-8 md:px-12 py-5 md:py-7 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl font-black text-lg md:text-xl shadow-[0_0_50px_rgba(139,92,246,0.3)] hover:scale-105 transition-all flex items-center justify-center gap-4 animate-pulse"
         >
           GARANTIR 30 DIAS GRÁTIS + BÔNUS
-          <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+          <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-2 transition-transform" />
         </button>
 
         <button 
           onClick={onOpenGHLModal}
-          className="group px-10 py-7 bg-white/5 border border-white/10 hover:bg-white/10 rounded-3xl font-black text-lg transition-all flex items-center gap-3 text-slate-300"
+          className="w-full sm:w-auto group px-8 md:px-10 py-5 md:py-7 bg-white/5 border border-white/10 hover:bg-white/10 rounded-3xl font-black text-base md:text-lg transition-all flex items-center justify-center gap-3 text-slate-300"
         >
           JÁ TENHO O GHL
         </button>
@@ -114,9 +114,9 @@ const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGH
 const AssetBentoGrid = () => (
   <section id="assets" className="py-32 px-6 bg-slate-900/20">
     <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-24" data-aos="fade-up">
-        <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-tighter">
-          Junte-se a 200+ donos de agência <br />
+      <div className="text-center mb-16 md:mb-24" data-aos="fade-up">
+        <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight">
+          Junte-se a 200+ donos de agência <br className="hidden md:block" />
           <span className="text-purple-500 italic">no High Ticket Clube.</span>
         </h2>
       </div>
@@ -126,7 +126,7 @@ const AssetBentoGrid = () => (
         <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group" data-aos="fade-up">
             <span className="absolute top-6 left-6 bg-purple-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">TREINAMENTO</span>
             <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
-                <Laptop className="w-6 h-6 text-purple-400" /> Curso Implementação Turbo GHL
+                <Laptop className="w-6 h-6 text-purple-400" /> Curso - Trilha de Implementação GHL
             </h3>
             <p className="text-slate-400 text-sm mb-8 leading-relaxed">
                 Aprenda passo a passo desde a configuração inicial até a entrega de resultados para clientes. Tudo com foco em agências que querem crescer com um modelo escalável.
@@ -186,33 +186,33 @@ const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
   <section id="passos" className="py-32 px-6 relative">
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/5 blur-[120px] rounded-full pointer-events-none"></div>
     <div className="max-w-6xl mx-auto relative z-10">
-      <div className="text-center mb-20" data-aos="fade-up">
-        <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-tighter">Desbloqueie o Ecossistema HTC <br /><span className="text-blue-500">em 2 Etapas Simples:</span></h2>
+      <div className="text-center mb-16 md:mb-20" data-aos="fade-up">
+        <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight">Desbloqueie o Ecossistema HTC <br className="hidden md:block" /><span className="text-blue-500">em 2 Etapas Simples:</span></h2>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 items-stretch">
         {/* Passo 1 */}
-        <div className="flex flex-col glass p-10 rounded-[3rem] border border-white/10 relative group" data-aos="fade-right">
-          <div className="absolute -top-5 left-10 bg-blue-600 text-white px-6 py-2 rounded-2xl font-black text-xs tracking-widest shadow-xl">PASSO 01</div>
+        <div className="flex flex-col glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 relative group" data-aos="fade-right">
+          <div className="absolute -top-4 md:-top-5 left-8 md:left-10 bg-blue-600 text-white px-4 md:px-6 py-1.5 md:py-2 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs tracking-widest shadow-xl">PASSO 01</div>
           <div className="mb-8">
-            <div className="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mb-6 group-hover:rotate-6 transition-transform">
-              <Rocket className="w-8 h-8" />
+            <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mb-6 group-hover:rotate-6 transition-transform">
+              <Rocket className="w-7 h-7 md:w-8 md:h-8" />
             </div>
-            <h3 className="text-3xl font-black mb-6 tracking-tight">Ative Sua Licença Estendida (30 Dias)</h3>
-            <p className="text-slate-400 text-lg leading-relaxed mb-8">
+            <h3 className="text-2xl md:text-3xl font-black mb-4 md:mb-6 tracking-tight">Ative Sua Licença Estendida (30 Dias)</h3>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
               Clique no botão abaixo para iniciar seu trial exclusivo de 30 dias (o dobro do padrão).
             </p>
-            <div className="bg-red-500/10 border border-red-500/20 p-6 rounded-2xl flex gap-4 items-start">
-              <AlertTriangle className="w-6 h-6 text-red-500 flex-none mt-1" />
-              <p className="text-sm text-red-200/80 font-medium">
+            <div className="bg-red-500/10 border border-red-500/20 p-5 md:p-6 rounded-2xl flex gap-3 md:gap-4 items-start">
+              <AlertTriangle className="w-5 h-5 md:w-6 md:h-6 text-red-500 flex-none mt-0.5 md:mt-1" />
+              <p className="text-xs md:text-sm text-red-200/80 font-medium">
                 <strong className="text-red-500">Regra do Sistema:</strong> Utilize um e-mail novo (que nunca tenha sido cadastrado no GoHighLevel antes) para garantir o rastreamento da sua afiliação e bônus.
               </p>
             </div>
           </div>
-          <div className="mt-auto">
+          <div className="mt-auto relative z-50">
             <button 
               onClick={onOpenForm}
-              className="w-full py-6 bg-white text-black font-black rounded-2xl text-lg hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3"
+              className="w-full py-5 md:py-6 bg-white text-black font-black rounded-2xl text-base md:text-lg hover:scale-[1.02] active:scale-95 transition-all shadow-2xl flex items-center justify-center gap-3"
             >
               ATIVAR TRIAL 30 DIAS <ArrowRight className="w-5 h-5" />
             </button>
@@ -220,30 +220,30 @@ const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
         </div>
 
         {/* Passo 2 */}
-        <div className="flex flex-col glass p-10 rounded-[3rem] border border-white/10 relative group" data-aos="fade-left">
-          <div className="absolute -top-5 left-10 bg-green-600 text-white px-6 py-2 rounded-2xl font-black text-xs tracking-widest shadow-xl">PASSO 02</div>
+        <div className="flex flex-col glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 relative group" data-aos="fade-left">
+          <div className="absolute -top-4 md:-top-5 left-8 md:left-10 bg-green-600 text-white px-4 md:px-6 py-1.5 md:py-2 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs tracking-widest shadow-xl">PASSO 02</div>
           <div className="mb-8">
-            <div className="w-16 h-16 bg-green-600/20 rounded-2xl flex items-center justify-center text-green-400 mb-6 group-hover:-rotate-6 transition-transform">
-              <Timer className="w-8 h-8" />
+            <div className="w-14 h-14 md:w-16 md:h-16 bg-green-600/20 rounded-2xl flex items-center justify-center text-green-400 mb-6 group-hover:-rotate-6 transition-transform">
+              <Timer className="w-7 h-7 md:w-8 md:h-8" />
             </div>
-            <h3 className="text-3xl font-black mb-6 tracking-tight">Onboarding Automático Imediato</h3>
-            <p className="text-slate-400 text-lg leading-relaxed mb-10">
+            <h3 className="text-2xl md:text-3xl font-black mb-4 md:mb-6 tracking-tight">Onboarding Automático Imediato</h3>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-8 md:mb-10">
               Nosso sistema detecta sua inscrição em tempo real. Em menos de <span className="text-white font-bold italic">60 segundos</span>, você receberá o acesso total.
             </p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center text-center">
-                <MessageCircle className="w-8 h-8 text-green-500 mb-3" />
-                <span className="text-xs font-black uppercase tracking-widest text-slate-300">WhatsApp</span>
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
+              <div className="bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl flex flex-col items-center text-center">
+                <MessageCircle className="w-6 h-6 md:w-8 md:h-8 text-green-500 mb-2 md:mb-3" />
+                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-300">WhatsApp</span>
               </div>
-              <div className="bg-white/5 border border-white/10 p-5 rounded-2xl flex flex-col items-center text-center">
-                <Mail className="w-8 h-8 text-blue-500 mb-3" />
-                <span className="text-xs font-black uppercase tracking-widest text-slate-300">E-mail</span>
+              <div className="bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl flex flex-col items-center text-center">
+                <Mail className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mb-2 md:mb-3" />
+                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-300">E-mail</span>
               </div>
             </div>
           </div>
           <div className="mt-auto">
-            <div className="p-6 border border-white/5 bg-white/5 rounded-2xl flex items-center gap-4">
-              <ShieldCheck className="w-8 h-8 text-green-500" />
+            <div className="p-5 md:p-6 border border-white/5 bg-white/5 rounded-2xl flex items-center gap-4">
+              <ShieldCheck className="w-7 h-7 md:w-8 md:h-8 text-green-500 flex-none" />
               <div>
                 <p className="text-sm font-bold text-white">Acesso Instantâneo</p>
                 <p className="text-xs text-slate-500">Snapshots, Trilhas e Comunidade liberados.</p>
@@ -259,9 +259,9 @@ const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
 const ArsenalSection = () => (
   <section id="arsenal" className="py-32 px-6">
      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20" data-aos="fade-up">
-           <h2 className="text-4xl md:text-7xl font-black mb-6 tracking-tighter">O Arsenal da Elite</h2>
-           <p className="text-slate-500 text-xl max-w-3xl mx-auto font-light">Não é apenas uma ferramenta. É o caminho completo para criar uma agência inabalável.</p>
+        <div className="text-center mb-16 md:mb-20" data-aos="fade-up">
+           <h2 className="text-4xl sm:text-5xl md:text-7xl font-black mb-4 md:mb-6 tracking-tighter">O Arsenal da Elite</h2>
+           <p className="text-slate-500 text-lg md:text-xl max-w-3xl mx-auto font-light px-4 md:px-0">Não é apenas uma ferramenta. É o caminho completo para criar uma agência inabalável.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -292,12 +292,12 @@ const ArsenalSection = () => (
 const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
   <section id="oferta" className="py-32 px-6 overflow-visible relative">
     <div className="max-w-6xl mx-auto">
-       <div className="text-center mb-24 relative z-20">
+       <div className="text-center mb-16 md:mb-24 relative z-20">
           <div className="inline-block relative">
              <img 
                src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6978f249eb0d1a8301bd4098.png" 
                alt="Easter Egg Gabriel Oliveira"
-               className="absolute -top-32 md:-top-48 -right-8 md:-right-24 w-32 md:w-56 pointer-events-none -z-10"
+               className="absolute -top-24 md:-top-48 -right-4 md:-right-24 w-24 md:w-56 pointer-events-none -z-10"
                data-aos="zoom-in-up"
                data-aos-anchor-placement="center-bottom"
                data-aos-delay="600"
@@ -307,67 +307,67 @@ const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
                  WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 35%)'
                }}
              />
-             <h2 className="text-4xl md:text-8xl font-black mb-8 tracking-tighter" data-aos="fade-up">A Oferta Irresistível.</h2>
+             <h2 className="text-4xl sm:text-5xl md:text-8xl font-black mb-6 md:mb-8 tracking-tighter" data-aos="fade-up">A Oferta Irresistível.</h2>
           </div>
-          <p className="text-slate-500 text-xl font-light" data-aos="fade-up" data-aos-delay="200">Por que pagar o mesmo valor e receber 100x menos resultado?</p>
+          <p className="text-slate-500 text-lg md:text-xl font-light px-4 md:px-0" data-aos="fade-up" data-aos-delay="200">Por que pagar o mesmo valor e receber 100x menos resultado?</p>
        </div>
 
-       <div className="grid md:grid-cols-2 gap-10 relative z-10">
-          <div className="glass opacity-40 rounded-[3rem] p-12 border border-white/5 relative overflow-hidden" data-aos="fade-right">
-             <div className="absolute top-0 right-0 p-10 opacity-10"><XCircle className="w-24 h-24 text-slate-500" /></div>
-             <h3 className="text-2xl font-bold mb-12 text-slate-500 uppercase tracking-widest text-left">Assinar Direto no GHL</h3>
-             <ul className="space-y-8 mb-16">
-                <li className="flex items-center gap-4 text-slate-600 line-through italic font-medium">
-                  <XCircle className="w-5 h-5 flex-none" /> 14 Dias de Teste (Padrão)
+       <div className="grid md:grid-cols-2 gap-8 md:gap-10 relative z-10">
+          <div className="glass opacity-40 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 border border-white/5 relative overflow-hidden" data-aos="fade-right">
+             <div className="absolute top-0 right-0 p-6 md:p-10 opacity-10"><XCircle className="w-16 h-16 md:w-24 md:h-24 text-slate-500" /></div>
+             <h3 className="text-xl md:text-2xl font-bold mb-8 md:mb-12 text-slate-500 uppercase tracking-widest text-left">Assinar Direto no GHL</h3>
+             <ul className="space-y-6 md:space-y-8 mb-12 md:mb-16">
+                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
+                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> 14 Dias de Teste (Padrão)
                 </li>
-                <li className="flex items-center gap-4 text-slate-600 line-through italic font-medium">
-                  <XCircle className="w-5 h-5 flex-none" /> Ferramenta Vazia
+                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
+                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> Ferramenta Vazia
                 </li>
-                <li className="flex items-center gap-4 text-slate-600 line-through italic font-medium">
-                  <XCircle className="w-5 h-5 flex-none" /> Suporte em Inglês
+                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
+                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> Suporte em Inglês
                 </li>
-                <li className="flex items-center gap-4 text-slate-600 line-through italic font-medium">
-                  <XCircle className="w-5 h-5 flex-none" /> Zero Templates ou Snapshots
+                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
+                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> Zero Templates ou Snapshots
                 </li>
              </ul>
              <div className="text-left">
                 <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Preço Oficial GHL</p>
-                <p className="text-4xl font-black text-slate-600">$97 a $497/mês</p>
+                <p className="text-3xl md:text-4xl font-black text-slate-600">$97 a $497/mês</p>
              </div>
           </div>
 
           <div className="relative group" data-aos="fade-left">
-             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
-             <div className="relative glass rounded-[3rem] p-12 border-2 border-purple-500/40 bg-slate-900/40 shadow-2xl">
-                <div className="absolute -top-6 -right-6 bg-purple-600 text-white px-8 py-3 rounded-2xl font-black text-xs tracking-[0.2em] animate-float shadow-xl uppercase">O Caminho da Elite</div>
-                <h3 className="text-3xl font-black mb-12 tracking-tight text-left">Parceiro HTC</h3>
-                <ul className="space-y-8 mb-16">
-                   <li className="flex items-center justify-between text-white font-bold text-lg">
-                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> 30 DIAS DE TESTE</div>
-                      <span className="text-slate-500 text-xs font-normal">DOBRO DO TEMPO</span>
+             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 blur-[30px] md:blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity pointer-events-none"></div>
+             <div className="relative glass rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 border-2 border-purple-500/40 bg-slate-900/40 shadow-2xl">
+                <div className="absolute -top-4 -right-4 md:-top-6 md:-right-6 bg-purple-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs tracking-[0.2em] animate-float shadow-xl uppercase">O Caminho da Elite</div>
+                <h3 className="text-2xl md:text-3xl font-black mb-8 md:mb-12 tracking-tight text-left">Parceiro HTC</h3>
+                <ul className="space-y-6 md:space-y-8 mb-12 md:mb-16">
+                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
+                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> 30 DIAS DE TESTE</div>
+                      <span className="text-slate-500 text-[10px] md:text-xs font-normal">DOBRO DO TEMPO</span>
                    </li>
-                   <li className="flex items-center justify-between text-white font-bold text-lg">
-                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> Curso Implementação Turbo</div>
-                      <span className="text-green-500 text-xs font-black uppercase">Grátis</span>
+                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
+                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Curso Implementação Turbo</div>
+                      <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Grátis</span>
                    </li>
-                   <li className="flex items-center justify-between text-white font-bold text-lg">
-                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> Pack +45 Snapshots</div>
-                      <span className="text-green-500 text-xs font-black uppercase">Grátis</span>
+                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
+                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Pack +45 Snapshots</div>
+                      <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Grátis</span>
                    </li>
-                   <li className="flex items-center justify-between text-white font-bold text-lg">
-                      <div className="flex items-center gap-4 text-left"><CheckCircle2 className="w-6 h-6 text-green-500 flex-none" /> Onboarding & Mentoria</div>
-                      <span className="text-green-500 text-xs font-black uppercase">Inestimável</span>
+                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
+                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Onboarding & Mentoria</div>
+                      <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Inestimável</span>
                    </li>
                 </ul>
-                <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-10 border-t border-white/10">
-                   <div className="text-left">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 pt-8 md:pt-10 border-t border-white/10">
+                   <div className="text-left w-full md:w-auto">
                       <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Mesmo Valor do GHL</p>
-                      <p className="text-4xl md:text-5xl font-black text-white">A partir de $97/mês</p>
+                      <p className="text-3xl md:text-5xl font-black text-white">A partir de $97/mês</p>
                       <p className="text-[10px] text-slate-400 mt-2 font-medium italic">(Planos de $97 a $497 — exatamente o mesmo preço que você vai pagar pro GHL...)</p>
                    </div>
                    <button 
                     onClick={onOpenForm}
-                    className="w-full md:w-auto px-10 py-6 bg-white text-black font-black rounded-[1.5rem] hover:scale-105 transition-transform shadow-2xl flex items-center justify-center gap-3"
+                    className="w-full md:w-auto px-8 md:px-10 py-5 md:py-6 bg-white text-black font-black rounded-2xl md:rounded-[1.5rem] hover:scale-105 transition-transform shadow-2xl flex items-center justify-center gap-3 relative z-50"
                    >
                      GARANTIR 30 DIAS AGORA <MousePointerClick className="w-5 h-5" />
                    </button>
@@ -418,19 +418,19 @@ const FAQ = () => {
   return (
     <section className="py-32 px-6 bg-slate-950/30">
        <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-black mb-16 text-center tracking-tighter" data-aos="fade-up">Perguntas Frequentes</h2>
-          <div className="space-y-5">
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-12 md:mb-16 text-center tracking-tighter" data-aos="fade-up">Perguntas Frequentes</h2>
+          <div className="space-y-4 md:space-y-5">
              {questions.map((item, i) => (
-               <div key={i} className="glass rounded-[2rem] overflow-hidden border border-white/5" data-aos="fade-up" data-aos-delay={i*100}>
+               <div key={i} className="glass rounded-2xl md:rounded-[2rem] overflow-hidden border border-white/5" data-aos="fade-up" data-aos-delay={i*100}>
                   <button 
                     onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                    className="w-full p-8 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
+                    className="w-full p-6 md:p-8 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
                   >
-                    <span className="font-bold text-xl tracking-tight">{item.q}</span>
-                    <ChevronDown className={`w-6 h-6 transition-transform duration-500 ${openIndex === i ? 'rotate-180 text-purple-500' : 'text-slate-500'}`} />
+                    <span className="font-bold text-lg md:text-xl tracking-tight pr-4">{item.q}</span>
+                    <ChevronDown className={`w-5 h-5 md:w-6 md:h-6 flex-none transition-transform duration-500 ${openIndex === i ? 'rotate-180 text-purple-500' : 'text-slate-500'}`} />
                   </button>
                   {openIndex === i && (
-                    <div className="p-8 pt-0 text-slate-400 text-lg leading-relaxed bg-white/5 animate-in slide-in-from-top-4 duration-500">
+                    <div className="p-6 md:p-8 pt-0 text-slate-400 text-base md:text-lg leading-relaxed bg-white/5 animate-in slide-in-from-top-4 duration-500">
                        {item.a}
                     </div>
                   )}
@@ -444,13 +444,13 @@ const FAQ = () => {
 
 const Footer = () => (
   <footer className="py-24 px-6 border-t border-white/5 bg-slate-950">
-     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 items-start">
+     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 items-start">
         <div>
-           <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 bg-white text-black rounded-xl flex items-center justify-center font-black italic shadow-2xl shadow-white/10">HTC</div>
-              <span className="font-bold text-3xl tracking-tighter">High Ticket Clube</span>
+           <div className="flex items-center gap-4 mb-6 md:mb-8">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-white text-black rounded-xl flex items-center justify-center font-black italic shadow-2xl shadow-white/10">HTC</div>
+              <span className="font-bold text-2xl md:text-3xl tracking-tighter">High Ticket Clube</span>
            </div>
-           <p className="text-slate-500 text-lg font-light leading-relaxed mb-8">
+           <p className="text-slate-500 text-base md:text-lg font-light leading-relaxed mb-8">
              A maior comunidade de GoHighLevel do Brasil. Não vendemos ferramentas, entregamos liberdade.
            </p>
         </div>
@@ -484,11 +484,11 @@ const Footer = () => (
         </div>
      </div>
      
-     <div className="max-w-7xl mx-auto mt-20 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="text-[10px] text-slate-700 font-bold uppercase tracking-[0.6em]">
+     <div className="max-w-7xl mx-auto mt-16 md:mt-20 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+        <div className="text-[10px] text-slate-700 font-bold uppercase tracking-[0.4em] md:tracking-[0.6em] leading-relaxed">
            © 2026 HIGH TICKET CLUBE. TODOS OS DIREITOS RESERVADOS.
         </div>
-        <div className="flex gap-10 text-[10px] text-slate-700 font-black uppercase tracking-[0.3em]">
+        <div className="flex gap-6 md:gap-10 text-[10px] text-slate-700 font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">
            <a href="#" className="hover:text-slate-500">Termos de Uso</a>
            <a href="#" className="hover:text-slate-500">Privacidade</a>
         </div>
@@ -549,14 +549,14 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
               </div>
            </div>
 
-           {/* Opção 2: Anuidade/Vitalício */}
+           {/* Opção 2: Anuidade */}
            <div className="group relative bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
               <div className="flex flex-col gap-4">
                  <div className="flex items-center justify-between">
                     <span className="px-4 py-1.5 bg-purple-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 02</span>
                     <Gift className="w-6 h-6 text-purple-400" />
                  </div>
-                 <h4 className="text-2xl font-black text-left">HTC Anuidade / Vitalício</h4>
+                 <h4 className="text-2xl font-black text-left">HTC Anuidade</h4>
                  <p className="text-slate-400 text-sm leading-relaxed text-left">
                     Prefere não mudar sua afiliação? Você pode pagar pela anuidade e ter acesso a todo o nosso ecossistema, snapshots e mentorias.
                  </p>
@@ -566,7 +566,7 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                     rel="noopener noreferrer"
                     className="mt-4 w-full py-5 bg-white text-black font-black rounded-2xl text-center hover:scale-[1.02] transition-transform flex items-center justify-center gap-3"
                  >
-                    AGENDAR CALL COM JOHN <PhoneCall className="w-5 h-5" />
+                    Agendar Reunião de Demonstração da Comunidade <PhoneCall className="w-5 h-5" />
                  </a>
               </div>
            </div>
@@ -601,8 +601,8 @@ export default function App() {
       
       {/* Reusing SocialProof component but passing mural trigger */}
       <div id="prova" className="py-32 bg-slate-950 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-20 text-center" data-aos="fade-up">
-          <h2 className="text-4xl md:text-7xl font-black mb-8 tracking-tighter">Quem anda sozinho é presa. <br /><span className="text-purple-500 italic">Quem anda em grupo caça.</span></h2>
+        <div className="max-w-7xl mx-auto px-6 mb-16 md:mb-20 text-center" data-aos="fade-up">
+          <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight">Quem anda sozinho é presa. <br className="hidden md:block" /><span className="text-purple-500 italic">Quem anda em grupo caça.</span></h2>
         </div>
 
         <div className="flex gap-6 animate-marquee mb-24 opacity-60 hover:opacity-100 transition-opacity hover:[animation-play-state:paused]">
@@ -667,13 +667,14 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex justify-center" data-aos="fade-up">
+        <div className="flex justify-center px-4 md:px-0" data-aos="fade-up">
            <button 
             onClick={() => setMuralOpen(true)}
-            className="group relative px-12 md:px-16 py-8 glass border-2 border-white/10 hover:border-purple-500/50 rounded-[2.5rem] font-black text-xl transition-all flex items-center gap-5 shadow-2xl bg-white/5"
+            className="w-full md:w-auto group relative px-6 md:px-16 py-6 md:py-8 glass border-2 border-white/10 hover:border-purple-500/50 rounded-3xl md:rounded-[2.5rem] font-black text-base sm:text-lg md:text-xl transition-all flex items-center justify-center gap-3 md:gap-5 shadow-2xl bg-white/5"
            >
-             [ VEJA +50 DEPOIMENTOS NO MURAL ]
-             <TrendingUp className="w-6 h-6 text-purple-500 group-hover:rotate-12 transition-transform" />
+             <span className="hidden sm:inline">[ VEJA +50 DEPOIMENTOS NO MURAL ]</span>
+             <span className="sm:hidden">VER +50 DEPOIMENTOS</span>
+             <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-purple-500 group-hover:rotate-12 transition-transform" />
            </button>
         </div>
       </div>
@@ -682,26 +683,26 @@ export default function App() {
       
       <section id="plugplay" className="py-32 px-6 bg-slate-950/40">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20" data-aos="fade-up">
-            <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter text-slate-400">Máquina <span className="text-white">Plug & Play</span></h2>
-            <p className="text-slate-600 text-lg">A tecnologia por trás do nosso ecossistema.</p>
+          <div className="text-center mb-16 md:mb-20" data-aos="fade-up">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-slate-400">Máquina <span className="text-white">Plug & Play</span></h2>
+            <p className="text-slate-600 text-base md:text-lg">A tecnologia por trás do nosso ecossistema.</p>
           </div>
-          <div className="grid md:grid-cols-4 gap-6 opacity-60">
-             <div className="glass p-8 rounded-[2rem] text-center border border-white/5">
-                <Zap className="w-8 h-8 mx-auto mb-4 text-yellow-500" />
-                <h5 className="font-bold text-sm">Automações no GHL</h5>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 opacity-60">
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
+                <Zap className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-yellow-500" />
+                <h5 className="font-bold text-xs md:text-sm">Automações no GHL</h5>
              </div>
-             <div className="glass p-8 rounded-[2rem] text-center border border-white/5">
-                <Cpu className="w-8 h-8 mx-auto mb-4 text-blue-500" />
-                <h5 className="font-bold text-sm">Inteligência Artificial</h5>
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
+                <Cpu className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-blue-500" />
+                <h5 className="font-bold text-xs md:text-sm">Inteligência Artificial</h5>
              </div>
-             <div className="glass p-8 rounded-[2rem] text-center border border-white/5">
-                <Layers className="w-8 h-8 mx-auto mb-4 text-purple-500" />
-                <h5 className="font-bold text-sm">Snapshots</h5>
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
+                <Layers className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-purple-500" />
+                <h5 className="font-bold text-xs md:text-sm">Snapshots</h5>
              </div>
-             <div className="glass p-8 rounded-[2rem] text-center border border-white/5">
-                <Smartphone className="w-8 h-8 mx-auto mb-4 text-green-500" />
-                <h5 className="font-bold text-sm">Comunidade</h5>
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
+                <Smartphone className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-green-500" />
+                <h5 className="font-bold text-xs md:text-sm">Comunidade</h5>
              </div>
           </div>
         </div>
@@ -740,7 +741,14 @@ export default function App() {
             <div className="p-2 h-[520px] w-full">
                <iframe
                   src="https://api.leadconnectorhq.com/widget/form/FOQT85cKvqq0gmdtBlsn"
-                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: '3px' }}
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    border: 'none', 
+                    borderRadius: '3px',
+                    pointerEvents: formOpen ? 'auto' : 'none',
+                    visibility: formOpen ? 'visible' : 'hidden'
+                  }}
                   id="inline-FOQT85cKvqq0gmdtBlsn" 
                   data-layout="{'id':'INLINE'}"
                   data-trigger-type="alwaysShow"
@@ -824,10 +832,10 @@ export default function App() {
       )}
 
       {/* Floating Mobile Sticky CTA */}
-      <div className="fixed bottom-8 left-8 right-8 md:hidden z-40">
+      <div className="fixed bottom-6 left-4 right-4 md:hidden z-[90]">
         <button 
           onClick={() => setFormOpen(true)}
-          className="w-full py-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-[2rem] font-black text-lg shadow-2xl shadow-purple-600/60 flex items-center justify-center gap-4 active:scale-95 transition-transform"
+          className="w-full py-5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-[1.5rem] font-black text-base shadow-[0_10px_40px_rgba(139,92,246,0.6)] flex items-center justify-center gap-3 active:scale-95 transition-transform border border-white/20"
         >
            GARANTIR 30 DIAS + BÔNUS <ArrowRight className="w-5 h-5" />
         </button>
