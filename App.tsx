@@ -351,7 +351,7 @@ const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
                       <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Grátis</span>
                    </li>
                    <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
-                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Pack +15 Snapshots</div>
+                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Pack +45 Snapshots</div>
                       <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Grátis</span>
                    </li>
                    <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
@@ -505,30 +505,30 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-[600px] bg-slate-950 rounded-[3rem] border border-white/10 overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.2)] flex flex-col scale-up"
+        className="relative w-full max-w-[600px] max-h-[90vh] bg-slate-950 rounded-3xl md:rounded-[3rem] border border-white/10 overflow-y-auto shadow-[0_0_100px_rgba(139,92,246,0.2)] flex flex-col scale-up"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-10 pb-6 flex justify-between items-start">
-           <div className="flex items-center gap-5">
-              <div className="w-14 h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center">
-                <ShieldCheck className="text-purple-400 w-8 h-8" />
+        <div className="p-6 md:p-10 pb-4 md:pb-6 flex justify-between items-start sticky top-0 bg-slate-950/80 backdrop-blur-xl z-10 border-b border-white/5">
+           <div className="flex items-center gap-4 md:gap-5">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center flex-none">
+                <ShieldCheck className="text-purple-400 w-6 h-6 md:w-8 md:h-8" />
               </div>
               <div>
-                <h3 className="text-3xl font-black tracking-tight mb-1">Já tem o GHL?</h3>
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest text-left">Escolha como deseja entrar no HTC</p>
+                <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-1">Já tem o GHL?</h3>
+                <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest text-left">Escolha como deseja entrar no HTC</p>
               </div>
            </div>
            <button 
             onClick={onClose}
-            className="p-4 bg-white/5 hover:bg-white/10 rounded-2xl transition-all border border-white/10"
+            className="p-3 md:p-4 bg-white/5 hover:bg-white/10 rounded-xl md:rounded-2xl transition-all border border-white/10 flex-none"
            >
-             <X className="w-6 h-6 text-slate-400" />
+             <X className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />
            </button>
         </div>
         
-        <div className="p-10 pt-4 space-y-6">
+        <div className="p-6 md:p-10 pt-6 md:pt-4 space-y-6">
            {/* Opção 1: Upgrade */}
-           <div className="group relative bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
+           <div className="group relative bg-white/5 border border-white/10 p-6 md:p-8 rounded-2xl md:rounded-[2rem] hover:bg-white/10 transition-all">
               <div className="flex flex-col gap-4">
                  <div className="flex items-center justify-between">
                     <span className="px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 01</span>
@@ -550,7 +550,7 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
            </div>
 
            {/* Opção 2: Anuidade */}
-           <div className="group relative bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
+           <div className="group relative bg-white/5 border border-white/10 p-6 md:p-8 rounded-2xl md:rounded-[2rem] hover:bg-white/10 transition-all">
               <div className="flex flex-col gap-4">
                  <div className="flex items-center justify-between">
                     <span className="px-4 py-1.5 bg-purple-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 02</span>
@@ -717,35 +717,44 @@ export default function App() {
         onClick={() => setFormOpen(false)}
       >
         <div 
-          className={`relative w-full max-w-[550px] bg-slate-950 rounded-[2.5rem] border border-white/10 overflow-hidden shadow-[0_0_150px_rgba(139,92,246,0.15)] flex flex-col transition-all duration-500 ${formOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
+          className={`relative w-full max-w-[500px] max-h-[90vh] bg-slate-950 rounded-3xl md:rounded-[2.5rem] border border-white/10 overflow-hidden shadow-[0_0_150px_rgba(139,92,246,0.15)] flex flex-col transition-all duration-500 ${formOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
           onClick={(e) => e.stopPropagation()}
         >
-            <div className="p-8 pb-4 flex justify-between items-center">
-               <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center">
+            <div className="p-5 md:p-6 pb-3 md:pb-4 flex justify-between items-start border-b border-white/5 bg-slate-900/40">
+               <div className="flex items-center gap-3 md:gap-4">
+                  <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center flex-none">
                     <UserPlus className="text-blue-400 w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black tracking-tight leading-none mb-1">Cadastrar Agora</h3>
+                    <h3 className="text-lg md:text-xl font-black tracking-tight leading-none mb-1">Cadastrar Agora</h3>
                     <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Inicie sua jornada</p>
                   </div>
                </div>
                <button 
                 onClick={() => setFormOpen(false)}
-                className="p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/10"
+                className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/10 flex-none"
                >
                  <X className="w-5 h-5 text-slate-400" />
                </button>
             </div>
+
+            <div className="px-5 md:px-6 py-3 md:py-4 bg-slate-950">
+              <div className="bg-red-500/10 border border-red-500/20 p-3 md:p-4 rounded-xl flex gap-3 items-start">
+                <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 text-red-500 flex-none mt-0.5" />
+                <p className="text-[11px] md:text-xs text-red-200/80 font-medium leading-relaxed">
+                  <strong className="text-red-500">Ps:</strong> Se já se registrou no GHL por outro link, use outro e-mail em uma aba anônima para se cadastrar.
+                </p>
+              </div>
+            </div>
             
-            <div className="p-2 h-[520px] w-full">
+            <div className="flex-1 overflow-y-auto bg-slate-950 px-2 pb-2">
                <iframe
                   src="https://api.leadconnectorhq.com/widget/form/FOQT85cKvqq0gmdtBlsn"
                   style={{ 
                     width: '100%', 
-                    height: '100%', 
+                    height: '520px', 
                     border: 'none', 
-                    borderRadius: '3px',
+                    borderRadius: '0 0 1.5rem 1.5rem',
                     pointerEvents: formOpen ? 'auto' : 'none',
                     visibility: formOpen ? 'visible' : 'hidden'
                   }}
