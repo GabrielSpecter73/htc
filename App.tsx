@@ -43,10 +43,37 @@ import {
 // Declarar AOS para o TypeScript
 declare var AOS: any;
 
+const Navbar = ({ onOpenForm }: { onOpenForm: () => void }) => (
+  <nav className="fixed top-0 left-0 right-0 z-[90] px-4 md:px-8 pt-4 md:pt-5">
+    <div className="max-w-6xl mx-auto flex items-center justify-between glass rounded-2xl md:rounded-[1.75rem] px-5 md:px-8 py-3.5 border border-white/[0.07] shadow-[0_4px_32px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.02)]">
+      <div className="flex items-center gap-3">
+        <div className="w-7 h-7 md:w-8 md:h-8 bg-white text-black rounded-lg flex items-center justify-center font-black italic text-[8px] md:text-[9px] tracking-tight shadow-lg flex-none">HTC</div>
+        <span className="font-bold tracking-tight text-sm text-white/90 hidden sm:block">High Ticket Clube</span>
+      </div>
+
+      <div className="hidden md:flex items-center gap-7 lg:gap-9">
+        <a href="#assets" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Recursos</a>
+        <a href="#arsenal" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Arsenal</a>
+        <a href="#oferta" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Oferta</a>
+        <a href="#prova" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Resultados</a>
+      </div>
+
+      <button
+        onClick={onOpenForm}
+        className="px-4 md:px-5 py-2 md:py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-[10px] md:text-[11px] uppercase tracking-widest hover:scale-105 active:opacity-80 transition-all shadow-[0_0_15px_rgba(139,92,246,0.2)]"
+      >
+        Começar Grátis
+      </button>
+    </div>
+  </nav>
+);
+
 const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGHLModal: () => void }) => (
   <section className="relative pt-32 pb-32 px-6 overflow-hidden min-h-screen flex flex-col justify-center text-center">
     <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[800px] bg-purple-600/10 blur-[150px] rounded-full -z-10 pointer-events-none"></div>
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[900px] bg-purple-600/15 blur-[180px] rounded-full -z-10 pointer-events-none"></div>
+    <div className="absolute bottom-0 left-[-10%] w-[600px] h-[600px] bg-blue-700/8 blur-[130px] rounded-full -z-10 pointer-events-none"></div>
+    <div className="absolute bottom-1/4 right-[-5%] w-[500px] h-[500px] bg-indigo-700/8 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
 
     <div className="max-w-5xl mx-auto relative z-10" data-aos="fade-up">
       
@@ -94,7 +121,7 @@ const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGH
       <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center relative z-50">
         <button 
           onClick={onOpenForm}
-          className="w-full sm:w-auto group relative px-8 md:px-12 py-5 md:py-7 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl font-black text-lg md:text-xl shadow-[0_0_50px_rgba(139,92,246,0.3)] md:hover:scale-105 active:opacity-80 transition-all flex items-center justify-center gap-4 animate-pulse"
+          className="w-full sm:w-auto group relative px-8 md:px-12 py-5 md:py-7 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl font-black text-lg md:text-xl md:hover:scale-105 active:opacity-80 transition-all flex items-center justify-center gap-4 animate-glow"
         >
           GARANTIR 30 DIAS GRÁTIS + BÔNUS
           <ArrowRight className="w-5 h-5 md:w-6 md:h-6 md:group-hover:translate-x-2 transition-transform" />
@@ -123,7 +150,7 @@ const AssetBentoGrid = () => (
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Treinamento */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group" data-aos="fade-up">
+        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-purple-500/25 hover:shadow-[0_0_60px_rgba(139,92,246,0.1)]" data-aos="fade-up">
             <span className="absolute top-6 left-6 bg-purple-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">TREINAMENTO</span>
             <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
                 <Laptop className="w-6 h-6 text-purple-400" /> Curso - Trilha de Implementação GHL
@@ -137,7 +164,7 @@ const AssetBentoGrid = () => (
         </div>
 
         {/* Snapshots */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group" data-aos="fade-up" data-aos-delay="100">
+        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-blue-500/25 hover:shadow-[0_0_60px_rgba(59,130,246,0.1)]" data-aos="fade-up" data-aos-delay="100">
             <span className="absolute top-6 left-6 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">SNAPSHOTS</span>
             <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
                 <Box className="w-6 h-6 text-blue-400" /> Templates Prontos (Plug & Play)
@@ -151,7 +178,7 @@ const AssetBentoGrid = () => (
         </div>
 
         {/* Office Hours */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group" data-aos="fade-up">
+        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-indigo-500/25 hover:shadow-[0_0_60px_rgba(99,102,241,0.1)]" data-aos="fade-up">
             <span className="absolute top-6 left-6 bg-indigo-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">SUPORTE AO VIVO</span>
             <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
                 <Video className="w-6 h-6 text-indigo-400" /> Office Hours
@@ -165,7 +192,7 @@ const AssetBentoGrid = () => (
         </div>
 
         {/* Mentoria */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group" data-aos="fade-up" data-aos-delay="100">
+        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-pink-500/25 hover:shadow-[0_0_60px_rgba(236,72,153,0.1)]" data-aos="fade-up" data-aos-delay="100">
             <span className="absolute top-6 left-6 bg-pink-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">MENTORIA</span>
             <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
                 <Brain className="w-6 h-6 text-pink-400" /> Mentoria ao Vivo Semanal
@@ -266,18 +293,18 @@ const ArsenalSection = () => (
 
         <div className="grid md:grid-cols-3 gap-8">
            {[
-             { title: "Office Hours", desc: "Calls de Seg-Qui para tirar dúvidas. Levante a mão e resolva qualquer bug no seu GHL.", icon: <Video /> },
-             { title: "Coaching Calls", desc: "2x ao mês com convidados sobre IA, Vendas e Escala. Aprenda com quem já fatura +8 dígitos.", icon: <Users /> },
-             { title: "Trilhas GHL", desc: "Do básico ao avançado + FAQ com cortes das aulas respondendo as dúvidas mais frequentes.", icon: <Layers /> },
-             { title: "IA HTC", desc: "Cursos sobre IA no GHL e n8n + templates de fluxos prontos para você copiar e colar.", icon: <Cpu /> },
-             { title: "Desafio 14 Dias", desc: "O plano de ação exato para você conquistar seu próximo (ou primeiro) cliente em 2 semanas.", icon: <Rocket /> },
-             { title: "PPL Blueprint", desc: "Plano para agências Pague Por Lead: ofertas, calls de vendas e entrega completa.", icon: <Target /> },
-             { title: "WhatsApp Elite", desc: "Conecte-se com mais de 200 donos de empresas que usam GHL diariamente.", icon: <MessageCircle /> },
-             { title: "IA Assistente", desc: "IA treinada no GHL dentro da comunidade. Pergunte qualquer coisa e tenha a resposta na hora.", icon: <Wand2 /> },
-             { title: "Bônus Snapshots", desc: "Copie nossa entrega para Clínicas, Imobiliárias, Infoprodutos, PetShops e mais.", icon: <FileCode2 /> }
+             { title: "Office Hours", desc: "Calls de Seg-Qui para tirar dúvidas. Levante a mão e resolva qualquer bug no seu GHL.", icon: <Video />, ic: "bg-indigo-600/15 text-indigo-400 group-hover:bg-indigo-600/25" },
+             { title: "Coaching Calls", desc: "2x ao mês com convidados sobre IA, Vendas e Escala. Aprenda com quem já fatura +8 dígitos.", icon: <Users />, ic: "bg-pink-600/15 text-pink-400 group-hover:bg-pink-600/25" },
+             { title: "Trilhas GHL", desc: "Do básico ao avançado + FAQ com cortes das aulas respondendo as dúvidas mais frequentes.", icon: <Layers />, ic: "bg-teal-600/15 text-teal-400 group-hover:bg-teal-600/25" },
+             { title: "IA HTC", desc: "Cursos sobre IA no GHL e n8n + templates de fluxos prontos para você copiar e colar.", icon: <Cpu />, ic: "bg-blue-600/15 text-blue-400 group-hover:bg-blue-600/25" },
+             { title: "Desafio 14 Dias", desc: "O plano de ação exato para você conquistar seu próximo (ou primeiro) cliente em 2 semanas.", icon: <Rocket />, ic: "bg-orange-600/15 text-orange-400 group-hover:bg-orange-600/25" },
+             { title: "PPL Blueprint", desc: "Plano para agências Pague Por Lead: ofertas, calls de vendas e entrega completa.", icon: <Target />, ic: "bg-red-600/15 text-red-400 group-hover:bg-red-600/25" },
+             { title: "WhatsApp Elite", desc: "Conecte-se com mais de 200 donos de empresas que usam GHL diariamente.", icon: <MessageCircle />, ic: "bg-green-600/15 text-green-400 group-hover:bg-green-600/25" },
+             { title: "IA Assistente", desc: "IA treinada no GHL dentro da comunidade. Pergunte qualquer coisa e tenha a resposta na hora.", icon: <Wand2 />, ic: "bg-purple-600/15 text-purple-400 group-hover:bg-purple-600/25" },
+             { title: "Bônus Snapshots", desc: "Copie nossa entrega para Clínicas, Imobiliárias, Infoprodutos, PetShops e mais.", icon: <FileCode2 />, ic: "bg-yellow-600/15 text-yellow-400 group-hover:bg-yellow-600/25" }
            ].map((item, i) => (
-             <div key={i} className="glass p-8 rounded-[2rem] border border-white/5 hover:bg-white/5 transition-all group" data-aos="fade-up" data-aos-delay={i*50}>
-                <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-purple-400 group-hover:scale-110 transition-transform">
+             <div key={i} className="glass p-8 rounded-[2rem] border border-white/5 hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300 group" data-aos="fade-up" data-aos-delay={i*50}>
+                <div className={`w-12 h-12 ${item.ic} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300`}>
                    {React.cloneElement(item.icon as React.ReactElement<any>, { className: "w-6 h-6" })}
                 </div>
                 <h4 className="text-xl font-bold mb-3 tracking-tight">{item.title}</h4>
@@ -290,21 +317,21 @@ const ArsenalSection = () => (
 );
 
 const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
-  <section id="oferta" className="py-32 px-6 overflow-x-hidden relative">
+  <section id="oferta" className="py-32 px-6 relative" style={{ overflowX: 'clip' }}>
     <div className="max-w-6xl mx-auto">
        <div className="text-center mb-16 md:mb-24 relative z-20">
           <div className="inline-block relative">
-             <img 
-               src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6978f249eb0d1a8301bd4098.png" 
+             <img
+               src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6978f249eb0d1a8301bd4098.png"
                alt="Easter Egg Gabriel Oliveira"
-               className="absolute -top-24 md:-top-48 -right-4 md:-right-24 w-24 md:w-56 pointer-events-none -z-10"
+               className="absolute -top-24 md:-top-48 -right-4 md:-right-20 w-28 md:w-64 pointer-events-none z-20"
                data-aos="zoom-in-up"
                data-aos-anchor-placement="center-bottom"
                data-aos-delay="600"
-               style={{ 
+               style={{
                  transformOrigin: 'bottom center',
-                 maskImage: 'linear-gradient(to top, transparent 0%, black 35%)',
-                 WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 35%)'
+                 maskImage: 'linear-gradient(to top, transparent 0%, black 12%)',
+                 WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 12%)'
                }}
              />
              <h2 className="text-4xl sm:text-5xl md:text-8xl font-black mb-6 md:mb-8 tracking-tighter" data-aos="fade-up">A Oferta Irresistível.</h2>
@@ -594,6 +621,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-[#020617] text-slate-100 selection:bg-purple-600 selection:text-white overflow-x-hidden w-full">
+      <Navbar onOpenForm={() => setFormOpen(true)} />
       <Hero onOpenForm={() => setFormOpen(true)} onOpenGHLModal={() => setGhlModalOpen(true)} />
       <AssetBentoGrid />
       <TwoStepProcess onOpenForm={() => setFormOpen(true)} />
@@ -687,21 +715,21 @@ export default function App() {
             <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-slate-400">Máquina <span className="text-white">Plug & Play</span></h2>
             <p className="text-slate-600 text-base md:text-lg">A tecnologia por trás do nosso ecossistema.</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 opacity-60">
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
-                <Zap className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-yellow-500" />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-yellow-500/20 hover:bg-yellow-500/[0.03] transition-all duration-300 group">
+                <Zap className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-yellow-500 group-hover:scale-110 transition-transform" />
                 <h5 className="font-bold text-xs md:text-sm">Automações no GHL</h5>
              </div>
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
-                <Cpu className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-blue-500" />
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-blue-500/20 hover:bg-blue-500/[0.03] transition-all duration-300 group">
+                <Cpu className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-blue-500 group-hover:scale-110 transition-transform" />
                 <h5 className="font-bold text-xs md:text-sm">Inteligência Artificial</h5>
              </div>
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
-                <Layers className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-purple-500" />
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-purple-500/20 hover:bg-purple-500/[0.03] transition-all duration-300 group">
+                <Layers className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-purple-500 group-hover:scale-110 transition-transform" />
                 <h5 className="font-bold text-xs md:text-sm">Snapshots</h5>
              </div>
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5">
-                <Smartphone className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-green-500" />
+             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-green-500/20 hover:bg-green-500/[0.03] transition-all duration-300 group">
+                <Smartphone className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-green-500 group-hover:scale-110 transition-transform" />
                 <h5 className="font-bold text-xs md:text-sm">Comunidade</h5>
              </div>
           </div>
