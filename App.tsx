@@ -637,13 +637,11 @@ export default function App() {
           {[
             { name: "Frederik Ebener", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783ca81f2e2c7a.png" },
             { name: "Your Fav Agency", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3266d7332f405173e.png" },
-            { name: "Theo Cavaliere", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc31927c816a4518328.png" },
             { name: "Lais Araújo", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783cce122e2c79.png" },
             { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
           ].concat([
             { name: "Frederik Ebener", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783ca81f2e2c7a.png" },
             { name: "Your Fav Agency", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3266d7332f405173e.png" },
-            { name: "Theo Cavaliere", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc31927c816a4518328.png" },
             { name: "Lais Araújo", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783cce122e2c79.png" },
             { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
           ]).map((item, i) => (
