@@ -566,7 +566,7 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                     Se você já tem uma conta, pode fazer o upgrade através do nosso link de afiliado para ganhar acesso imediato à nossa comunidade e bônus.
                  </p>
                  <a 
-                    href="https://app.gohighlevel.com/offers/affiliate-upgrade?fp_ref=high-ticket-clube54" 
+                    href="https://lp.htclube.com/upgrade-htc-page"
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="mt-4 w-full py-5 bg-blue-600 text-white font-black rounded-2xl text-center md:hover:scale-[1.02] active:opacity-80 transition-transform flex items-center justify-center gap-3"
