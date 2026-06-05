@@ -588,7 +588,7 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
                     Prefere não mudar sua afiliação? Você pode pagar pela anuidade e ter acesso a todo o nosso ecossistema, snapshots e mentorias.
                  </p>
                  <a 
-                    href="https://lp.htclube.com/oferta-vitalicia" 
+                    href="https://api.leadconnectorhq.com/widget/bookings/htc-oferta-anual" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="mt-4 w-full py-5 bg-white text-black font-black rounded-2xl text-center md:hover:scale-[1.02] active:opacity-80 transition-transform flex items-center justify-center gap-3"
