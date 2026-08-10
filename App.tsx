@@ -426,8 +426,8 @@ const FAQ = () => {
       a: (
         <span>
           Se você já tem o GHL, envie uma mensagem para nós pelo WhatsApp no seguinte número:{' '}
-          <a href="https://wa.me/5511950650720" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline font-bold hover:text-purple-300 transition-colors">
-            wa.me/5511950650720
+          <a href="https://wa.me/5511936239514" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline font-bold hover:text-purple-300 transition-colors">
+            wa.me/5511936239514
           </a>
         </span>
       )
