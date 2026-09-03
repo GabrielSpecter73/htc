@@ -421,8 +421,8 @@ const FAQ = () => {
       q: "Quais Plataformas o GHL substitui?", 
       a: "RDstation, Pipedrive, Calendly, ActiveCampaign, WordPress, Make, ManyChat, Hostinger, Area de Membros para Cursos, etc.." 
     },
-    { 
-      q: "Já tenho o GHL, posso acessar a comunidade de vocês?", 
+    {
+      q: "Já tenho o GHL, posso acessar a comunidade de vocês?",
       a: (
         <span>
           Se você já tem o GHL, envie uma mensagem para nós pelo WhatsApp no seguinte número:{' '}
@@ -430,7 +430,8 @@ const FAQ = () => {
             wa.me/5511936239514
           </a>
         </span>
-      )
+      ),
+      plainA: "Se você já tem o GHL, envie uma mensagem para nós pelo WhatsApp no seguinte número: wa.me/5511936239514"
     },
     { 
       q: "Realmente é tudo de graça?", 
@@ -442,25 +443,37 @@ const FAQ = () => {
     }
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": questions.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.plainA ?? item.a
+      }
+    }))
+  };
+
   return (
-    <section className="py-32 px-6 bg-slate-950/30">
+    <section id="faq" className="py-32 px-6 bg-slate-950/30">
+       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
        <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-12 md:mb-16 text-center tracking-tighter" data-aos="fade-up">Perguntas Frequentes</h2>
           <div className="space-y-4 md:space-y-5">
              {questions.map((item, i) => (
                <div key={i} className="glass rounded-2xl md:rounded-[2rem] overflow-hidden border border-white/5" data-aos="fade-up" data-aos-delay={i*100}>
-                  <button 
+                  <button
                     onClick={() => setOpenIndex(openIndex === i ? null : i)}
                     className="w-full p-6 md:p-8 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
                   >
                     <span className="font-bold text-lg md:text-xl tracking-tight pr-4">{item.q}</span>
                     <ChevronDown className={`w-5 h-5 md:w-6 md:h-6 flex-none transition-transform duration-500 ${openIndex === i ? 'rotate-180 text-purple-500' : 'text-slate-500'}`} />
                   </button>
-                  {openIndex === i && (
-                    <div className="p-6 md:p-8 pt-0 text-slate-400 text-base md:text-lg leading-relaxed bg-white/5 animate-in slide-in-from-top-4 duration-500">
-                       {item.a}
-                    </div>
-                  )}
+                  <div className={`p-6 md:p-8 pt-0 text-slate-400 text-base md:text-lg leading-relaxed bg-white/5 ${openIndex === i ? 'block animate-in slide-in-from-top-4 duration-500' : 'hidden'}`}>
+                     {item.a}
+                  </div>
                </div>
              ))}
           </div>
@@ -619,8 +632,20 @@ export default function App() {
     }
   }, []);
 
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "High Ticket Clube",
+    "alternateName": "HTC",
+    "url": "https://htclube.com/",
+    "logo": "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/656fbd6c2c8a6d673ff886d2.png",
+    "description": "O High Ticket Clube dá acesso gratuito de 30 dias ao GoHighLevel (GHL), com comunidade, suporte e snapshots prontos para agências e donos de negócio de alto ticket.",
+    "areaServed": "BR"
+  };
+
   return (
     <div className="relative min-h-screen bg-[#020617] text-slate-100 selection:bg-purple-600 selection:text-white overflow-x-hidden w-full">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
       <Navbar onOpenForm={() => setFormOpen(true)} />
       <Hero onOpenForm={() => setFormOpen(true)} onOpenGHLModal={() => setGhlModalOpen(true)} />
       <AssetBentoGrid />
