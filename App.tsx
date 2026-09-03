@@ -143,7 +143,7 @@ const AssetBentoGrid = () => (
     <div className="max-w-6xl mx-auto">
       <div className="text-center mb-16 md:mb-24" data-aos="fade-up">
         <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight">
-          Junte-se a 200+ donos de agência <br className="hidden md:block" />
+          Junte-se a 500+ donos de agência <br className="hidden md:block" />
           <span className="text-purple-500 italic">no High Ticket Clube.</span>
         </h2>
       </div>
