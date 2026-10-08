@@ -1,0 +1,124 @@
+/* ---------- barra de progresso de rolagem ---------- */
+
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), #fff3bf);
+  transform-origin: 0 50%;
+  box-shadow: 0 0 14px var(--accent-glow);
+}
+
+/* ---------- spotlight card ---------- */
+
+.spot {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--surface), var(--bg-raised));
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.spot::before,
+.spot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease);
+  pointer-events: none;
+}
+
+.spot::before {
+  z-index: -1;
+  background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 0%), rgba(248, 195, 19, 0.13), transparent 62%);
+}
+
+.spot::after {
+  padding: 1px;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), rgba(248, 195, 19, 0.9), transparent 62%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+.spot:hover::before,
+.spot:hover::after {
+  opacity: 1;
+}
+
+/* ---------- border beam ---------- */
+
+@property --beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.border-beam {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--beam-angle), transparent 0 68%, var(--accent) 84%, #fff 90%, transparent 96%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  animation: border-beam 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes border-beam {
+  to {
+    --beam-angle: 360deg;
+  }
+}
+
+/* ---------- beams ---------- */
+
+.beams {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.beams path {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.beams__base {
+  stroke: rgba(255, 255, 255, 0.045);
+  stroke-width: 1;
+}
+
+.beams__light {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.16 1;
+  filter: drop-shadow(0 0 6px var(--accent));
+  animation: beam-run var(--dur) linear var(--delay) infinite;
+}
+
+@keyframes beam-run {
+  from {
+    stroke-dashoffset: 1.16;
+  }
+  to {
+    stroke-dashoffset: -0.2;
+  }
+}

@@ -4,13 +4,13 @@
   "description": "30 dias grátis de GoHighLevel (GHL) com comunidade, suporte e snapshots prontos.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#020617",
-  "theme_color": "#020617",
+  "background_color": "#050505",
+  "theme_color": "#050505",
   "lang": "pt-BR",
   "icons": [
     {
-      "src": "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/656fbd6c2c8a6d673ff886d2.png",
-      "sizes": "any",
+      "src": "/logo.png",
+      "sizes": "1440x1440",
       "type": "image/png"
     }
   ]

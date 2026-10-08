@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  ArrowRight, 
-  CheckCircle2, 
-  Play, 
-  X, 
-  Cpu, 
-  Layers, 
-  Zap, 
-  Video, 
-  Users, 
-  Lock,
+import type { CSSProperties, MouseEvent, ReactNode } from 'react';
+import {
+  AnimatePresence,
+  MotionConfig,
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useSpring
+} from 'motion/react';
+import {
+  CheckCircle2,
+  X,
+  Cpu,
+  Layers,
+  Zap,
+  Video,
+  Users,
   MessageCircle,
   TrendingUp,
-  MapPin,
   ChevronDown,
-  AlertTriangle, 
+  AlertTriangle,
   Gift,
-  MousePointerClick,
   ExternalLink,
   XCircle,
-  Star,
   Laptop,
   Box,
-  UserCheck,
   Brain,
   Target,
   Rocket,
@@ -36,410 +38,506 @@ import {
   Youtube,
   Instagram,
   Plus,
-  Clock,
   UserPlus
 } from 'lucide-react';
+import { Button } from './components/Button';
+import { CrmDemo } from './components/CrmDemo';
+import { Reveal } from './components/Reveal';
+import { Rings } from './components/Rings';
+import { Beams } from './fx/Beams';
+import { BlurText } from './fx/BlurText';
+import { ScrollProgress } from './fx/ScrollProgress';
+import { SpotlightCard } from './fx/SpotlightCard';
 
-// Declarar AOS para o TypeScript
-declare var AOS: any;
+const ease = [0.2, 0.7, 0.2, 1] as const;
 
-const Navbar = ({ onOpenForm }: { onOpenForm: () => void }) => (
-  <nav className="fixed top-0 left-0 right-0 z-[90] px-4 md:px-8 pt-4 md:pt-5">
-    <div className="max-w-6xl mx-auto flex items-center justify-between glass rounded-2xl md:rounded-[1.75rem] px-5 md:px-8 py-3.5 border border-white/[0.07] shadow-[0_4px_32px_rgba(0,0,0,0.6),0_0_0_1px_rgba(255,255,255,0.02)]">
-      <div className="flex items-center gap-3">
-        <div className="w-7 h-7 md:w-8 md:h-8 bg-white text-black rounded-lg flex items-center justify-center font-black italic text-[8px] md:text-[9px] tracking-tight shadow-lg flex-none">HTC</div>
-        <span className="font-bold tracking-tight text-sm text-white/90 hidden sm:block">High Ticket Clube</span>
-      </div>
+const GHL_LOGO = 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6653bac54215bc47d820199b.jpeg';
 
-      <div className="hidden md:flex items-center gap-7 lg:gap-9">
-        <a href="#assets" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Recursos</a>
-        <a href="#arsenal" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Arsenal</a>
-        <a href="#oferta" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Oferta</a>
-        <a href="#prova" className="text-[11px] font-bold uppercase tracking-[0.15em] text-slate-500 hover:text-white transition-colors duration-200">Resultados</a>
-      </div>
+type TitlePart = { text: string; hl?: boolean };
 
-      <button
-        onClick={onOpenForm}
-        className="px-4 md:px-5 py-2 md:py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-[10px] md:text-[11px] uppercase tracking-widest hover:scale-105 active:opacity-80 transition-all shadow-[0_0_15px_rgba(139,92,246,0.2)]"
-      >
-        Começar Grátis
-      </button>
-    </div>
-  </nav>
+const Brand = ({ size = 34 }: { size?: number }) => (
+  <div className="flex items-center gap-3">
+    <img src="/logo.png" alt="Logo HTC" width={size} height={size} className="logo" style={{ width: size, height: size }} />
+    <span className="wordmark hidden sm:block md:hidden lg:block">High Ticket Clube</span>
+  </div>
 );
 
-const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void, onOpenGHLModal: () => void }) => (
-  <section className="relative pt-32 pb-32 px-6 overflow-hidden min-h-screen flex flex-col justify-center text-center">
-    <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
-    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[900px] bg-purple-600/15 blur-[180px] rounded-full -z-10 pointer-events-none"></div>
-    <div className="absolute bottom-0 left-[-10%] w-[600px] h-[600px] bg-blue-700/8 blur-[130px] rounded-full -z-10 pointer-events-none"></div>
-    <div className="absolute bottom-1/4 right-[-5%] w-[500px] h-[500px] bg-indigo-700/8 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
+const SectionHead = ({ eyebrow, parts, lead, center = false }: { eyebrow: string; parts: TitlePart[]; lead?: string; center?: boolean }) => (
+  <div className={`mb-12 md:mb-16 max-w-3xl ${center ? 'mx-auto text-center' : ''}`}>
+    <Reveal>
+      <span className="eyebrow">{eyebrow}</span>
+    </Reveal>
+    <BlurText parts={parts} className="display h2" />
+    {lead && (
+      <Reveal delay={120}>
+        <p className={`lead mt-5 ${center ? 'mx-auto' : ''}`}>{lead}</p>
+      </Reveal>
+    )}
+  </div>
+);
 
-    <div className="max-w-5xl mx-auto relative z-10" data-aos="fade-up">
-      
-      {/* Logos HTC + GHL - Clean Minimalist Version */}
-      <div className="flex flex-col items-center mb-10">
-        <div className="flex items-center gap-6 md:gap-10 animate-in zoom-in duration-1000">
-           {/* Logo HTC - Rounded & Simple Border */}
-           <div className="w-20 h-20 md:w-28 md:h-28 bg-slate-900/40 border border-white/10 rounded-[2rem] p-4 flex items-center justify-center shadow-2xl">
-              <img 
-                src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/656fbd6c2c8a6d673ff886d2.png" 
-                alt="Logo HTC" 
-                className="w-full h-full object-contain rounded-xl"
-              />
-           </div>
+const navLinks = [
+  { href: '#assets', label: 'Recursos' },
+  { href: '#arsenal', label: 'Arsenal' },
+  { href: '#crm', label: 'O CRM' },
+  { href: '#oferta', label: 'Oferta' },
+  { href: '#prova', label: 'Resultados' }
+];
 
-           {/* Elegant Minimalist Divider */}
-           <div className="h-12 w-[1px] bg-white/10 rotate-[20deg]"></div>
+const Navbar = ({ onOpenForm }: { onOpenForm: () => void }) => {
+  const [scrolled, setScrolled] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
 
-           {/* Logo GHL - Rounded & Simple Border */}
-           <div className="w-20 h-20 md:w-28 md:h-28 bg-slate-900/40 border border-white/10 rounded-[2rem] p-4 flex items-center justify-center shadow-2xl">
-              <img 
-                src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6653bac54215bc47d820199b.jpeg" 
-                alt="Logo GHL" 
-                className="w-full h-full object-contain rounded-xl"
-              />
-           </div>
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
+      <div className="nav__pill">
+        <Brand />
+
+        <div className="hidden md:flex items-center" onMouseLeave={() => setHovered(null)}>
+          {navLinks.map((link) => (
+            <a key={link.href} href={link.href} className="nav__link" onMouseEnter={() => setHovered(link.href)}>
+              {hovered === link.href && (
+                <motion.i layoutId="nav-destaque" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />
+              )}
+              {link.label}
+            </a>
+          ))}
         </div>
 
-        {/* Official Badge - Minimalist Style */}
-        <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] animate-float">
-          <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-          Parceria Oficial GoHighLevel Brasil
-        </div>
+        <Button onClick={onOpenForm} className="flex-none">Começar Grátis</Button>
       </div>
-      
-      <h1 className="text-4xl sm:text-5xl md:text-8xl font-black leading-[1.1] tracking-tighter mb-8 md:mb-10 text-white">
-        Não Assine o GoHighLevel <br className="hidden md:block" />
-        Sozinho. <span className="text-red-500 italic drop-shadow-[0_0_15px_rgba(239,68,68,0.4)] block md:inline mt-2 md:mt-0">Você Vai Falhar.</span>
-      </h1>
-      
-      <p className="text-base sm:text-lg md:text-2xl text-slate-400 mb-10 md:mb-14 max-w-4xl mx-auto font-light leading-relaxed px-4 md:px-0">
-        Comece com <span className="text-white font-black underline decoration-purple-500 decoration-4 underline-offset-4 md:underline-offset-8">30 DIAS GRÁTIS</span> (Exclusivo HTC) e receba +R$ 12.485 em Snapshots, IA e Mentoria... <span className="text-white font-bold italic">Gratuitamente.</span>
-      </p>
+    </nav>
+  );
+};
 
-      <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center relative z-50">
-        <button 
-          onClick={onOpenForm}
-          className="w-full sm:w-auto group relative px-8 md:px-12 py-5 md:py-7 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl font-black text-lg md:text-xl md:hover:scale-105 active:opacity-80 transition-all flex items-center justify-center gap-4 animate-glow"
-        >
-          GARANTIR 30 DIAS GRÁTIS + BÔNUS
-          <ArrowRight className="w-5 h-5 md:w-6 md:h-6 md:group-hover:translate-x-2 transition-transform" />
-        </button>
+const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void; onOpenGHLModal: () => void }) => {
+  const mx = useMotionValue(720);
+  const my = useMotionValue(260);
+  const sx = useSpring(mx, { stiffness: 80, damping: 20 });
+  const sy = useSpring(my, { stiffness: 80, damping: 20 });
+  const spotlight = useMotionTemplate`radial-gradient(560px circle at ${sx}px ${sy}px, rgba(248,195,19,0.16), transparent 65%)`;
 
-        <button 
-          onClick={onOpenGHLModal}
-          className="w-full sm:w-auto group px-8 md:px-10 py-5 md:py-7 bg-white/5 border border-white/10 md:hover:bg-white/10 active:bg-white/10 rounded-3xl font-black text-base md:text-lg transition-all flex items-center justify-center gap-3 text-slate-300"
-        >
-          JÁ TENHO O GHL
-        </button>
+  const onMove = (e: MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mx.set(e.clientX - rect.left);
+    my.set(e.clientY - rect.top);
+  };
+
+  return (
+    <section className="relative overflow-hidden min-h-screen flex flex-col justify-center text-center pt-32 pb-28 md:pb-32" onMouseMove={onMove}>
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="dot-grid hero-grid" />
+        <Beams />
+        <Rings className="left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 !w-[min(760px,130vw)]" />
+        <motion.div className="absolute inset-0" style={{ background: spotlight }} />
       </div>
+
+      <div className="wrap relative !max-w-6xl">
+        {/* Logos HTC + GHL */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 1, ease }}
+          className="flex flex-col items-center mb-9 md:mb-10"
+        >
+          <div className="flex items-center gap-6 md:gap-9">
+            <img src="/logo.png" alt="Logo HTC" width={112} height={112} className="logo hero-logo" />
+            <div className="h-12 w-px bg-line-strong rotate-[20deg]" />
+            <img src={GHL_LOGO} alt="Logo GHL" width={112} height={112} className="logo hero-logo" />
+          </div>
+
+          <div className="float mt-8 inline-flex items-center gap-3 rounded-full border border-line-strong bg-white/[0.03] px-4 py-2">
+            <span className="dot-ping flex-none" />
+            <span className="shine-text whitespace-nowrap text-[0.56rem] sm:text-[0.7rem] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.3em]">
+              Parceria Oficial GoHighLevel Brasil
+            </span>
+          </div>
+        </motion.div>
+
+        <BlurText
+          as="h1"
+          immediate
+          delay={0.2}
+          className="display hero-title"
+          parts={[{ text: 'Não Assine o GoHighLevel Sozinho.' }, { text: 'Você Vai Falhar.', hl: true }]}
+        />
+
+        <motion.p
+          initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.9, delay: 0.75, ease }}
+          className="mx-auto mt-8 md:mt-10 max-w-4xl text-base sm:text-lg md:text-2xl font-light leading-relaxed text-muted"
+        >
+          Comece com{' '}
+          <strong className="font-semibold text-white underline decoration-accent decoration-4 underline-offset-4 md:underline-offset-8">30 DIAS GRÁTIS</strong>{' '}
+          (Exclusivo HTC) e receba +R$ 12.485 em Snapshots, IA e Mentoria...{' '}
+          <strong className="font-semibold italic text-white">Gratuitamente.</strong>
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.95, ease }}
+          className="mt-10 md:mt-14 flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
+        >
+          <Button size="lg" onClick={onOpenForm} className="btn--xl w-full sm:w-auto">
+            Garantir 30 dias grátis + bônus
+          </Button>
+          <Button size="lg" variant="ghost" onClick={onOpenGHLModal} className="btn--xl w-full sm:w-auto">
+            Já tenho o GHL
+          </Button>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+const CrmSection = () => (
+  <section id="crm" className="section">
+    <div className="wrap">
+      <SectionHead
+        center
+        eyebrow="O que o CRM faz"
+        parts={[{ text: 'Tudo o que o GoHighLevel faz,' }, { text: 'em uma tela só.', hl: true }]}
+        lead="Clique nas abas e veja o CRM por dentro. Ou só assista: a demo roda sozinha."
+      />
+      <Reveal>
+        <CrmDemo />
+      </Reveal>
     </div>
   </section>
 );
 
+const assets = [
+  {
+    tag: 'Treinamento',
+    icon: Laptop,
+    title: 'Curso - Trilha de Implementação GHL',
+    desc: 'Aprenda passo a passo desde a configuração inicial até a entrega de resultados para clientes. Tudo com foco em agências que querem crescer com um modelo escalável.',
+    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a66d4b700a2a5f0748590.png',
+    alt: 'Laptop mostrando o curso'
+  },
+  {
+    tag: 'Snapshots',
+    icon: Box,
+    title: 'Templates Prontos (Plug & Play)',
+    desc: 'Importe funis, automações e IAs que uso para mim e para meus clientes, assim você economiza semanas de implementação e entrega valor imediato.',
+    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a64a201e8bbb6e4e38087.png',
+    alt: 'Templates e Funis'
+  },
+  {
+    tag: 'Suporte ao vivo',
+    icon: Video,
+    title: 'Office Hours',
+    desc: 'Calls de Seg-Qui para tirar dúvidas. Levante a mão e resolva qualquer bug no seu GHL com suporte especializado em tempo real.',
+    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6983c8c113fe2b52a1aad8dc.png',
+    alt: 'Office Hours Zoom Call'
+  },
+  {
+    tag: 'Mentoria',
+    icon: Brain,
+    title: 'Mentoria ao Vivo Semanal',
+    desc: 'Toda semana, você participa de chamadas ao vivo comigo e com convidados, faturando +8 dígitos por ano, para tirar dúvidas e receber ajuda.',
+    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a6e1f1fd82703fd6ea8ee.png',
+    alt: 'Mentoria'
+  }
+];
+
 const AssetBentoGrid = () => (
-  <section id="assets" className="py-32 px-6 bg-slate-900/20">
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-16 md:mb-24" data-aos="fade-up">
-        <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight">
-          Junte-se a 500+ donos de agência <br className="hidden md:block" />
-          <span className="text-purple-500 italic">no High Ticket Clube.</span>
-        </h2>
-      </div>
+  <section id="assets" className="section">
+    <div className="wrap">
+      <SectionHead
+        eyebrow="Recursos"
+        parts={[{ text: 'Junte-se a 500+ donos de agência' }, { text: 'no High Ticket Clube.', hl: true }]}
+      />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Treinamento */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-purple-500/25 hover:shadow-[0_0_60px_rgba(139,92,246,0.1)]" data-aos="fade-up">
-            <span className="absolute top-6 left-6 bg-purple-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">TREINAMENTO</span>
-            <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
-                <Laptop className="w-6 h-6 text-purple-400" /> Curso - Trilha de Implementação GHL
-            </h3>
-            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
-                Aprenda passo a passo desde a configuração inicial até a entrega de resultados para clientes. Tudo com foco em agências que querem crescer com um modelo escalável.
-            </p>
-            <div className="mt-auto group-hover:scale-105 transition-transform duration-700">
-                <img src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a66d4b700a2a5f0748590.png" alt="Laptop mostrando o curso" className="rounded-2xl w-full object-cover border border-white/5 shadow-xl" />
-            </div>
-        </div>
-
-        {/* Snapshots */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-blue-500/25 hover:shadow-[0_0_60px_rgba(59,130,246,0.1)]" data-aos="fade-up" data-aos-delay="100">
-            <span className="absolute top-6 left-6 bg-blue-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">SNAPSHOTS</span>
-            <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
-                <Box className="w-6 h-6 text-blue-400" /> Templates Prontos (Plug & Play)
-            </h3>
-            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
-                Importe funis, automações e IAs que uso para mim e para meus clientes, assim você economiza semanas de implementação e entrega valor imediato.
-            </p>
-            <div className="mt-auto group-hover:scale-105 transition-transform duration-700">
-                <img src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a64a201e8bbb6e4e38087.png" alt="Templates e Funis" className="rounded-2xl w-full object-cover border border-white/5 shadow-xl" />
-            </div>
-        </div>
-
-        {/* Office Hours */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-indigo-500/25 hover:shadow-[0_0_60px_rgba(99,102,241,0.1)]" data-aos="fade-up">
-            <span className="absolute top-6 left-6 bg-indigo-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">SUPORTE AO VIVO</span>
-            <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
-                <Video className="w-6 h-6 text-indigo-400" /> Office Hours
-            </h3>
-            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
-                Calls de Seg-Qui para tirar dúvidas. Levante a mão e resolva qualquer bug no seu GHL com suporte especializado em tempo real.
-            </p>
-            <div className="mt-auto group-hover:scale-105 transition-transform duration-700">
-                <img src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6983c8c113fe2b52a1aad8dc.png" alt="Office Hours Zoom Call" className="rounded-2xl w-full object-cover border border-white/5 shadow-xl" />
-            </div>
-        </div>
-
-        {/* Mentoria */}
-        <div className="bg-[#0f172a] rounded-[2rem] p-8 flex flex-col relative overflow-hidden border border-white/5 shadow-2xl group transition-all duration-500 hover:border-pink-500/25 hover:shadow-[0_0_60px_rgba(236,72,153,0.1)]" data-aos="fade-up" data-aos-delay="100">
-            <span className="absolute top-6 left-6 bg-pink-600 text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest">MENTORIA</span>
-            <h3 className="text-white text-2xl font-black mt-12 mb-4 flex items-center gap-3 tracking-tight">
-                <Brain className="w-6 h-6 text-pink-400" /> Mentoria ao Vivo Semanal
-            </h3>
-            <p className="text-slate-400 text-sm mb-8 leading-relaxed">
-                Toda semana, você participa de chamadas ao vivo comigo e com convidados, faturando +8 dígitos por ano, para tirar dúvidas e receber ajuda.
-            </p>
-            <div className="mt-auto group-hover:scale-105 transition-transform duration-700">
-                <img src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a6e1f1fd82703fd6ea8ee.png" alt="Mentoria" className="rounded-2xl w-full object-cover border border-white/5 shadow-xl" />
-            </div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {assets.map((item, i) => (
+          <Reveal key={item.title} delay={(i % 2) * 100} className="h-full">
+            <SpotlightCard className="group h-full p-7 md:p-8 flex flex-col">
+              <div className="flex items-center justify-between gap-4 mb-7">
+                <span className="tag tag--pill">{item.tag}</span>
+                <span className="icon-chip">
+                  <item.icon className="w-5 h-5" />
+                </span>
+              </div>
+              <h3 className="h3 mb-3">{item.title}</h3>
+              <p className="text-muted text-sm font-light leading-relaxed mb-8">{item.desc}</p>
+              <div className="mt-auto overflow-hidden rounded-[14px] border border-line">
+                <img
+                  src={item.img}
+                  alt={item.alt}
+                  loading="lazy"
+                  className="w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.04]"
+                />
+              </div>
+            </SpotlightCard>
+          </Reveal>
+        ))}
       </div>
     </div>
   </section>
 );
 
 const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
-  <section id="passos" className="py-32 px-6 relative overflow-x-hidden">
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-600/5 blur-[120px] rounded-full pointer-events-none"></div>
-    <div className="max-w-6xl mx-auto relative z-10">
-      <div className="text-center mb-16 md:mb-20" data-aos="fade-up">
-        <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight">Desbloqueie o Ecossistema HTC <br className="hidden md:block" /><span className="text-blue-500">em 2 Etapas Simples:</span></h2>
-      </div>
+  <section id="passos" className="section">
+    <div className="wrap">
+      <SectionHead
+        eyebrow="Passo a passo"
+        parts={[{ text: 'Desbloqueie o Ecossistema HTC' }, { text: 'em 2 Etapas Simples:', hl: true }]}
+      />
 
-      <div className="grid md:grid-cols-2 gap-8 items-stretch">
+      <Reveal className="mb-10 md:mb-12">
+        <div className="beam-line">
+          <i />
+        </div>
+      </Reveal>
+
+      <div className="grid md:grid-cols-2 gap-6 items-stretch">
         {/* Passo 1 */}
-        <div className="flex flex-col glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 relative group" data-aos="fade-right">
-          <div className="absolute -top-4 md:-top-5 left-8 md:left-10 bg-blue-600 text-white px-4 md:px-6 py-1.5 md:py-2 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs tracking-widest shadow-xl">PASSO 01</div>
-          <div className="mb-8">
-            <div className="w-14 h-14 md:w-16 md:h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center text-blue-400 mb-6 group-hover:rotate-6 transition-transform">
-              <Rocket className="w-7 h-7 md:w-8 md:h-8" />
+        <Reveal className="h-full">
+          <div className="card group relative h-full p-7 md:p-10 flex flex-col">
+            <span className="border-beam" />
+            <div className="flex items-center justify-between gap-4 mb-8">
+              <span className="tag tag--solid">Passo 01</span>
+              <span className="icon-chip">
+                <Rocket className="w-5 h-5" />
+              </span>
             </div>
-            <h3 className="text-2xl md:text-3xl font-black mb-4 md:mb-6 tracking-tight">Ative Sua Licença Estendida (30 Dias)</h3>
-            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-6 md:mb-8">
+            <h3 className="h3 mb-4">Ative Sua Licença Estendida (30 Dias)</h3>
+            <p className="text-muted font-light leading-relaxed mb-7">
               Clique no botão abaixo para iniciar seu trial exclusivo de 30 dias (o dobro do padrão).
             </p>
-            <div className="bg-red-500/10 border border-red-500/20 p-5 md:p-6 rounded-2xl flex gap-3 md:gap-4 items-start">
-              <AlertTriangle className="w-5 h-5 md:w-6 md:h-6 text-red-500 flex-none mt-0.5 md:mt-1" />
-              <p className="text-xs md:text-sm text-red-200/80 font-medium">
-                <strong className="text-red-500">Regra do Sistema:</strong> Utilize um e-mail novo (que nunca tenha sido cadastrado no GoHighLevel antes) para garantir o rastreamento da sua afiliação e bônus.
+            <div className="notice mb-8">
+              <AlertTriangle className="w-5 h-5 flex-none text-accent mt-0.5" />
+              <p>
+                <strong>Regra do Sistema:</strong> Utilize um e-mail novo (que nunca tenha sido cadastrado no GoHighLevel antes) para garantir o rastreamento da sua afiliação e bônus.
               </p>
             </div>
+            <div className="mt-auto">
+              <Button size="lg" block onClick={onOpenForm}>
+                Ativar trial 30 dias
+              </Button>
+            </div>
           </div>
-          <div className="mt-auto relative z-50">
-            <button 
-              onClick={onOpenForm}
-              className="w-full py-5 md:py-6 bg-white text-black font-black rounded-2xl text-base md:text-lg md:hover:scale-[1.02] active:opacity-80 transition-all shadow-2xl flex items-center justify-center gap-3"
-            >
-              ATIVAR TRIAL 30 DIAS <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+        </Reveal>
 
         {/* Passo 2 */}
-        <div className="flex flex-col glass p-8 md:p-10 rounded-[2.5rem] md:rounded-[3rem] border border-white/10 relative group" data-aos="fade-left">
-          <div className="absolute -top-4 md:-top-5 left-8 md:left-10 bg-green-600 text-white px-4 md:px-6 py-1.5 md:py-2 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs tracking-widest shadow-xl">PASSO 02</div>
-          <div className="mb-8">
-            <div className="w-14 h-14 md:w-16 md:h-16 bg-green-600/20 rounded-2xl flex items-center justify-center text-green-400 mb-6 group-hover:-rotate-6 transition-transform">
-              <Timer className="w-7 h-7 md:w-8 md:h-8" />
+        <Reveal delay={120} className="h-full">
+          <div className="card group h-full p-7 md:p-10 flex flex-col">
+            <div className="flex items-center justify-between gap-4 mb-8">
+              <span className="tag tag--pill">Passo 02</span>
+              <span className="icon-chip">
+                <Timer className="w-5 h-5" />
+              </span>
             </div>
-            <h3 className="text-2xl md:text-3xl font-black mb-4 md:mb-6 tracking-tight">Onboarding Automático Imediato</h3>
-            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-8 md:mb-10">
-              Nosso sistema detecta sua inscrição em tempo real. Em menos de <span className="text-white font-bold italic">60 segundos</span>, você receberá o acesso total.
+            <h3 className="h3 mb-4">Onboarding Automático Imediato</h3>
+            <p className="text-muted font-light leading-relaxed mb-7">
+              Nosso sistema detecta sua inscrição em tempo real. Em menos de <strong className="font-semibold text-accent">60 segundos</strong>, você receberá o acesso total.
             </p>
-            <div className="grid grid-cols-2 gap-3 md:gap-4">
-              <div className="bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl flex flex-col items-center text-center">
-                <MessageCircle className="w-6 h-6 md:w-8 md:h-8 text-green-500 mb-2 md:mb-3" />
-                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-300">WhatsApp</span>
-              </div>
-              <div className="bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl flex flex-col items-center text-center">
-                <Mail className="w-6 h-6 md:w-8 md:h-8 text-blue-500 mb-2 md:mb-3" />
-                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-300">E-mail</span>
-              </div>
+            <div className="grid grid-cols-2 gap-3 mb-8">
+              {[
+                { icon: MessageCircle, label: 'WhatsApp' },
+                { icon: Mail, label: 'E-mail' }
+              ].map((channel, i) => (
+                <div
+                  key={channel.label}
+                  className="seq flex flex-col items-center gap-3 rounded-[14px] border border-line-strong bg-surface-2 p-5 text-center"
+                  style={{ '--i': i, '--n': 2 } as CSSProperties}
+                >
+                  <channel.icon className="w-6 h-6" />
+                  <span className="text-[0.66rem] font-semibold uppercase tracking-[0.2em]">{channel.label}</span>
+                </div>
+              ))}
             </div>
-          </div>
-          <div className="mt-auto">
-            <div className="p-5 md:p-6 border border-white/5 bg-white/5 rounded-2xl flex items-center gap-4">
-              <ShieldCheck className="w-7 h-7 md:w-8 md:h-8 text-green-500 flex-none" />
+            <div className="mt-auto flex items-center gap-4 rounded-[14px] border border-line bg-white/[0.02] p-5">
+              <ShieldCheck className="w-7 h-7 flex-none text-accent" />
               <div>
-                <p className="text-sm font-bold text-white">Acesso Instantâneo</p>
-                <p className="text-xs text-slate-500">Snapshots, Trilhas e Comunidade liberados.</p>
+                <p className="text-sm font-semibold">Acesso Instantâneo</p>
+                <p className="text-xs text-dim">Snapshots, Trilhas e Comunidade liberados.</p>
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </div>
   </section>
 );
 
-const ArsenalSection = () => (
-  <section id="arsenal" className="py-32 px-6">
-     <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 md:mb-20" data-aos="fade-up">
-           <h2 className="text-4xl sm:text-5xl md:text-7xl font-black mb-4 md:mb-6 tracking-tighter">O Arsenal da Elite</h2>
-           <p className="text-slate-500 text-lg md:text-xl max-w-3xl mx-auto font-light px-4 md:px-0">Não é apenas uma ferramenta. É o caminho completo para criar uma agência inabalável.</p>
-        </div>
+const arsenal = [
+  { title: 'Office Hours', desc: 'Calls de Seg-Qui para tirar dúvidas. Levante a mão e resolva qualquer bug no seu GHL.', icon: Video },
+  { title: 'Coaching Calls', desc: '2x ao mês com convidados sobre IA, Vendas e Escala. Aprenda com quem já fatura +8 dígitos.', icon: Users },
+  { title: 'Trilhas GHL', desc: 'Do básico ao avançado + FAQ com cortes das aulas respondendo as dúvidas mais frequentes.', icon: Layers },
+  { title: 'IA HTC', desc: 'Cursos sobre IA no GHL e n8n + templates de fluxos prontos para você copiar e colar.', icon: Cpu },
+  { title: 'Desafio 14 Dias', desc: 'O plano de ação exato para você conquistar seu próximo (ou primeiro) cliente em 2 semanas.', icon: Rocket },
+  { title: 'PPL Blueprint', desc: 'Plano para agências Pague Por Lead: ofertas, calls de vendas e entrega completa.', icon: Target },
+  { title: 'WhatsApp Elite', desc: 'Conecte-se com mais de 200 donos de empresas que usam GHL diariamente.', icon: MessageCircle },
+  { title: 'IA Assistente', desc: 'IA treinada no GHL dentro da comunidade. Pergunte qualquer coisa e tenha a resposta na hora.', icon: Wand2 },
+  { title: 'Bônus Snapshots', desc: 'Copie nossa entrega para Clínicas, Imobiliárias, Infoprodutos, PetShops e mais.', icon: FileCode2 }
+];
 
-        <div className="grid md:grid-cols-3 gap-8">
-           {[
-             { title: "Office Hours", desc: "Calls de Seg-Qui para tirar dúvidas. Levante a mão e resolva qualquer bug no seu GHL.", icon: <Video />, ic: "bg-indigo-600/15 text-indigo-400 group-hover:bg-indigo-600/25" },
-             { title: "Coaching Calls", desc: "2x ao mês com convidados sobre IA, Vendas e Escala. Aprenda com quem já fatura +8 dígitos.", icon: <Users />, ic: "bg-pink-600/15 text-pink-400 group-hover:bg-pink-600/25" },
-             { title: "Trilhas GHL", desc: "Do básico ao avançado + FAQ com cortes das aulas respondendo as dúvidas mais frequentes.", icon: <Layers />, ic: "bg-teal-600/15 text-teal-400 group-hover:bg-teal-600/25" },
-             { title: "IA HTC", desc: "Cursos sobre IA no GHL e n8n + templates de fluxos prontos para você copiar e colar.", icon: <Cpu />, ic: "bg-blue-600/15 text-blue-400 group-hover:bg-blue-600/25" },
-             { title: "Desafio 14 Dias", desc: "O plano de ação exato para você conquistar seu próximo (ou primeiro) cliente em 2 semanas.", icon: <Rocket />, ic: "bg-orange-600/15 text-orange-400 group-hover:bg-orange-600/25" },
-             { title: "PPL Blueprint", desc: "Plano para agências Pague Por Lead: ofertas, calls de vendas e entrega completa.", icon: <Target />, ic: "bg-red-600/15 text-red-400 group-hover:bg-red-600/25" },
-             { title: "WhatsApp Elite", desc: "Conecte-se com mais de 200 donos de empresas que usam GHL diariamente.", icon: <MessageCircle />, ic: "bg-green-600/15 text-green-400 group-hover:bg-green-600/25" },
-             { title: "IA Assistente", desc: "IA treinada no GHL dentro da comunidade. Pergunte qualquer coisa e tenha a resposta na hora.", icon: <Wand2 />, ic: "bg-purple-600/15 text-purple-400 group-hover:bg-purple-600/25" },
-             { title: "Bônus Snapshots", desc: "Copie nossa entrega para Clínicas, Imobiliárias, Infoprodutos, PetShops e mais.", icon: <FileCode2 />, ic: "bg-yellow-600/15 text-yellow-400 group-hover:bg-yellow-600/25" }
-           ].map((item, i) => (
-             <div key={i} className="glass p-8 rounded-[2rem] border border-white/5 hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300 group" data-aos="fade-up" data-aos-delay={i*50}>
-                <div className={`w-12 h-12 ${item.ic} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300`}>
-                   {React.cloneElement(item.icon as React.ReactElement<any>, { className: "w-6 h-6" })}
-                </div>
-                <h4 className="text-xl font-bold mb-3 tracking-tight">{item.title}</h4>
-                <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
-             </div>
-           ))}
-        </div>
-     </div>
+const ArsenalSection = () => (
+  <section id="arsenal" className="section">
+    <div className="wrap">
+      <SectionHead
+        eyebrow="Arsenal"
+        parts={[{ text: 'O Arsenal' }, { text: 'da Elite', hl: true }]}
+        lead="Não é apenas uma ferramenta. É o caminho completo para criar uma agência inabalável."
+      />
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {arsenal.map((item, i) => (
+          <Reveal key={item.title} delay={(i % 3) * 80} className="h-full">
+            <SpotlightCard className="group h-full p-7">
+              <span className="icon-chip mb-6">
+                <item.icon className="w-5 h-5" />
+              </span>
+              <h4 className="font-display font-extrabold text-lg tracking-tight mb-2">{item.title}</h4>
+              <p className="text-muted text-sm font-light leading-relaxed">{item.desc}</p>
+            </SpotlightCard>
+          </Reveal>
+        ))}
+      </div>
+    </div>
   </section>
 );
 
 const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
-  <section id="oferta" className="py-32 px-6 relative" style={{ overflowX: 'clip' }}>
-    <div className="max-w-6xl mx-auto">
-       <div className="text-center mb-16 md:mb-24 relative z-20">
+  <section id="oferta" className="section" style={{ overflowX: 'clip' }}>
+    <div className="wrap">
+      <div className="text-center mb-14 md:mb-20 relative z-20">
+        <Reveal>
+          <span className="eyebrow">Oferta</span>
+        </Reveal>
+        <div>
           <div className="inline-block relative">
-             <img
-               src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6978f249eb0d1a8301bd4098.png"
-               alt="Easter Egg Gabriel Oliveira"
-               className="absolute -top-24 md:-top-48 -right-4 md:-right-20 w-28 md:w-64 pointer-events-none z-20"
-               data-aos="zoom-in-up"
-               data-aos-anchor-placement="center-bottom"
-               data-aos-delay="600"
-               style={{
-                 transformOrigin: 'bottom center',
-                 maskImage: 'linear-gradient(to top, transparent 0%, black 12%)',
-                 WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 12%)'
-               }}
-             />
-             <h2 className="text-4xl sm:text-5xl md:text-8xl font-black mb-6 md:mb-8 tracking-tighter" data-aos="fade-up">A Oferta Irresistível.</h2>
+            <motion.img
+              src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6978f249eb0d1a8301bd4098.png"
+              alt="Easter Egg Gabriel Oliveira"
+              className="absolute bottom-[82%] -right-4 md:-right-28 w-24 md:w-44 pointer-events-none z-20"
+              initial={{ opacity: 0, y: 60, scale: 0.6 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: '0px 0px -120px 0px' }}
+              transition={{ type: 'spring', stiffness: 170, damping: 18, delay: 0.45 }}
+              style={{
+                transformOrigin: 'bottom center',
+                maskImage: 'linear-gradient(to top, transparent 0%, black 12%)',
+                WebkitMaskImage: 'linear-gradient(to top, transparent 0%, black 12%)'
+              }}
+            />
+            <BlurText parts={[{ text: 'A Oferta' }, { text: 'Irresistível.', hl: true }]} className="display h2 md:!text-[4.4rem]" />
           </div>
-          <p className="text-slate-500 text-lg md:text-xl font-light px-4 md:px-0" data-aos="fade-up" data-aos-delay="200">Por que pagar o mesmo valor e receber 100x menos resultado?</p>
-       </div>
+        </div>
+        <Reveal delay={150}>
+          <p className="lead mx-auto mt-5">Por que pagar o mesmo valor e receber 100x menos resultado?</p>
+        </Reveal>
+      </div>
 
-       <div className="grid md:grid-cols-2 gap-8 md:gap-10 relative z-10">
-          <div className="glass opacity-40 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 border border-white/5 relative overflow-hidden" data-aos="fade-right">
-             <div className="absolute top-0 right-0 p-6 md:p-10 opacity-10"><XCircle className="w-16 h-16 md:w-24 md:h-24 text-slate-500" /></div>
-             <h3 className="text-xl md:text-2xl font-bold mb-8 md:mb-12 text-slate-500 uppercase tracking-widest text-left">Assinar Direto no GHL</h3>
-             <ul className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
-                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> 14 Dias de Teste (Padrão)
+      <div className="grid md:grid-cols-2 gap-6 md:gap-8 items-stretch relative z-10">
+        <Reveal className="h-full">
+          <div className="card relative h-full overflow-hidden p-7 md:p-10 opacity-60">
+            <XCircle className="absolute top-6 right-6 w-16 h-16 md:w-20 md:h-20 text-line-strong" aria-hidden="true" />
+            <h3 className="tag !text-dim !text-xs mb-10">Assinar Direto no GHL</h3>
+            <ul className="space-y-5 md:space-y-6 mb-12">
+              {['14 Dias de Teste (Padrão)', 'Ferramenta Vazia', 'Suporte em Inglês', 'Zero Templates ou Snapshots'].map((text) => (
+                <li key={text} className="flex items-center gap-3 text-dim line-through text-sm md:text-base">
+                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> {text}
                 </li>
-                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
-                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> Ferramenta Vazia
-                </li>
-                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
-                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> Suporte em Inglês
-                </li>
-                <li className="flex items-center gap-3 md:gap-4 text-slate-600 line-through italic font-medium text-sm md:text-base">
-                  <XCircle className="w-4 h-4 md:w-5 md:h-5 flex-none" /> Zero Templates ou Snapshots
-                </li>
-             </ul>
-             <div className="text-left">
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Preço Oficial GHL</p>
-                <p className="text-3xl md:text-4xl font-black text-slate-600">$97 a $497/mês</p>
-             </div>
+              ))}
+            </ul>
+            <div>
+              <p className="tag !text-dim mb-1">Preço Oficial GHL</p>
+              <p className="display text-3xl md:text-4xl text-dim">$97 a $497/mês</p>
+            </div>
           </div>
+        </Reveal>
 
-          <div className="relative group" data-aos="fade-left">
-             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 blur-[30px] md:blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity pointer-events-none"></div>
-             <div className="relative glass rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-12 border-2 border-purple-500/40 bg-slate-900/40 shadow-2xl">
-                <div className="absolute -top-4 -right-4 md:-top-6 md:-right-6 bg-purple-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-xl md:rounded-2xl font-black text-[10px] md:text-xs tracking-[0.2em] animate-float shadow-xl uppercase">O Caminho da Elite</div>
-                <h3 className="text-2xl md:text-3xl font-black mb-8 md:mb-12 tracking-tight text-left">Parceiro HTC</h3>
-                <ul className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
-                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> 30 DIAS DE TESTE</div>
-                      <span className="text-slate-500 text-[10px] md:text-xs font-normal">DOBRO DO TEMPO</span>
-                   </li>
-                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
-                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Curso Implementação Turbo</div>
-                      <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Grátis</span>
-                   </li>
-                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
-                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Pack +15 Snapshots</div>
-                      <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Grátis</span>
-                   </li>
-                   <li className="flex items-center justify-between text-white font-bold text-base md:text-lg">
-                      <div className="flex items-center gap-3 md:gap-4 text-left"><CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-green-500 flex-none" /> Onboarding & Mentoria</div>
-                      <span className="text-green-500 text-[10px] md:text-xs font-black uppercase">Inestimável</span>
-                   </li>
-                </ul>
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 pt-8 md:pt-10 border-t border-white/10">
-                   <div className="text-left w-full md:w-auto">
-                      <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Mesmo Valor do GHL</p>
-                      <p className="text-3xl md:text-5xl font-black text-white">A partir de $97/mês</p>
-                      <p className="text-[10px] text-slate-400 mt-2 font-medium italic">(Planos de $97 a $497 — exatamente o mesmo preço que você vai pagar pro GHL...)</p>
-                   </div>
-                   <button 
-                    onClick={onOpenForm}
-                    className="w-full md:w-auto px-8 md:px-10 py-5 md:py-6 bg-white text-black font-black rounded-2xl md:rounded-[1.5rem] md:hover:scale-105 active:opacity-80 transition-transform shadow-2xl flex items-center justify-center gap-3 relative z-50"
-                   >
-                     GARANTIR 30 DIAS AGORA <MousePointerClick className="w-5 h-5" />
-                   </button>
+        <Reveal delay={120} className="h-full">
+          <div className="glow-behind h-full">
+            <div className="card relative h-full p-7 md:p-10">
+              <span className="border-beam" />
+              <div className="float absolute -top-4 right-5 md:right-8 z-10">
+                <span className="tag tag--solid">O Caminho da Elite</span>
+              </div>
+              <h3 className="h3 !text-2xl md:!text-3xl mb-10">Parceiro HTC</h3>
+              <ul className="space-y-5 md:space-y-6 mb-12">
+                {[
+                  { text: '30 DIAS DE TESTE', value: 'DOBRO DO TEMPO', muted: true },
+                  { text: 'Curso Implementação Turbo', value: 'Grátis' },
+                  { text: 'Pack +15 Snapshots', value: 'Grátis' },
+                  { text: 'Onboarding & Mentoria', value: 'Inestimável' }
+                ].map((item) => (
+                  <li key={item.text} className="flex items-center justify-between gap-4 font-semibold text-base md:text-lg">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-accent flex-none" /> {item.text}
+                    </div>
+                    <span className={`tag text-right ${item.muted ? '!text-dim' : ''}`}>{item.value}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 pt-8 border-t border-line">
+                <div>
+                  <p className="tag !text-dim mb-1">Mesmo Valor do GHL</p>
+                  <p className="display text-3xl md:text-4xl">
+                    A partir de <span className="hl">$97/mês</span>
+                  </p>
+                  <p className="text-[0.7rem] text-muted mt-2 font-light">
+                    (Planos de $97 a $497, exatamente o mesmo preço que você vai pagar pro GHL...)
+                  </p>
                 </div>
-             </div>
+                <Button size="lg" onClick={onOpenForm} className="w-full xl:w-auto flex-none">
+                  Garantir 30 dias agora
+                </Button>
+              </div>
+            </div>
           </div>
-       </div>
+        </Reveal>
+      </div>
     </div>
   </section>
 );
 
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const questions = [
-    { 
-      q: "O que é o GHL?", 
-      a: "HighLevel é uma ferramenta de marketing digital tudo-em-um. Milhares de agências e gestores de tráfego utilizam o GHL para ajudar proprietários de pequenas empresas a centralizar todas as suas necessidades de marketing em um só lugar. Entre os recursos populares do HighLevel estão mensagens de texto/wpp automatizadas, campanhas de email, construtor de sites, funis de venda completos, pipelines, CRM e muito mais!" 
+  const questions: { q: string; a: ReactNode; plainA?: string }[] = [
+    {
+      q: "O que é o GHL?",
+      a: "HighLevel é uma ferramenta de marketing digital tudo-em-um. Milhares de agências e gestores de tráfego utilizam o GHL para ajudar proprietários de pequenas empresas a centralizar todas as suas necessidades de marketing em um só lugar. Entre os recursos populares do HighLevel estão mensagens de texto/wpp automatizadas, campanhas de email, construtor de sites, funis de venda completos, pipelines, CRM e muito mais!"
     },
-    { 
-      q: "Posso integrar WhatsApp com GHL?", 
-      a: "Sim, você pode integrar o WhatsApp com o GHL tanto com ambas as APIs oficiais quanto não oficiais." 
+    {
+      q: "Posso integrar WhatsApp com GHL?",
+      a: "Sim, você pode integrar o WhatsApp com o GHL tanto com ambas as APIs oficiais quanto não oficiais."
     },
-    { 
-      q: "Quais Plataformas o GHL substitui?", 
-      a: "RDstation, Pipedrive, Calendly, ActiveCampaign, WordPress, Make, ManyChat, Hostinger, Area de Membros para Cursos, etc.." 
+    {
+      q: "Quais Plataformas o GHL substitui?",
+      a: "RDstation, Pipedrive, Calendly, ActiveCampaign, WordPress, Make, ManyChat, Hostinger, Area de Membros para Cursos, etc.."
     },
     {
       q: "Já tenho o GHL, posso acessar a comunidade de vocês?",
       a: (
         <span>
           Se você já tem o GHL, envie uma mensagem para nós pelo WhatsApp no seguinte número:{' '}
-          <a href="https://wa.me/5511936239514" target="_blank" rel="noopener noreferrer" className="text-purple-400 underline font-bold hover:text-purple-300 transition-colors">
+          <a href="https://wa.me/5511936239514" target="_blank" rel="noopener noreferrer" className="text-accent underline underline-offset-4 font-semibold hover:text-white transition-colors">
             wa.me/5511936239514
           </a>
         </span>
       ),
       plainA: "Se você já tem o GHL, envie uma mensagem para nós pelo WhatsApp no seguinte número: wa.me/5511936239514"
     },
-    { 
-      q: "Realmente é tudo de graça?", 
-      a: "Sim. Como parceiros oficiais da ferramenta, reinvestimos nossa comissão entregando a melhor comunidade e ativos do Brasil sem custo adicional para você." 
+    {
+      q: "Realmente é tudo de graça?",
+      a: "Sim. Como parceiros oficiais da ferramenta, reinvestimos nossa comissão entregando a melhor comunidade e ativos do Brasil sem custo adicional para você."
     },
-    { 
-      q: "Quais Snapshots (modelos de entrega) estão inclusos no High Ticket Clube?", 
-      a: "Nós entregamos 11 Snapshots completos (esses ficam disponíveis depois que você sai do período de teste!) e validados para você importar e começar a operar imediatamente. Atendemos os principais nichos do mercado para que você ganhe velocidade na entrega: Clínicas, Odontologia, Infoprodutores, Advocacia, Imobiliárias, Petshops, Seguros, Concessionárias, Eventos, Contabilidade e Prestadores de Serviços. Com esses modelos de entrega prontos, você elimina o trabalho braçal e foca no que importa: vender e escalar sua agência." 
+    {
+      q: "Quais Snapshots (modelos de entrega) estão inclusos no High Ticket Clube?",
+      a: "Nós entregamos 11 Snapshots completos (esses ficam disponíveis depois que você sai do período de teste!) e validados para você importar e começar a operar imediatamente. Atendemos os principais nichos do mercado para que você ganhe velocidade na entrega: Clínicas, Odontologia, Infoprodutores, Advocacia, Imobiliárias, Petshops, Seguros, Concessionárias, Eventos, Contabilidade e Prestadores de Serviços. Com esses modelos de entrega prontos, você elimina o trabalho braçal e foca no que importa: vender e escalar sua agência."
     }
   ];
 
@@ -457,164 +555,332 @@ const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-32 px-6 bg-slate-950/30">
-       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-       <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-12 md:mb-16 text-center tracking-tighter" data-aos="fade-up">Perguntas Frequentes</h2>
-          <div className="space-y-4 md:space-y-5">
-             {questions.map((item, i) => (
-               <div key={i} className="glass rounded-2xl md:rounded-[2rem] overflow-hidden border border-white/5" data-aos="fade-up" data-aos-delay={i*100}>
+    <section id="faq" className="section">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <div className="wrap grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16 items-start">
+        <div className="lg:sticky lg:top-32">
+          <Reveal>
+            <span className="eyebrow">FAQ</span>
+          </Reveal>
+          <BlurText parts={[{ text: 'Perguntas' }, { text: 'Frequentes', hl: true }]} className="display h2" />
+        </div>
+
+        <div className="space-y-3">
+          {questions.map((item, i) => {
+            const open = openIndex === i;
+            return (
+              <Reveal key={i} delay={Math.min(i, 4) * 70}>
+                <div className={`card overflow-hidden transition-colors duration-300 ${open ? '!border-[rgba(248,195,19,0.35)]' : ''}`}>
                   <button
-                    onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                    className="w-full p-6 md:p-8 text-left flex justify-between items-center hover:bg-white/5 transition-colors"
+                    onClick={() => setOpenIndex(open ? null : i)}
+                    aria-expanded={open}
+                    className="w-full p-6 md:p-7 text-left flex justify-between items-center gap-4 cursor-pointer"
                   >
-                    <span className="font-bold text-lg md:text-xl tracking-tight pr-4">{item.q}</span>
-                    <ChevronDown className={`w-5 h-5 md:w-6 md:h-6 flex-none transition-transform duration-500 ${openIndex === i ? 'rotate-180 text-purple-500' : 'text-slate-500'}`} />
+                    <span className="font-semibold text-base md:text-lg tracking-tight">{item.q}</span>
+                    <ChevronDown className={`w-5 h-5 flex-none transition-transform duration-500 ${open ? 'rotate-180 text-accent' : 'text-dim'}`} />
                   </button>
-                  <div className={`p-6 md:p-8 pt-0 text-slate-400 text-base md:text-lg leading-relaxed bg-white/5 ${openIndex === i ? 'block animate-in slide-in-from-top-4 duration-500' : 'hidden'}`}>
-                     {item.a}
-                  </div>
-               </div>
-             ))}
-          </div>
-       </div>
+                  {/* a resposta fica sempre no HTML (SEO); só a altura anima */}
+                  <motion.div
+                    initial={false}
+                    animate={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }}
+                    transition={{ duration: 0.45, ease }}
+                    style={{ overflow: 'hidden' }}
+                  >
+                    <div className="px-6 md:px-7 pb-6 md:pb-7 text-muted font-light leading-relaxed">{item.a}</div>
+                  </motion.div>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 };
 
+const SocialLink = ({ href, icon: Icon, label }: { href: string; icon: typeof Youtube; label: string }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-muted hover:text-accent transition-colors">
+    <Icon className="w-5 h-5" />
+    <span className="text-sm font-medium">{label}</span>
+  </a>
+);
+
 const Footer = () => (
-  <footer className="py-24 px-6 border-t border-white/5 bg-slate-950">
-     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 items-start">
-        <div>
-           <div className="flex items-center gap-4 mb-6 md:mb-8">
-              <div className="w-10 h-10 md:w-12 md:h-12 bg-white text-black rounded-xl flex items-center justify-center font-black italic shadow-2xl shadow-white/10">HTC</div>
-              <span className="font-bold text-2xl md:text-3xl tracking-tighter">High Ticket Clube</span>
-           </div>
-           <p className="text-slate-500 text-base md:text-lg font-light leading-relaxed mb-8">
-             A maior comunidade de GoHighLevel do Brasil. Não vendemos ferramentas, entregamos liberdade.
-           </p>
+  <footer className="relative border-t border-line bg-raised pt-20 pb-28 md:pb-12">
+    <div className="wrap grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr] gap-12 md:gap-16 items-start">
+      <div>
+        <div className="flex items-center gap-4 mb-6">
+          <img src="/logo.png" alt="Logo HTC" width={48} height={48} className="logo w-12 h-12" />
+          <span className="wordmark !text-[0.8rem]">High Ticket Clube</span>
         </div>
+        <p className="lead">
+          A maior comunidade de GoHighLevel do Brasil. Não vendemos ferramentas, entregamos liberdade.
+        </p>
+      </div>
 
-        <div className="flex flex-col gap-6">
-           <h4 className="text-xs font-black uppercase tracking-[0.4em] text-white/40 mb-2">Gabriel Oliveira</h4>
-           <div className="flex flex-col gap-4">
-              <a href="https://www.youtube.com/@almanaquedegabriel" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-400 hover:text-red-500 transition-colors group">
-                 <Youtube className="w-5 h-5" />
-                 <span className="text-sm font-bold">YouTube Gabriel</span>
-              </a>
-              <a href="https://www.instagram.com/gabrieloliveira.htc/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-400 hover:text-pink-500 transition-colors group">
-                 <Instagram className="w-5 h-5" />
-                 <span className="text-sm font-bold">@gabrieloliveira.htc</span>
-              </a>
-           </div>
-        </div>
+      <div className="flex flex-col gap-5">
+        <h4 className="tag !text-dim">Gabriel Oliveira</h4>
+        <SocialLink href="https://www.youtube.com/@almanaquedegabriel" icon={Youtube} label="YouTube Gabriel" />
+        <SocialLink href="https://www.instagram.com/gabrieloliveira.htc/" icon={Instagram} label="@gabrieloliveira.htc" />
+      </div>
 
-        <div className="flex flex-col gap-6">
-           <h4 className="text-xs font-black uppercase tracking-[0.4em] text-white/40 mb-2">João Alves</h4>
-           <div className="flex flex-col gap-4">
-              <a href="https://www.youtube.com/channel/UCgDiz3CSsxNIu92IYipC8Uw" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-400 hover:text-red-500 transition-colors group">
-                 <Youtube className="w-5 h-5" />
-                 <span className="text-sm font-bold">YouTube João</span>
-              </a>
-              <a href="https://www.instagram.com/joaoalves.ai/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-slate-400 hover:text-pink-500 transition-colors group">
-                 <Instagram className="w-5 h-5" />
-                 <span className="text-sm font-bold">@joaoalves.ai</span>
-              </a>
-           </div>
-        </div>
-     </div>
-     
-     <div className="max-w-7xl mx-auto mt-16 md:mt-20 pt-8 md:pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-        <div className="text-[10px] text-slate-700 font-bold uppercase tracking-[0.4em] md:tracking-[0.6em] leading-relaxed">
-           © 2026 HIGH TICKET CLUBE. TODOS OS DIREITOS RESERVADOS.
-        </div>
-        <div className="flex gap-6 md:gap-10 text-[10px] text-slate-700 font-black uppercase tracking-[0.2em] md:tracking-[0.3em]">
-           <a href="#" className="hover:text-slate-500">Termos de Uso</a>
-           <a href="#" className="hover:text-slate-500">Privacidade</a>
-        </div>
-     </div>
+      <div className="flex flex-col gap-5">
+        <h4 className="tag !text-dim">João Alves</h4>
+        <SocialLink href="https://www.youtube.com/channel/UCgDiz3CSsxNIu92IYipC8Uw" icon={Youtube} label="YouTube João" />
+        <SocialLink href="https://www.instagram.com/joaoalves.ai/" icon={Instagram} label="@joaoalves.ai" />
+      </div>
+    </div>
+
+    <div className="wrap mt-16 pt-8 border-t border-line flex flex-col md:flex-row justify-between items-center gap-5 text-center md:text-left">
+      <div className="text-[0.62rem] text-dim font-semibold uppercase tracking-[0.3em] leading-relaxed">
+        © 2026 HIGH TICKET CLUBE. TODOS OS DIREITOS RESERVADOS.
+      </div>
+      <div className="flex gap-8 text-[0.62rem] text-dim font-semibold uppercase tracking-[0.2em]">
+        <a href="#" className="hover:text-accent transition-colors">Termos de Uso</a>
+        <a href="#" className="hover:text-accent transition-colors">Privacidade</a>
+      </div>
+    </div>
   </footer>
 );
 
-const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div 
-      className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/95 backdrop-blur-3xl transition-all duration-500 animate-in fade-in"
-      onClick={onClose}
-    >
-      <div 
-        className="relative w-full max-w-[600px] max-h-[90vh] bg-slate-950 rounded-3xl md:rounded-[3rem] border border-white/10 overflow-y-auto shadow-[0_0_100px_rgba(139,92,246,0.2)] flex flex-col scale-up"
-        onClick={(e) => e.stopPropagation()}
+// Pop-up padrão HTC: fundo desfocado, painel entra em spring com borda e sombra amarelas.
+const Modal = ({
+  open,
+  onClose,
+  children,
+  className = '',
+  z = 'z-[100]',
+  bare = false
+}: {
+  open: boolean;
+  onClose: () => void;
+  children: ReactNode;
+  className?: string;
+  z?: string;
+  bare?: boolean;
+}) => (
+  <AnimatePresence>
+    {open && (
+      <motion.div
+        className={`modal-backdrop ${z}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={onClose}
       >
-        <div className="p-6 md:p-10 pb-4 md:pb-6 flex justify-between items-start sticky top-0 bg-slate-950/80 backdrop-blur-xl z-10 border-b border-white/5">
-           <div className="flex items-center gap-4 md:gap-5">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-purple-600/20 rounded-2xl flex items-center justify-center flex-none">
-                <ShieldCheck className="text-purple-400 w-6 h-6 md:w-8 md:h-8" />
-              </div>
-              <div>
-                <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-1">Já tem o GHL?</h3>
-                <p className="text-slate-500 text-[10px] md:text-xs font-bold uppercase tracking-widest text-left">Escolha como deseja entrar no HTC</p>
-              </div>
-           </div>
-           <button 
-            onClick={onClose}
-            className="p-3 md:p-4 bg-white/5 hover:bg-white/10 rounded-xl md:rounded-2xl transition-all border border-white/10 flex-none"
-           >
-             <X className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />
-           </button>
-        </div>
-        
-        <div className="p-6 md:p-10 pt-6 md:pt-4 space-y-6">
-           {/* Opção 1: Upgrade */}
-           <div className="group relative bg-white/5 border border-white/10 p-6 md:p-8 rounded-2xl md:rounded-[2rem] hover:bg-white/10 transition-all">
-              <div className="flex flex-col gap-4">
-                 <div className="flex items-center justify-between">
-                    <span className="px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 01</span>
-                    <TrendingUp className="w-6 h-6 text-blue-400" />
-                 </div>
-                 <h4 className="text-2xl font-black text-left">Fazer Upgrade de Plano</h4>
-                 <p className="text-slate-400 text-sm leading-relaxed text-left">
-                    Se você já tem uma conta, pode fazer o upgrade através do nosso link de afiliado para ganhar acesso imediato à nossa comunidade e bônus.
-                 </p>
-                 <a 
-                    href="https://lp.htclube.com/upgrade-htc-page"
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="mt-4 w-full py-5 bg-blue-600 text-white font-black rounded-2xl text-center md:hover:scale-[1.02] active:opacity-80 transition-transform flex items-center justify-center gap-3"
-                 >
-                    FAZER UPGRADE AGORA <ExternalLink className="w-5 h-5" />
-                 </a>
-              </div>
-           </div>
+        <motion.div
+          className={`${bare ? '' : 'modal-panel'} ${className}`}
+          initial={{ opacity: 0, y: 40, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 24, scale: 0.97 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 26 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {children}
+        </motion.div>
+      </motion.div>
+    )}
+  </AnimatePresence>
+);
 
-           {/* Opção 2: Anuidade */}
-           <div className="group relative bg-white/5 border border-white/10 p-6 md:p-8 rounded-2xl md:rounded-[2rem] hover:bg-white/10 transition-all">
-              <div className="flex flex-col gap-4">
-                 <div className="flex items-center justify-between">
-                    <span className="px-4 py-1.5 bg-purple-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest">Opção 02</span>
-                    <Gift className="w-6 h-6 text-purple-400" />
-                 </div>
-                 <h4 className="text-2xl font-black text-left">HTC Anuidade</h4>
-                 <p className="text-slate-400 text-sm leading-relaxed text-left">
-                    Prefere não mudar sua afiliação? Você pode pagar pela anuidade e ter acesso a todo o nosso ecossistema, snapshots e mentorias.
-                 </p>
-                 <a 
-                    href="https://api.leadconnectorhq.com/widget/bookings/htc-oferta-anual" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="mt-4 w-full py-5 bg-white text-black font-black rounded-2xl text-center md:hover:scale-[1.02] active:opacity-80 transition-transform flex items-center justify-center gap-3"
-                 >
-                    Agendar Reunião de Demonstração da Comunidade <PhoneCall className="w-5 h-5" />
-                 </a>
-              </div>
-           </div>
-        </div>
+const ModalHeader = ({ icon: Icon, title, subtitle, onClose, closeLabel }: { icon: typeof X; title: string; subtitle: string; onClose: () => void; closeLabel?: string }) => (
+  <div className="flex-none p-5 md:p-7 flex justify-between items-start gap-4 border-b border-line">
+    <div className="flex items-center gap-4">
+      <span className="icon-chip">
+        <Icon className="w-5 h-5" />
+      </span>
+      <div>
+        <h3 className="h3 mb-1">{title}</h3>
+        <p className="tag !text-dim">{subtitle}</p>
       </div>
     </div>
-  );
-};
+    <button onClick={onClose} className="modal-close" aria-label="Fechar">
+      {closeLabel && <span className="hidden sm:inline text-[0.66rem] font-semibold uppercase tracking-[0.2em]">{closeLabel}</span>}
+      <X className="w-5 h-5" />
+    </button>
+  </div>
+);
+
+const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => (
+  <Modal open={isOpen} onClose={onClose} z="z-[120]" className="max-w-[600px]">
+    <ModalHeader icon={ShieldCheck} title="Já tem o GHL?" subtitle="Escolha como deseja entrar no HTC" onClose={onClose} />
+
+    <div className="p-5 md:p-7 space-y-5 overflow-y-auto">
+      {/* Opção 1: Upgrade */}
+      <div className="rounded-[18px] border border-line-strong bg-surface p-6 md:p-7 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <span className="tag tag--pill">Opção 01</span>
+          <TrendingUp className="w-6 h-6 text-accent" />
+        </div>
+        <h4 className="h3">Fazer Upgrade de Plano</h4>
+        <p className="text-muted text-sm font-light leading-relaxed">
+          Se você já tem uma conta, pode fazer o upgrade através do nosso link de afiliado para ganhar acesso imediato à nossa comunidade e bônus.
+        </p>
+        <a
+          href="https://lp.htclube.com/upgrade-htc-page"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn--primary btn--lg btn--block mt-2"
+        >
+          <span>Fazer upgrade agora</span> <ExternalLink className="w-4 h-4 flex-none" />
+        </a>
+      </div>
+
+      {/* Opção 2: Anuidade */}
+      <div className="rounded-[18px] border border-line-strong bg-surface p-6 md:p-7 flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <span className="tag tag--pill">Opção 02</span>
+          <Gift className="w-6 h-6 text-accent" />
+        </div>
+        <h4 className="h3">HTC Anuidade</h4>
+        <p className="text-muted text-sm font-light leading-relaxed">
+          Prefere não mudar sua afiliação? Você pode pagar pela anuidade e ter acesso a todo o nosso ecossistema, snapshots e mentorias.
+        </p>
+        <a
+          href="https://api.leadconnectorhq.com/widget/bookings/htc-oferta-anual"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn--ghost btn--lg btn--block mt-2 !whitespace-normal text-center"
+        >
+          <span>Agendar Reunião de Demonstração da Comunidade</span> <PhoneCall className="w-4 h-4 flex-none" />
+        </a>
+      </div>
+    </div>
+  </Modal>
+);
+
+const proofImages = [
+  { name: "Frederik Ebener", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783ca81f2e2c7a.png" },
+  { name: "Your Fav Agency", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3266d7332f405173e.png" },
+  { name: "Lais Araújo", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783cce122e2c79.png" },
+  { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
+];
+
+const proofVideos = [
+  { title: "Thiago Mattos", subtitle: "Estratégia HTC", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a8036f215dab5e858e0db.mp4" },
+  { title: "Ana Carolina", subtitle: "Mercado Imobiliário", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68793614e8df547974938398.mp4" },
+  { title: "Pietro", subtitle: "Agência para Clínicas", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937136ccf56fee2a8f3ee.mp4" },
+  { title: "Lucas Alves", subtitle: "Agência para Advocacias", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937a202da4799be447450.mp4" },
+  { title: "Jones Medrado", subtitle: "Resultado Elite", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6879359502da47bdbe447226.mp4" },
+  { title: "Luan Alves", subtitle: "Membro HTC", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68792a702035ba567e93b456.mp4" }
+];
+
+const SocialProof = ({ onOpenMural, onSelectImage }: { onOpenMural: () => void; onSelectImage: (img: string) => void }) => (
+  <section id="prova" className="section overflow-hidden bg-raised border-y border-line">
+    <div className="wrap">
+      <SectionHead
+        eyebrow="Resultados"
+        parts={[{ text: 'Quem anda sozinho é presa.' }, { text: 'Quem anda em grupo caça.', hl: true }]}
+      />
+    </div>
+
+    <Reveal className="mb-16 md:mb-20">
+      <div className="marquee">
+        <div className="marquee__track">
+          {[...proofImages, ...proofImages, ...proofImages].map((item, i) => (
+            <button
+              key={i}
+              type="button"
+              className="card group w-72 sm:w-80 flex-none p-5 text-left cursor-pointer transition-[border-color,transform] duration-300 hover:-translate-y-1.5 hover:border-[rgba(248,195,19,0.5)]"
+              onClick={() => onSelectImage(item.img)}
+              aria-hidden={i >= proofImages.length ? true : undefined}
+              tabIndex={i >= proofImages.length ? -1 : undefined}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-surface-2 border border-line-strong flex items-center justify-center font-display font-extrabold text-xs uppercase">
+                  {item.name.charAt(0)}
+                </div>
+                <div>
+                  <p className="text-xs font-semibold">{item.name}</p>
+                  <p className="tag !text-[0.6rem]">Resultado Real</p>
+                </div>
+              </div>
+              <div className="relative overflow-hidden rounded-[14px] border border-line">
+                <img
+                  src={item.img}
+                  alt={`Prova Social ${item.name}`}
+                  loading="lazy"
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <span className="bg-accent text-on-accent px-4 py-2 rounded-full font-semibold text-xs flex items-center gap-2">
+                    <Plus className="w-4 h-4" /> Ampliar
+                  </span>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </Reveal>
+
+    <div className="wrap">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14 md:mb-16">
+        {proofVideos.map((item, i) => (
+          <Reveal key={item.url} delay={(i % 3) * 90}>
+            <div className="card group overflow-hidden transition-colors duration-300 hover:border-line-strong">
+              <div className="w-full aspect-video overflow-hidden bg-black">
+                <video
+                  src={item.url}
+                  className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity"
+                  controls
+                  playsInline
+                  preload="metadata"
+                ></video>
+              </div>
+              <div className="p-6">
+                <p className="tag mb-1">{item.subtitle}</p>
+                <h4 className="font-display font-extrabold text-lg tracking-tight">{item.title}</h4>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+
+      <Reveal className="flex justify-center">
+        <button type="button" onClick={onOpenMural} className="btn btn--ghost btn--lg w-full md:w-auto group">
+          <span className="hidden sm:inline">Veja +50 depoimentos no mural</span>
+          <span className="sm:hidden">Ver +50 depoimentos</span>
+          <TrendingUp className="w-5 h-5 flex-none text-accent transition-transform duration-300 group-hover:rotate-12" />
+        </button>
+      </Reveal>
+    </div>
+  </section>
+);
+
+const plugPlay = [
+  { icon: Zap, label: 'Automações no GHL' },
+  { icon: Cpu, label: 'Inteligência Artificial' },
+  { icon: Layers, label: 'Snapshots' },
+  { icon: Smartphone, label: 'Comunidade' }
+];
+
+const PlugPlay = () => (
+  <section id="plugplay" className="section">
+    <div className="wrap">
+      <SectionHead
+        eyebrow="Tecnologia"
+        parts={[{ text: 'Máquina' }, { text: 'Plug & Play', hl: true }]}
+        lead="A tecnologia por trás do nosso ecossistema."
+      />
+      <Reveal>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+          {plugPlay.map((item, i) => (
+            <div
+              key={item.label}
+              className="seq card p-6 md:p-8 flex flex-col items-center gap-4 text-center"
+              style={{ '--i': i, '--n': plugPlay.length } as CSSProperties}
+            >
+              <item.icon className="w-7 h-7 md:w-8 md:h-8" />
+              <h5 className="font-semibold text-xs md:text-sm">{item.label}</h5>
+            </div>
+          ))}
+        </div>
+      </Reveal>
+    </div>
+  </section>
+);
 
 export default function App() {
   const [muralOpen, setMuralOpen] = useState(false);
@@ -623,13 +889,15 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof AOS !== 'undefined') {
-      AOS.init({
-        duration: 1000,
-        once: true,
-        easing: 'ease-out-expo'
-      });
-    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setMuralOpen(false);
+      setFormOpen(false);
+      setGhlModalOpen(false);
+      setSelectedImage(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, []);
 
   const organizationSchema = {
@@ -638,268 +906,131 @@ export default function App() {
     "name": "High Ticket Clube",
     "alternateName": "HTC",
     "url": "https://htclube.com/",
-    "logo": "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/656fbd6c2c8a6d673ff886d2.png",
+    "logo": "https://htclube.com/logo.png",
     "description": "O High Ticket Clube dá acesso gratuito de 30 dias ao GoHighLevel (GHL), com comunidade, suporte e snapshots prontos para agências e donos de negócio de alto ticket.",
     "areaServed": "BR"
   };
 
   return (
-    <div className="relative min-h-screen bg-[#020617] text-slate-100 selection:bg-purple-600 selection:text-white overflow-x-hidden w-full">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-      <Navbar onOpenForm={() => setFormOpen(true)} />
-      <Hero onOpenForm={() => setFormOpen(true)} onOpenGHLModal={() => setGhlModalOpen(true)} />
-      <AssetBentoGrid />
-      <TwoStepProcess onOpenForm={() => setFormOpen(true)} />
-      <ArsenalSection />
-      
-      {/* Reusing SocialProof component but passing mural trigger */}
-      <div id="prova" className="py-32 bg-slate-950 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 mb-16 md:mb-20 text-center" data-aos="fade-up">
-          <h2 className="text-3xl sm:text-4xl md:text-7xl font-black mb-6 md:mb-8 tracking-tighter leading-tight">Quem anda sozinho é presa. <br className="hidden md:block" /><span className="text-purple-500 italic">Quem anda em grupo caça.</span></h2>
-        </div>
+    <MotionConfig reducedMotion="never">
+      <div className="relative min-h-screen w-full bg-bg text-white" style={{ overflowX: 'clip' }}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+        <ScrollProgress />
+        <div className="grain" aria-hidden="true" />
 
-        <div className="flex gap-6 animate-marquee mb-24 opacity-60 hover:opacity-100 transition-opacity hover:[animation-play-state:paused]">
-          {[
-            { name: "Frederik Ebener", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783ca81f2e2c7a.png" },
-            { name: "Your Fav Agency", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3266d7332f405173e.png" },
-            { name: "Lais Araújo", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783cce122e2c79.png" },
-            { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
-          ].concat([
-            { name: "Frederik Ebener", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783ca81f2e2c7a.png" },
-            { name: "Your Fav Agency", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3266d7332f405173e.png" },
-            { name: "Lais Araújo", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783cce122e2c79.png" },
-            { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
-          ]).map((item, i) => (
-            <div 
-              key={i} 
-              className="w-80 flex-none glass p-5 rounded-[2rem] border border-white/5 cursor-pointer group hover:border-purple-500/50 transition-all hover:-translate-y-2"
-              onClick={() => setSelectedImage(item.img)}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                 <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-black text-[10px] uppercase">{item.name.charAt(0)}</div>
-                 <div>
-                    <p className="text-xs font-bold text-white">{item.name}</p>
-                    <p className="text-[10px] text-green-500 font-bold uppercase tracking-widest">Resultado Real</p>
-                 </div>
-              </div>
-              <div className="relative overflow-hidden rounded-2xl border border-white/5 shadow-lg">
-                <img src={item.img} alt={`Prova Social ${item.name}`} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-purple-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
-                  <span className="bg-white text-black px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-2 shadow-xl">
-                    <Plus className="w-4 h-4" /> Ampliar
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <Navbar onOpenForm={() => setFormOpen(true)} />
+        <Hero onOpenForm={() => setFormOpen(true)} onOpenGHLModal={() => setGhlModalOpen(true)} />
+        <AssetBentoGrid />
+        <TwoStepProcess onOpenForm={() => setFormOpen(true)} />
+        <ArsenalSection />
+        <SocialProof onOpenMural={() => setMuralOpen(true)} onSelectImage={setSelectedImage} />
+        <CrmSection />
+        <OfferStack onOpenForm={() => setFormOpen(true)} />
+        <PlugPlay />
+        <FAQ />
+        <Footer />
 
-        <div className="max-w-7xl mx-auto px-6 mb-24">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "Thiago Mattos", subtitle: "Estratégia HTC", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a8036f215dab5e858e0db.mp4" },
-              { title: "Ana Carolina", subtitle: "Mercado Imobiliário", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68793614e8df547974938398.mp4" },
-              { title: "Pietro", subtitle: "Agência para Clínicas", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937136ccf56fee2a8f3ee.mp4" },
-              { title: "Lucas Alves", subtitle: "Agência para Advocacias", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937a202da4799be447450.mp4" },
-              { title: "Jones Medrado", subtitle: "Resultado Elite", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6879359502da47bdbe447226.mp4" },
-              { title: "Luan Alves", subtitle: "Membro HTC", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68792a702035ba567e93b456.mp4" }
-            ].map((item, i) => (
-              <div key={i} className="group relative rounded-[2.5rem] overflow-hidden border border-white/10 glass bg-black" data-aos="fade-up" data-aos-delay={i * 100}>
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10 pointer-events-none"></div>
-                <div className="w-full aspect-video overflow-hidden">
-                  <video src={item.url} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" controls playsInline></video>
-                </div>
-                <div className="p-8 relative z-20 pointer-events-none">
-                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400 mb-1">{item.subtitle}</p>
-                  <h4 className="text-xl font-black text-white">{item.title}</h4>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex justify-center px-4 md:px-0" data-aos="fade-up">
-           <button 
-            onClick={() => setMuralOpen(true)}
-            className="w-full md:w-auto group relative px-6 md:px-16 py-6 md:py-8 glass border-2 border-white/10 md:hover:border-purple-500/50 active:opacity-80 rounded-3xl md:rounded-[2.5rem] font-black text-base sm:text-lg md:text-xl transition-all flex items-center justify-center gap-3 md:gap-5 shadow-2xl bg-white/5"
-           >
-             <span className="hidden sm:inline">[ VEJA +50 DEPOIMENTOS NO MURAL ]</span>
-             <span className="sm:hidden">VER +50 DEPOIMENTOS</span>
-             <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-purple-500 md:group-hover:rotate-12 transition-transform" />
-           </button>
-        </div>
-      </div>
-
-      <OfferStack onOpenForm={() => setFormOpen(true)} />
-      
-      <section id="plugplay" className="py-32 px-6 bg-slate-950/40">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 md:mb-20" data-aos="fade-up">
-            <h2 className="text-3xl sm:text-4xl md:text-6xl font-black mb-4 md:mb-6 tracking-tighter text-slate-400">Máquina <span className="text-white">Plug & Play</span></h2>
-            <p className="text-slate-600 text-base md:text-lg">A tecnologia por trás do nosso ecossistema.</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-yellow-500/20 hover:bg-yellow-500/[0.03] transition-all duration-300 group">
-                <Zap className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-yellow-500 group-hover:scale-110 transition-transform" />
-                <h5 className="font-bold text-xs md:text-sm">Automações no GHL</h5>
-             </div>
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-blue-500/20 hover:bg-blue-500/[0.03] transition-all duration-300 group">
-                <Cpu className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-blue-500 group-hover:scale-110 transition-transform" />
-                <h5 className="font-bold text-xs md:text-sm">Inteligência Artificial</h5>
-             </div>
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-purple-500/20 hover:bg-purple-500/[0.03] transition-all duration-300 group">
-                <Layers className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-purple-500 group-hover:scale-110 transition-transform" />
-                <h5 className="font-bold text-xs md:text-sm">Snapshots</h5>
-             </div>
-             <div className="glass p-6 md:p-8 rounded-2xl md:rounded-[2rem] text-center border border-white/5 hover:border-green-500/20 hover:bg-green-500/[0.03] transition-all duration-300 group">
-                <Smartphone className="w-6 h-6 md:w-8 md:h-8 mx-auto mb-3 md:mb-4 text-green-500 group-hover:scale-110 transition-transform" />
-                <h5 className="font-bold text-xs md:text-sm">Comunidade</h5>
-             </div>
-          </div>
-        </div>
-      </section>
-
-      <FAQ />
-      <Footer />
-
-      {/* Sign-up Form Modal (Preloaded) */}
-      <div 
-        className={`fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-[40px] transition-all duration-500 ${formOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'}`}
-        onClick={() => setFormOpen(false)}
-      >
-        <div 
-          className={`relative w-full max-w-[500px] max-h-[90vh] bg-slate-950 rounded-3xl md:rounded-[2.5rem] border border-white/10 overflow-hidden shadow-[0_0_150px_rgba(139,92,246,0.15)] flex flex-col transition-all duration-500 ${formOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-8'}`}
-          onClick={(e) => e.stopPropagation()}
+        {/* Sign-up Form Modal (Preloaded): fica sempre montado para o formulário abrir na hora */}
+        <div
+          className={`modal-backdrop z-[110] transition-[opacity,visibility] duration-300 ${formOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'}`}
+          onClick={() => setFormOpen(false)}
         >
-            <div className="p-5 md:p-6 pb-3 md:pb-4 flex justify-between items-start border-b border-white/5 bg-slate-900/40">
-               <div className="flex items-center gap-3 md:gap-4">
-                  <div className="w-10 h-10 bg-blue-600/20 rounded-xl flex items-center justify-center flex-none">
-                    <UserPlus className="text-blue-400 w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg md:text-xl font-black tracking-tight leading-none mb-1">Cadastrar Agora</h3>
-                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest">Inicie sua jornada</p>
-                  </div>
-               </div>
-               <button 
-                onClick={() => setFormOpen(false)}
-                className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all border border-white/10 flex-none"
-               >
-                 <X className="w-5 h-5 text-slate-400" />
-               </button>
-            </div>
+          <div
+            className={`modal-panel max-w-[500px] transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${formOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-10'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ModalHeader icon={UserPlus} title="Cadastrar Agora" subtitle="Inicie sua jornada" onClose={() => setFormOpen(false)} />
 
-            <div className="px-5 md:px-6 py-3 md:py-4 bg-slate-950">
-              <div className="bg-red-500/10 border border-red-500/20 p-3 md:p-4 rounded-xl flex gap-3 items-start">
-                <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 text-red-500 flex-none mt-0.5" />
-                <p className="text-[11px] md:text-xs text-red-200/80 font-medium leading-relaxed">
-                  <strong className="text-red-500">Ps:</strong> Se já se registrou no GHL por outro link, use outro e-mail em uma aba anônima para se cadastrar.
+            <div className="flex-none px-5 md:px-7 py-4">
+              <div className="notice !text-xs">
+                <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 flex-none text-accent mt-0.5" />
+                <p>
+                  <strong>Ps:</strong> Se já se registrou no GHL por outro link, use outro e-mail em uma aba anônima para se cadastrar.
                 </p>
               </div>
             </div>
-            
-            <div className="flex-1 overflow-y-auto bg-slate-950 px-2 pb-2">
-               <iframe
-                  src="https://api.leadconnectorhq.com/widget/form/FOQT85cKvqq0gmdtBlsn"
-                  style={{ 
-                    width: '100%', 
-                    height: '520px', 
-                    border: 'none', 
-                    borderRadius: '0 0 1.5rem 1.5rem',
-                    pointerEvents: formOpen ? 'auto' : 'none',
-                    visibility: formOpen ? 'visible' : 'hidden'
-                  }}
-                  id="inline-FOQT85cKvqq0gmdtBlsn" 
-                  data-layout="{'id':'INLINE'}"
-                  data-trigger-type="alwaysShow"
-                  data-trigger-value=""
-                  data-activation-type="alwaysActivated"
-                  data-activation-value=""
-                  data-deactivation-type="neverDeactivate"
-                  data-deactivation-value=""
-                  data-form-name="Form Cadastro"
-                  data-height="462"
-                  data-layout-iframe-id="inline-FOQT85cKvqq0gmdtBlsn"
-                  data-form-id="FOQT85cKvqq0gmdtBlsn"
-                  title="Form Cadastro"
-               ></iframe>
+
+            <div className="flex-1 overflow-y-auto px-2 pb-2">
+              <iframe
+                src="https://api.leadconnectorhq.com/widget/form/FOQT85cKvqq0gmdtBlsn"
+                style={{
+                  width: '100%',
+                  height: '520px',
+                  border: 'none',
+                  borderRadius: '0 0 18px 18px',
+                  pointerEvents: formOpen ? 'auto' : 'none',
+                  visibility: formOpen ? 'visible' : 'hidden'
+                }}
+                id="inline-FOQT85cKvqq0gmdtBlsn"
+                data-layout="{'id':'INLINE'}"
+                data-trigger-type="alwaysShow"
+                data-trigger-value=""
+                data-activation-type="alwaysActivated"
+                data-activation-value=""
+                data-deactivation-type="neverDeactivate"
+                data-deactivation-value=""
+                data-form-name="Form Cadastro"
+                data-height="462"
+                data-layout-iframe-id="inline-FOQT85cKvqq0gmdtBlsn"
+                data-form-id="FOQT85cKvqq0gmdtBlsn"
+                title="Form Cadastro"
+              ></iframe>
             </div>
           </div>
         </div>
 
-      {/* Already have GHL Modal */}
-      <GHLAlreadyModal isOpen={ghlModalOpen} onClose={() => setGhlModalOpen(false)} />
+        {/* Already have GHL Modal */}
+        <GHLAlreadyModal isOpen={ghlModalOpen} onClose={() => setGhlModalOpen(false)} />
 
-      {/* Mural Modal */}
-      {muralOpen && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/90 backdrop-blur-2xl transition-all duration-500 animate-in fade-in"
-          onClick={() => setMuralOpen(false)}
+        {/* Mural Modal */}
+        <Modal open={muralOpen} onClose={() => setMuralOpen(false)} className="max-w-7xl h-full">
+          <ModalHeader
+            icon={MessageCircle}
+            title="Mural de Resultados"
+            subtitle="O caminho da elite HTC"
+            onClose={() => setMuralOpen(false)}
+            closeLabel="Fechar"
+          />
+          <div className="flex-1 bg-black">
+            <iframe
+              src="https://lp.htclube.com/mural-depoimentos-htc"
+              className="w-full h-full border-0"
+              title="Mural de Depoimentos"
+            ></iframe>
+          </div>
+        </Modal>
+
+        {/* Image Lightbox Modal */}
+        <Modal
+          open={selectedImage !== null}
+          onClose={() => setSelectedImage(null)}
+          z="z-[130]"
+          bare
+          className="relative max-w-5xl w-full h-full max-h-[90vh] flex items-center justify-center"
         >
-          <div 
-            className="relative w-full max-w-7xl h-full max-h-[90vh] bg-slate-950/80 rounded-[3rem] border border-white/10 overflow-hidden shadow-[0_0_100px_rgba(0,0,0,1)] flex flex-col scale-up"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="modal-close absolute top-2 right-2 md:-right-14 md:top-0 z-50 !bg-raised"
+            aria-label="Fechar"
           >
-            <div className="p-8 border-b border-white/5 flex justify-between items-center bg-slate-900/40 backdrop-blur-xl">
-               <div className="flex items-center gap-4 text-left">
-                  <div className="w-10 h-10 bg-purple-600/20 rounded-xl flex items-center justify-center">
-                    <MessageCircle className="text-purple-400 w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-black tracking-tight leading-none mb-1">Mural de Resultados</h3>
-                    <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">O caminho da elite HTC</p>
-                  </div>
-               </div>
-               <button 
-                onClick={() => setMuralOpen(false)}
-                className="group p-4 bg-white/5 hover:bg-white/10 rounded-2xl transition-all border border-white/10 flex items-center gap-3"
-               >
-                 <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Fechar</span>
-                 <X className="w-6 h-6" />
-               </button>
-            </div>
-            <div className="flex-1 bg-black">
-               <iframe 
-                src="https://lp.htclube.com/mural-depoimentos-htc" 
-                className="w-full h-full border-0"
-                title="Mural de Depoimentos"
-               ></iframe>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Image Lightbox Modal */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 z-[130] flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl transition-all duration-500 animate-in fade-in"
-          onClick={() => setSelectedImage(null)}
-        >
-          <div className="relative max-w-5xl w-full h-full max-h-[90vh] flex items-center justify-center flex-col" onClick={(e) => e.stopPropagation()}>
-            <button 
-              onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 md:-right-16 md:top-0 p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10 text-white z-50"
-            >
-              <X className="w-6 h-6" />
-            </button>
-            <img 
-              src={selectedImage} 
-              alt="Comprovante ampliado" 
-              className="max-w-full max-h-full object-contain rounded-2xl shadow-[0_0_100px_rgba(139,92,246,0.15)] border border-white/10 scale-up"
+            <X className="w-5 h-5" />
+          </button>
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Comprovante ampliado"
+              className="max-w-full max-h-full object-contain rounded-[22px] border border-[rgba(248,195,19,0.28)] shadow-[0_30px_120px_-24px_rgba(248,195,19,0.28)]"
             />
-          </div>
-        </div>
-      )}
+          )}
+        </Modal>
 
-      {/* Floating Mobile Sticky CTA */}
-      <div className="fixed bottom-8 left-4 right-4 md:hidden z-[99]">
-        <button 
-          onClick={() => setFormOpen(true)}
-          className="w-full py-5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-[1.5rem] font-black text-base shadow-[0_10px_40px_rgba(139,92,246,0.6)] flex items-center justify-center gap-3 active:opacity-80 transition-transform border border-white/20"
-        >
-           GARANTIR 30 DIAS + BÔNUS <ArrowRight className="w-5 h-5" />
-        </button>
+        {/* Floating Mobile Sticky CTA */}
+        <div className="fixed bottom-5 left-4 right-4 md:hidden z-[45]">
+          <Button size="lg" block onClick={() => setFormOpen(true)}>
+            Garantir 30 dias + bônus
+          </Button>
+        </div>
       </div>
-    </div>
+    </MotionConfig>
   );
 }

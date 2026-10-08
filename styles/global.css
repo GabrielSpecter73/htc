@@ -1,0 +1,387 @@
+/* Base e utilitários da marca HTC, adaptados da skill branding-htc para conviver com o Tailwind.
+   Tudo fica em camadas para que os utilitários do Tailwind possam sobrescrever. */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+    background: var(--bg);
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  iframe {
+    color-scheme: dark;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3a3a;
+  }
+}
+
+@layer components {
+  /* ---------- utilitários compartilhados ---------- */
+
+  .wrap {
+    width: 100%;
+    max-width: calc(var(--container) + var(--gutter) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .section {
+    position: relative;
+    padding-block: var(--section);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .h1 {
+    font-size: clamp(2.5rem, 5.4vw, 4.6rem);
+  }
+
+  /* headline do hero: centralizada e grande; o trecho em destaque vai em itálico com brilho */
+  .hero-title {
+    font-size: clamp(2.4rem, 6.6vw, 5.4rem);
+    line-height: 1.06;
+  }
+
+  .hero-title .hl {
+    font-style: italic;
+    padding-right: 0.06em;
+    text-shadow: 0 0 44px var(--accent-glow);
+  }
+
+  .hero-logo {
+    width: clamp(80px, 9vw, 112px);
+    height: clamp(80px, 9vw, 112px);
+    box-shadow:
+      0 0 0 1px var(--line-strong),
+      0 24px 60px -20px rgba(0, 0, 0, 0.9);
+  }
+
+  /* no hero centralizado a grade de pontos some a partir do centro */
+  .hero-grid {
+    mask-image: radial-gradient(70% 60% at 50% 35%, #000, transparent 78%);
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, #000, transparent 78%);
+  }
+
+  .h2 {
+    font-size: clamp(2rem, 4.6vw, 3.5rem);
+  }
+
+  .h3 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+  }
+
+  .hl {
+    color: var(--accent);
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+    font-weight: 300;
+    max-width: 54ch;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .card {
+    background: linear-gradient(180deg, var(--surface), var(--bg-raised));
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  .tag {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* etiqueta em pílula sobre fundo amarelo suave */
+  .tag--pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(248, 195, 19, 0.22);
+  }
+
+  /* etiqueta cheia (destaque do card principal) */
+  .tag--solid {
+    display: inline-flex;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: 0 10px 36px -8px var(--accent-glow);
+  }
+
+  .icon-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    border: 1px solid var(--line-strong);
+    color: var(--accent);
+    transition:
+      border-color 0.3s var(--ease),
+      box-shadow 0.3s var(--ease);
+  }
+
+  .group:hover .icon-chip {
+    border-color: rgba(248, 195, 19, 0.5);
+    box-shadow: 0 0 22px -4px var(--accent-glow);
+  }
+
+  /* aviso sobre fundo amarelo suave */
+  .notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 18px;
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+    border: 1px solid rgba(248, 195, 19, 0.28);
+    color: #f3e6b4;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .notice strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ---------- logo ---------- */
+
+  .logo {
+    flex: none;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px var(--line-strong);
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ---------- navbar em pílula flutuante ---------- */
+
+  .nav {
+    position: fixed;
+    inset: 14px 0 auto 0;
+    z-index: 50;
+    padding-inline: var(--gutter);
+    pointer-events: none;
+  }
+
+  .nav__pill {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding: 9px 9px 9px 14px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition:
+      max-width 0.6s var(--ease),
+      background 0.4s var(--ease),
+      border-color 0.4s var(--ease);
+  }
+
+  .nav--scrolled .nav__pill {
+    max-width: 940px;
+    background: rgba(14, 14, 14, 0.72);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    border-color: var(--line-strong);
+  }
+
+  .nav__link {
+    position: relative;
+    isolation: isolate;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color 0.25s var(--ease);
+  }
+
+  .nav__link:hover {
+    color: var(--text);
+  }
+
+  .nav__link i {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  /* ---------- botões: ajustes para <button> e rótulos longos ---------- */
+
+  .btn {
+    cursor: pointer;
+  }
+
+  /* CTAs do hero: maiores e em caixa alta */
+  .btn--xl {
+    padding: 22px 38px;
+    font-size: clamp(0.92rem, 1.25vw, 1.1rem);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- marquee: espaçamento maior para os cards de prova ---------- */
+
+  .marquee__track {
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  /* ---------- pop-ups ---------- */
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.72);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .modal-panel {
+    position: relative;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--bg-raised);
+    border: 1px solid rgba(248, 195, 19, 0.28);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 30px 120px -24px rgba(248, 195, 19, 0.28);
+  }
+
+  .modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex: none;
+    min-width: 42px;
+    height: 42px;
+    padding-inline: 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--line-strong);
+    color: var(--muted);
+    cursor: pointer;
+    transition:
+      border-color 0.25s var(--ease),
+      color 0.25s var(--ease);
+  }
+
+  .modal-close:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ---------- textura de grão sobre a página ---------- */
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}

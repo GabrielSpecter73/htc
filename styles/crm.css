@@ -1,0 +1,642 @@
+/* Demo do CRM (janela clicável abaixo do hero).
+   A moldura segue a HTC (escura); o app dentro dela é claro, como o CRM de verdade. */
+
+.crm {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 660px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-raised);
+  box-shadow: 0 60px 140px -50px rgba(0, 0, 0, 0.95);
+}
+
+@media (min-width: 768px) {
+  .crm {
+    height: 690px;
+  }
+}
+
+.crm__bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.crm__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.crm__dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.crm__dots i:first-child {
+  background: var(--accent);
+}
+
+.crm__url {
+  flex: 1;
+  max-width: 360px;
+  margin-inline: auto;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font-size: 0.68rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.crm__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ---------- o app (tema claro): redefine os tokens só aqui dentro ---------- */
+
+.crm__app {
+  --crm-blue: #155eef;
+  --bg: #f2f4f7;
+  --bg-raised: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f2f4f7;
+  --line: #eaecf0;
+  --line-strong: #d0d5dd;
+  --text: #101828;
+  --muted: #475467;
+  --dim: #98a2b3;
+  --accent: var(--crm-blue);
+  --accent-soft: #eff4ff;
+  --accent-glow: rgba(21, 94, 239, 0.3);
+  --on-accent: #ffffff;
+
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+}
+
+@media (min-width: 768px) {
+  .crm__app {
+    flex-direction: row;
+  }
+}
+
+/* bloco escuro dentro do app (AI Studio): volta para os tokens da HTC */
+.crm-dark {
+  --bg: #050505;
+  --bg-raised: #101010;
+  --surface: #151515;
+  --surface-2: #1c1c1c;
+  --line: #242424;
+  --line-strong: #2c2c2c;
+  --text: #ffffff;
+  --muted: #afafaf;
+  --dim: #7a7a7a;
+  --accent: #f8c313;
+  --accent-soft: rgba(248, 195, 19, 0.14);
+  --accent-glow: rgba(248, 195, 19, 0.35);
+  --on-accent: #050505;
+
+  /* os utilitários do Tailwind leem estes; precisam ser recalculados neste escopo */
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+
+  background:
+    radial-gradient(70% 55% at 50% 0%, rgba(248, 195, 19, 0.22), transparent 70%),
+    #0b0b0d;
+  color: var(--text);
+}
+
+.crm__side {
+  flex: none;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+@media (min-width: 768px) {
+  .crm__side {
+    width: 206px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+  }
+}
+
+.crm__item {
+  position: relative;
+  isolation: isolate;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5.5px 10px;
+  border-radius: 8px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+
+.crm__item:hover,
+.crm__item--on {
+  color: var(--text);
+}
+
+/* item ativo em amarelo, como no CRM */
+.crm__item > i {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: #f8c313;
+}
+
+.crm__beta {
+  margin-left: auto;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: #fef0c7;
+  border: 1px solid #fedf89;
+  color: #93370d;
+  font-size: 0.52rem;
+  font-weight: 600;
+}
+
+.crm__tab {
+  flex: none;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.crm__tab--on {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.crm__ico {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* legenda da cena + barra de progresso (rodapé da moldura) */
+.crm__caption {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.crm__progress {
+  position: absolute;
+  inset: -1px 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), #fff3bf);
+  transform-origin: 0 50%;
+  animation: crm-progress linear forwards;
+}
+
+@keyframes crm-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.crm__cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(16, 24, 40, 0.35));
+}
+
+.crm__cursor span {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #155eef;
+}
+
+/* ---------- peças das cenas ---------- */
+
+.crm-panel {
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+}
+
+.crm-dark .crm-panel {
+  box-shadow: none;
+}
+
+.crm-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.crm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.crm-chip--on {
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  color: var(--accent);
+}
+
+.crm-chip--ok {
+  background: #ecfdf3;
+  border-color: #abefc6;
+  color: #067647;
+}
+
+.crm-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.66rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.crm-btn--ghost {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+}
+
+.crm-th {
+  background: #f9fafb;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.crm-canvas {
+  background-color: #f9fafb;
+  background-image: radial-gradient(#d0d5dd 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.crm-node {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  color: var(--dim);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08);
+  transition:
+    border-color 0.4s var(--ease),
+    color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+
+.crm-node--on {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 6px 16px -6px var(--accent-glow);
+}
+
+.crm-wire {
+  flex: none;
+  height: 1.5px;
+  background: var(--line-strong);
+  transition: background 0.4s var(--ease);
+}
+
+.crm-wire--on {
+  background: var(--accent);
+}
+
+.crm-skel {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
+.crm-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+
+.crm-typing i {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: blink 1s ease-in-out infinite;
+}
+
+.crm-typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.crm-typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* estados de "IA gerando" (Pergunte à IA) */
+.crm-pulse {
+  animation: crm-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes crm-pulse {
+  50% {
+    transform: scale(1.18);
+    box-shadow: 0 0 0 5px var(--accent-soft);
+  }
+}
+
+.crm-shine {
+  background: linear-gradient(100deg, var(--muted) 35%, var(--accent) 50%, var(--muted) 65%) 0 0 / 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine-text 1.6s linear infinite;
+}
+
+.crm-spin {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--accent);
+  animation: crm-spin 0.7s linear infinite;
+}
+
+@keyframes crm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* site sendo gerado (AI Studio): feixe varrendo a prévia + esqueleto pulsando */
+.crm-scan {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  height: 70px;
+  pointer-events: none;
+  background: linear-gradient(transparent, var(--accent-soft) 85%, var(--accent));
+  border-bottom: 1px solid var(--accent);
+  opacity: 0.7;
+  animation: crm-scan 1.5s linear infinite;
+}
+
+@keyframes crm-scan {
+  from {
+    transform: translateY(-70px);
+  }
+  to {
+    transform: translateY(520px);
+  }
+}
+
+.crm-shimmer {
+  background: linear-gradient(100deg, var(--surface-2) 35%, var(--line-strong) 50%, var(--surface-2) 65%) 0 0 / 250% 100%;
+  animation: shine-text 1.3s linear infinite;
+}
+
+/* construtor de automações: nós, condições e o lead percorrendo o caminho */
+.crm-fnode,
+.crm-fcond {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 2px 5px rgba(16, 24, 40, 0.1);
+}
+
+.crm-fnode {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* pontos de conexão nas laterais do nó */
+.crm-fnode::before,
+.crm-fnode::after,
+.crm-fcond::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: #667085;
+}
+
+.crm-fnode::before {
+  left: -4px;
+}
+
+.crm-fnode::after,
+.crm-fcond::after {
+  right: -4px;
+}
+
+.crm-fcond {
+  width: 140px;
+  height: 46px;
+  padding: 5px 9px;
+  border-radius: 9px;
+  font-size: 9.5px;
+  line-height: 1.25;
+  color: var(--muted);
+}
+
+.crm-fcond b {
+  display: block;
+  margin-bottom: 1px;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #6938ef;
+}
+
+.crm-flabel {
+  position: absolute;
+  width: 92px;
+  margin-left: -46px;
+  font-size: 9.5px;
+  line-height: 1.2;
+  text-align: center;
+  color: #344054;
+}
+
+/* acende quando o lead chega (o atraso vem inline, pela posição no caminho) */
+.crm-fnode--run {
+  animation: crm-fnode-run 0.9s var(--ease) both;
+}
+
+@keyframes crm-fnode-run {
+  0% {
+    border-color: var(--line-strong);
+    box-shadow: 0 2px 5px rgba(16, 24, 40, 0.1);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  30% {
+    border-color: var(--accent);
+    box-shadow:
+      0 0 0 6px var(--accent-soft),
+      0 10px 20px -6px var(--accent-glow);
+    transform: translate(-50%, -50%) scale(1.14);
+  }
+  100% {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.crm-lead {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.crm-lead i {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #fff;
+  box-shadow:
+    0 0 0 4px var(--accent-soft),
+    0 0 14px var(--accent);
+}
+
+.crm-lead span {
+  position: absolute;
+  bottom: 14px;
+  left: 0;
+  transform: translateX(-50%);
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #101828;
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 14px -4px rgba(16, 24, 40, 0.5);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

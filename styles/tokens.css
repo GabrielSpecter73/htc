@@ -1,0 +1,29 @@
+/* Tokens de marca extraídos do deck HTC */
+:root {
+  --bg: #050505;
+  --bg-raised: #101010;
+  --surface: #151515;
+  --surface-2: #1c1c1c;
+  --line: #242424;
+  --line-strong: #2c2c2c;
+
+  --text: #ffffff;
+  --muted: #afafaf;
+  --dim: #7a7a7a;
+
+  --accent: #f8c313;
+  --accent-soft: rgba(248, 195, 19, 0.14);
+  --accent-glow: rgba(248, 195, 19, 0.35);
+  --on-accent: #050505;
+
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Sora', system-ui, sans-serif;
+
+  --radius: 14px;
+  --radius-lg: 22px;
+  --container: 1280px;
+  --gutter: clamp(20px, 5vw, 40px);
+  --section: clamp(88px, 12vw, 168px);
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}

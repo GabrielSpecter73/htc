@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -15,7 +15,7 @@ if (!serverEntry) {
   throw new Error(`Não encontrei o bundle SSR em ${serverDir}`);
 }
 
-const { render } = await import(path.join(serverDir, serverEntry));
+const { render } = await import(pathToFileURL(path.join(serverDir, serverEntry)).href);
 const appHtml = render();
 
 const template = fs.readFileSync(distIndexPath, 'utf-8');

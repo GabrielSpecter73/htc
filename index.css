@@ -1,1 +1,26 @@
 @import "tailwindcss";
+@import "./styles/tokens.css";
+@import "./styles/patterns.css" layer(components);
+@import "./styles/fx.css" layer(components);
+@import "./styles/button.css" layer(components);
+@import "./styles/rings.css" layer(components);
+@import "./styles/crm.css" layer(components);
+@import "./styles/global.css";
+
+/* Tokens HTC expostos como utilitários do Tailwind (bg-surface, text-accent, font-display...) */
+@theme {
+  --color-bg: #050505;
+  --color-raised: #101010;
+  --color-surface: #151515;
+  --color-surface-2: #1c1c1c;
+  --color-line: #242424;
+  --color-line-strong: #2c2c2c;
+  --color-muted: #afafaf;
+  --color-dim: #7a7a7a;
+  --color-accent: #f8c313;
+  --color-accent-soft: rgba(248, 195, 19, 0.14);
+  --color-on-accent: #050505;
+
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Sora', system-ui, sans-serif;
+}

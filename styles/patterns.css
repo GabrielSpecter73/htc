@@ -1,0 +1,209 @@
+/* Padrões de animação HTC em CSS puro. Dependem dos tokens de tokens.css.
+   Copie só os blocos que for usar. */
+
+/* ---------- ponto pulsando (badges, "ao vivo") ---------- */
+@keyframes ping {
+  0% {
+    box-shadow: 0 0 0 0 rgba(248, 195, 19, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(248, 195, 19, 0);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.dot-ping {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: ping 2s ease-out infinite;
+}
+
+/* ---------- texto com brilho passando (badge do hero) ---------- */
+.shine-text {
+  background: linear-gradient(100deg, var(--muted) 40%, #fff 50%, var(--muted) 60%) 0 0 / 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine-text 4s linear infinite;
+}
+
+@keyframes shine-text {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -130% 0;
+  }
+}
+
+/* ---------- grade de pontos que some nas bordas (fundo do hero) ---------- */
+.dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(80% 60% at 40% 30%, #000, transparent 75%);
+  -webkit-mask-image: radial-gradient(80% 60% at 40% 30%, #000, transparent 75%);
+}
+
+/* ---------- marquee infinito (duplique os itens 3x no HTML) ---------- */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(calc(-100% / 3));
+  }
+}
+
+/* ---------- órbita: fichas girando em volta de um núcleo ----------
+   No elemento .orbit defina --u (quanto vale 1% do diâmetro, ex.: 5.6px para 560px).
+   Em cada .orbit__chip defina --r (raio em %), --dur e --delay (negativo, para espalhar). */
+.orbit {
+  position: relative;
+  aspect-ratio: 1;
+  --u: 5.6px;
+}
+
+.orbit__chip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 104px;
+  margin: -17px 0 0 -52px;
+  text-align: center;
+  --rad: calc(var(--r) * var(--u));
+  animation: orbit-move var(--dur) linear var(--delay) infinite;
+}
+
+.orbit__chip--rev {
+  animation-direction: reverse;
+}
+
+@keyframes orbit-move {
+  from {
+    transform: rotate(0deg) translateX(var(--rad)) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(var(--rad)) rotate(-360deg);
+  }
+}
+
+/* ondas saindo do núcleo */
+.orbit__pulse {
+  position: absolute;
+  inset: 35%;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  animation: orbit-pulse 4s ease-out infinite;
+}
+
+@keyframes orbit-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(3.1);
+    opacity: 0;
+  }
+}
+
+/* ---------- itens que acendem em sequência, em loop ----------
+   Em cada item: style="--i: <índice>; --n: <total>" */
+.seq {
+  animation: seq-on calc(var(--n) * 1.4s) linear infinite;
+  animation-delay: calc(var(--i) * 1.4s);
+}
+
+@keyframes seq-on {
+  0%,
+  30%,
+  100% {
+    border-color: var(--line-strong);
+    color: inherit;
+    box-shadow: none;
+  }
+  4%,
+  22% {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 22px -4px var(--accent-glow);
+  }
+}
+
+/* ---------- linha com feixe de luz correndo (jornada / etapas) ---------- */
+.beam-line {
+  position: relative;
+  height: 2px;
+  background: var(--line-strong);
+  overflow: hidden;
+}
+
+.beam-line i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, var(--accent), #fff3bf);
+  animation: beam-line 6s linear infinite;
+}
+
+@keyframes beam-line {
+  from {
+    left: -22%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+/* ---------- flutuar suavemente (janelas e mockups) ---------- */
+.float {
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* ---------- brilho amarelo atrás de uma janela/mockup ---------- */
+.glow-behind {
+  position: relative;
+}
+
+.glow-behind::before {
+  content: '';
+  position: absolute;
+  inset: 8% -6% -6% 6%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(248, 195, 19, 0.3), transparent);
+  filter: blur(40px);
+}
