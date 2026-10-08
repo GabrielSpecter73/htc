@@ -34,6 +34,15 @@
 <body>
     <div id="root"></div>
 <script type="module" src="/index.tsx"></script>
-<script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="697b9f9aaa41f44a756f91b4"></script>
+<script>
+  // Widget de chat da LeadConnector: só carrega 15 segundos depois de abrir o site
+  setTimeout(function () {
+    var s = document.createElement('script');
+    s.src = 'https://widgets.leadconnectorhq.com/loader.js';
+    s.setAttribute('data-resources-url', 'https://widgets.leadconnectorhq.com/chat-widget/loader.js');
+    s.setAttribute('data-widget-id', '697b9f9aaa41f44a756f91b4');
+    document.body.appendChild(s);
+  }, 15000);
+</script>
 </body>
 </html>
