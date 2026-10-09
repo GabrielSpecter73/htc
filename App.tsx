@@ -37,8 +37,7 @@ import {
   ShieldCheck,
   Youtube,
   Instagram,
-  Plus,
-  UserPlus
+  Plus
 } from 'lucide-react';
 import { Button } from './components/Button';
 import { CrmDemo } from './components/CrmDemo';
@@ -52,6 +51,9 @@ import { SpotlightCard } from './fx/SpotlightCard';
 const ease = [0.2, 0.7, 0.2, 1] as const;
 
 const GHL_LOGO = 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6653bac54215bc47d820199b.jpeg';
+
+// Link de afiliado do GHL: destino de todos os botões de cadastro.
+const SIGNUP_URL = 'https://gohighlevel.com/high-ticket-clube-offer-br?fp_ref=high-ticket-clube54&fp_sid=homehtc';
 
 type TitlePart = { text: string; hl?: boolean };
 
@@ -84,7 +86,7 @@ const navLinks = [
   { href: '#prova', label: 'Resultados' }
 ];
 
-const Navbar = ({ onOpenForm }: { onOpenForm: () => void }) => {
+const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
 
@@ -111,13 +113,13 @@ const Navbar = ({ onOpenForm }: { onOpenForm: () => void }) => {
           ))}
         </div>
 
-        <Button onClick={onOpenForm} className="flex-none">Começar Grátis</Button>
+        <Button href={SIGNUP_URL} className="flex-none">Começar Grátis</Button>
       </div>
     </nav>
   );
 };
 
-const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void; onOpenGHLModal: () => void }) => {
+const Hero = ({ onOpenGHLModal }: { onOpenGHLModal: () => void }) => {
   const mx = useMotionValue(720);
   const my = useMotionValue(260);
   const sx = useSpring(mx, { stiffness: 80, damping: 20 });
@@ -187,7 +189,7 @@ const Hero = ({ onOpenForm, onOpenGHLModal }: { onOpenForm: () => void; onOpenGH
           transition={{ duration: 0.9, delay: 0.95, ease }}
           className="mt-10 md:mt-14 flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
         >
-          <Button size="lg" onClick={onOpenForm} className="btn--xl w-full sm:w-auto">
+          <Button size="lg" href={SIGNUP_URL} className="btn--xl w-full sm:w-auto">
             Garantir 30 dias grátis + bônus
           </Button>
           <Button size="lg" variant="ghost" onClick={onOpenGHLModal} className="btn--xl w-full sm:w-auto">
@@ -286,7 +288,7 @@ const AssetBentoGrid = () => (
   </section>
 );
 
-const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
+const TwoStepProcess = () => (
   <section id="passos" className="section">
     <div className="wrap">
       <SectionHead
@@ -322,7 +324,7 @@ const TwoStepProcess = ({ onOpenForm }: { onOpenForm: () => void }) => (
               </p>
             </div>
             <div className="mt-auto">
-              <Button size="lg" block onClick={onOpenForm}>
+              <Button size="lg" block href={SIGNUP_URL}>
                 Ativar trial 30 dias
               </Button>
             </div>
@@ -409,7 +411,7 @@ const ArsenalSection = () => (
   </section>
 );
 
-const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
+const OfferStack = () => (
   <section id="oferta" className="section" style={{ overflowX: 'clip' }}>
     <div className="wrap">
       <div className="text-center mb-14 md:mb-20 relative z-20">
@@ -492,7 +494,7 @@ const OfferStack = ({ onOpenForm }: { onOpenForm: () => void }) => (
                     (Planos de $97 a $497, exatamente o mesmo preço que você vai pagar pro GHL...)
                   </p>
                 </div>
-                <Button size="lg" onClick={onOpenForm} className="w-full xl:w-auto flex-none">
+                <Button size="lg" href={SIGNUP_URL} className="w-full xl:w-auto flex-none">
                   Garantir 30 dias agora
                 </Button>
               </div>
@@ -884,7 +886,6 @@ const PlugPlay = () => (
 
 export default function App() {
   const [muralOpen, setMuralOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
   const [ghlModalOpen, setGhlModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -892,7 +893,6 @@ export default function App() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Escape') return;
       setMuralOpen(false);
-      setFormOpen(false);
       setGhlModalOpen(false);
       setSelectedImage(null);
     };
@@ -918,66 +918,17 @@ export default function App() {
         <ScrollProgress />
         <div className="grain" aria-hidden="true" />
 
-        <Navbar onOpenForm={() => setFormOpen(true)} />
-        <Hero onOpenForm={() => setFormOpen(true)} onOpenGHLModal={() => setGhlModalOpen(true)} />
+        <Navbar />
+        <Hero onOpenGHLModal={() => setGhlModalOpen(true)} />
         <AssetBentoGrid />
-        <TwoStepProcess onOpenForm={() => setFormOpen(true)} />
+        <TwoStepProcess />
         <ArsenalSection />
         <SocialProof onOpenMural={() => setMuralOpen(true)} onSelectImage={setSelectedImage} />
         <CrmSection />
-        <OfferStack onOpenForm={() => setFormOpen(true)} />
+        <OfferStack />
         <PlugPlay />
         <FAQ />
         <Footer />
-
-        {/* Sign-up Form Modal (Preloaded): fica sempre montado para o formulário abrir na hora */}
-        <div
-          className={`modal-backdrop z-[110] transition-[opacity,visibility] duration-300 ${formOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'}`}
-          onClick={() => setFormOpen(false)}
-        >
-          <div
-            className={`modal-panel max-w-[500px] transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${formOpen ? 'scale-100 translate-y-0' : 'scale-95 translate-y-10'}`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ModalHeader icon={UserPlus} title="Cadastrar Agora" subtitle="Inicie sua jornada" onClose={() => setFormOpen(false)} />
-
-            <div className="flex-none px-5 md:px-7 py-4">
-              <div className="notice !text-xs">
-                <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 flex-none text-accent mt-0.5" />
-                <p>
-                  <strong>Ps:</strong> Se já se registrou no GHL por outro link, use outro e-mail em uma aba anônima para se cadastrar.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-y-auto px-2 pb-2">
-              <iframe
-                src="https://api.leadconnectorhq.com/widget/form/FOQT85cKvqq0gmdtBlsn"
-                style={{
-                  width: '100%',
-                  height: '520px',
-                  border: 'none',
-                  borderRadius: '0 0 18px 18px',
-                  pointerEvents: formOpen ? 'auto' : 'none',
-                  visibility: formOpen ? 'visible' : 'hidden'
-                }}
-                id="inline-FOQT85cKvqq0gmdtBlsn"
-                data-layout="{'id':'INLINE'}"
-                data-trigger-type="alwaysShow"
-                data-trigger-value=""
-                data-activation-type="alwaysActivated"
-                data-activation-value=""
-                data-deactivation-type="neverDeactivate"
-                data-deactivation-value=""
-                data-form-name="Form Cadastro"
-                data-height="462"
-                data-layout-iframe-id="inline-FOQT85cKvqq0gmdtBlsn"
-                data-form-id="FOQT85cKvqq0gmdtBlsn"
-                title="Form Cadastro"
-              ></iframe>
-            </div>
-          </div>
-        </div>
 
         {/* Already have GHL Modal */}
         <GHLAlreadyModal isOpen={ghlModalOpen} onClose={() => setGhlModalOpen(false)} />
@@ -1026,7 +977,7 @@ export default function App() {
 
         {/* Floating Mobile Sticky CTA */}
         <div className="fixed bottom-5 left-4 right-4 md:hidden z-[45]">
-          <Button size="lg" block onClick={() => setFormOpen(true)}>
+          <Button size="lg" block href={SIGNUP_URL}>
             Garantir 30 dias + bônus
           </Button>
         </div>
