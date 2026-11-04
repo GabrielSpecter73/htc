@@ -44,5 +44,63 @@
     document.body.appendChild(s);
   }, 15000);
 </script>
+<script>
+(function () {
+  const prefix = "htc_tracking_";
+  const params = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+    "utm_id",
+    "fbclid"
+  ];
+
+  // Captura e salva os parâmetros da visita atual
+  const incoming = new URLSearchParams(window.location.search);
+
+  params.forEach(param => {
+    if (incoming.has(param)) {
+      sessionStorage.setItem(prefix + param, incoming.get(param));
+    }
+  });
+
+  function updateAffiliateLinks() {
+    document.querySelectorAll('a[href]').forEach(link => {
+      const url = new URL(link.href, window.location.href);
+
+      if (
+        url.hostname !== "www.gohighlevel.com" &&
+        url.hostname !== "gohighlevel.com"
+      ) return;
+
+      if (!url.pathname.startsWith("/high-ticket-clube")) return;
+
+      params.forEach(param => {
+        const value = sessionStorage.getItem(prefix + param);
+        if (value !== null && !url.searchParams.has(param)) {
+          url.searchParams.set(param, value);
+        }
+      });
+
+      link.href = url.toString();
+    });
+  }
+
+  // Aplica ao carregar e antes do clique
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", updateAffiliateLinks);
+  } else {
+    updateAffiliateLinks();
+  }
+
+  document.addEventListener("click", function (event) {
+    if (event.target.closest('a[href]')) {
+      updateAffiliateLinks();
+    }
+  }, true);
+})();
+</script>
 </body>
 </html>
