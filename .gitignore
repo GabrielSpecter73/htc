@@ -31,3 +31,6 @@ dist-ssr/
 .DS_Store
 Thumbs.db
 .gstack/
+
+# Segredos locais (não commitar)
+openai-conversion-key.txt
