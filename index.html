@@ -29,12 +29,17 @@
     <!-- Pixel do ChatGPT Ads (OpenAI) -->
     <script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"KC2JwQZwYteRBaU9jF6Xxc",debug:true});</script>
 
+    <!-- Pixel da Meta (HTC Pixel, 09/11/2026): PageView em toda visita e InitiateCheckout no clique do "30 dias grátis".
+         Os eventos que as campanhas otimizam (opt-in, CompleteRegistration, StartTrial) continuam saindo do GoHighLevel. -->
+    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2617879218422684');fbq('track','PageView');</script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/index.css">
 </head>
 <body>
+    <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=2617879218422684&ev=PageView&noscript=1"></noscript>
     <div id="root"></div>
 <script type="module" src="/index.tsx"></script>
 <script>
@@ -123,6 +128,16 @@
     document.addEventListener(ev, function (e) {
       var a = e.target && e.target.closest && e.target.closest("a[href]");
       if (a) atualizar(a);
+    }, true);
+  });
+  // pixel da Meta: o clique que leva pro trial do GHL (uma vez por clique, botão esquerdo ou do meio)
+  ["click", "auxclick"].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      var a = e.target && e.target.closest && e.target.closest("a[href]");
+      if (!a || !window.fbq) return;
+      var url;
+      try { url = new URL(a.href, window.location.href); } catch (er) { return; }
+      if (ghl(url)) fbq("track", "InitiateCheckout", { content_name: "trial-30d-ghl", codigo: codigo });
     }, true);
   });
 })();
