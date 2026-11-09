@@ -48,61 +48,83 @@
   }, 15000);
 </script>
 <script>
+// Rastreamento até o GoHighLevel (09/11/2026). Toda visita que chega com UTMs, código da peça (fp_sid) ou id de
+// clique de anúncio (fbclid, gclid, ttclid...) fica guardada 30 dias neste navegador (vale a última que chegou).
+// No clique:
+//  - link de afiliado do GHL (gohighlevel.com/high-ticket-clube*): leva tudo, e o fp_sid vira o código da peça
+//    (fp_sid da visita, senão utm_content, senão "homehtc") pro FirstPromoter mostrar de qual vídeo/anúncio veio;
+//  - páginas do HTC no GHL (lp.htclube.com, agenda): levam os UTMs e os ids de clique.
+// Visita sem nada: utm_source=htclube, utm_medium=site, utm_campaign=home, utm_content=homehtc.
 (function () {
-  const prefix = "htc_tracking_";
-  const params = [
-    "utm_source",
-    "utm_medium",
-    "utm_campaign",
-    "utm_content",
-    "utm_term",
-    "utm_id",
-    "fbclid"
-  ];
+  var CHAVE = "htc_rastreio";
+  var VALIDADE = 30 * 24 * 60 * 60 * 1000;
+  var UTMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id"];
+  var CLIQUES = ["fbclid", "gclid", "gbraid", "wbraid", "ttclid", "msclkid", "li_fat_id"];
+  var TODOS = UTMS.concat(CLIQUES, ["fp_sid"]);
+  var PADRAO = { utm_source: "htclube", utm_medium: "site", utm_campaign: "home", utm_content: "homehtc" };
 
-  // Captura e salva os parâmetros da visita atual
-  const incoming = new URLSearchParams(window.location.search);
-
-  params.forEach(param => {
-    if (incoming.has(param)) {
-      sessionStorage.setItem(prefix + param, incoming.get(param));
-    }
+  var entrada = new URLSearchParams(window.location.search);
+  var visita = {};
+  TODOS.forEach(function (k) {
+    var v = entrada.get(k);
+    if (v) visita[k] = v;
   });
 
-  function updateAffiliateLinks() {
-    document.querySelectorAll('a[href]').forEach(link => {
-      const url = new URL(link.href, window.location.href);
-
-      if (
-        url.hostname !== "www.gohighlevel.com" &&
-        url.hostname !== "gohighlevel.com"
-      ) return;
-
-      if (!url.pathname.startsWith("/high-ticket-clube")) return;
-
-      params.forEach(param => {
-        const value = sessionStorage.getItem(prefix + param);
-        if (value !== null && !url.searchParams.has(param)) {
-          url.searchParams.set(param, value);
-        }
-      });
-
-      link.href = url.toString();
-    });
-  }
-
-  // Aplica ao carregar e antes do clique
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", updateAffiliateLinks);
+  var salvo = {};
+  if (Object.keys(visita).length) {
+    salvo = visita;
+    try { localStorage.setItem(CHAVE, JSON.stringify({ t: Date.now(), p: visita })); } catch (e) {}
   } else {
-    updateAffiliateLinks();
+    try {
+      var s = JSON.parse(localStorage.getItem(CHAVE) || "null");
+      if (s && s.p && Date.now() - s.t < VALIDADE) salvo = s.p;
+    } catch (e) {}
+  }
+  var temUtm = UTMS.some(function (k) { return salvo[k]; });
+  var dados = temUtm ? salvo : Object.assign({}, PADRAO, salvo);
+  var codigo = salvo.fp_sid || salvo.utm_content || "homehtc";
+
+  function ghl(url) {
+    return (url.hostname === "gohighlevel.com" || url.hostname === "www.gohighlevel.com") &&
+      url.pathname.indexOf("/high-ticket-clube") === 0;
+  }
+  function paginaHtc(url) {
+    return url.hostname === "lp.htclube.com" ||
+      (url.hostname === "api.leadconnectorhq.com" && url.pathname.indexOf("/widget/bookings/") === 0);
   }
 
-  document.addEventListener("click", function (event) {
-    if (event.target.closest('a[href]')) {
-      updateAffiliateLinks();
-    }
-  }, true);
+  function atualizar(link) {
+    var url;
+    try { url = new URL(link.href, window.location.href); } catch (e) { return; }
+    var afiliado = ghl(url);
+    if (!afiliado && !paginaHtc(url)) return;
+    UTMS.concat(CLIQUES).forEach(function (k) {
+      if (dados[k]) url.searchParams.set(k, dados[k]);
+    });
+    if (afiliado) url.searchParams.set("fp_sid", codigo);
+    if (link.href !== url.toString()) link.href = url.toString();
+  }
+  function todos() {
+    document.querySelectorAll("a[href]").forEach(atualizar);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", todos);
+  else todos();
+  window.addEventListener("load", todos);
+  // o React desenha (e redesenha) os botões depois: atualiza o que aparecer
+  var agendado = false;
+  new MutationObserver(function () {
+    if (agendado) return;
+    agendado = true;
+    setTimeout(function () { agendado = false; todos(); }, 50);
+  }).observe(document.documentElement, { childList: true, subtree: true });
+
+  ["pointerdown", "click", "auxclick", "contextmenu"].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      var a = e.target && e.target.closest && e.target.closest("a[href]");
+      if (a) atualizar(a);
+    }, true);
+  });
 })();
 </script>
 </body>
