@@ -79,9 +79,9 @@ const SectionHead = ({ eyebrow, parts, lead, center = false }: { eyebrow: string
 );
 
 const navLinks = [
+  { href: '#crm', label: 'O CRM' },
   { href: '#assets', label: 'Recursos' },
   { href: '#arsenal', label: 'Arsenal' },
-  { href: '#crm', label: 'O CRM' },
   { href: '#oferta', label: 'Oferta' },
   { href: '#prova', label: 'Resultados' }
 ];
@@ -113,7 +113,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        <Button href={SIGNUP_URL} className="flex-none">Começar Grátis</Button>
+        <Button href={SIGNUP_URL} className="flex-none">Garantir 30 dias + bônus</Button>
       </div>
     </nav>
   );
@@ -201,21 +201,63 @@ const Hero = ({ onOpenGHLModal }: { onOpenGHLModal: () => void }) => {
   );
 };
 
-const CrmSection = () => (
-  <section id="crm" className="section">
-    <div className="wrap">
-      <SectionHead
-        center
-        eyebrow="O que o CRM faz"
-        parts={[{ text: 'Tudo o que o GoHighLevel faz,' }, { text: 'em uma tela só.', hl: true }]}
-        lead="Clique nas abas e veja o CRM por dentro. Ou só assista: a demo roda sozinha."
-      />
-      <Reveal>
-        <CrmDemo />
-      </Reveal>
-    </div>
-  </section>
+// Anotação "à caneta" que avisa que a demo é clicável; a seta desce até o menu de abas do CRM
+// e tudo some quando a pessoa clica numa aba.
+const ScribbleStroke = ({ d, delay, duration }: { d: string; delay: number; duration: number }) => (
+  <>
+    {/* contorno escuro para a seta continuar legível em cima da tela branca do CRM */}
+    <motion.path d={d} stroke="#050505" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round"
+      initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+      transition={{ duration, delay, ease: 'easeOut' }} />
+    <motion.path d={d} stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"
+      initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }}
+      transition={{ duration, delay, ease: 'easeOut' }} />
+  </>
 );
+
+const InteractiveHint = ({ hidden }: { hidden: boolean }) => (
+  <motion.div
+    className="scribble"
+    aria-hidden="true"
+    initial={false}
+    animate={{ opacity: hidden ? 0 : 1, y: hidden ? -6 : 0 }}
+    transition={{ duration: 0.4 }}
+  >
+    {/* desktop: menu lateral, a seta desce até "Pergunte à IA" */}
+    <svg className="scribble__arrow scribble__arrow--md" width="72" height="132" viewBox="0 0 72 132" fill="none">
+      <ScribbleStroke d="M64 12C38 2 12 14 12 46c0 30 6 56 20 76" delay={0.5} duration={0.8} />
+      <ScribbleStroke d="M21 115l11 9 3-14" delay={1.25} duration={0.25} />
+    </svg>
+    {/* celular: abas em linha logo abaixo da barra */}
+    <svg className="scribble__arrow scribble__arrow--sm" width="60" height="84" viewBox="0 0 60 84" fill="none">
+      <ScribbleStroke d="M54 12C32 2 10 12 10 36c0 18 4 30 12 40" delay={0.5} duration={0.7} />
+      <ScribbleStroke d="M12 70l10 8 4-13" delay={1.15} duration={0.25} />
+    </svg>
+    <span className="scribble__text">
+      Eu sou <span className="scribble__mark">interativo</span>, clica aqui!
+    </span>
+  </motion.div>
+);
+
+const CrmSection = () => {
+  const [touched, setTouched] = useState(false);
+  return (
+    <section id="crm" className="section">
+      <div className="wrap">
+        <SectionHead
+          center
+          eyebrow="O que o CRM faz"
+          parts={[{ text: 'Tudo o que o GoHighLevel faz,' }, { text: 'em uma tela só.', hl: true }]}
+          lead="Clique nas abas e veja o CRM por dentro. Ou só assista: a demo roda sozinha."
+        />
+        <InteractiveHint hidden={touched} />
+        <Reveal>
+          <CrmDemo onInteract={() => setTouched(true)} />
+        </Reveal>
+      </div>
+    </section>
+  );
+};
 
 const assets = [
   {
@@ -759,14 +801,24 @@ const proofImages = [
   { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
 ];
 
+// Citações tiradas do mural original (lp.htclube.com/mural-depoimentos-htc), casadas pelo vídeo.
+// Capas geradas de um frame de cada vídeo (public/depoimentos): sem poster, iOS e alguns navegadores mostram tela preta.
+// focus = enquadramento dos vídeos verticais dentro do card 16:9 (mantém o rosto à vista).
 const proofVideos = [
-  { title: "Thiago Mattos", subtitle: "Estratégia HTC", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a8036f215dab5e858e0db.mp4" },
-  { title: "Ana Carolina", subtitle: "Mercado Imobiliário", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68793614e8df547974938398.mp4" },
-  { title: "Pietro", subtitle: "Agência para Clínicas", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937136ccf56fee2a8f3ee.mp4" },
-  { title: "Lucas Alves", subtitle: "Agência para Advocacias", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937a202da4799be447450.mp4" },
-  { title: "Jones Medrado", subtitle: "Resultado Elite", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6879359502da47bdbe447226.mp4" },
-  { title: "Luan Alves", subtitle: "Membro HTC", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68792a702035ba567e93b456.mp4" }
-];
+  { title: "Thiago Mattos", subtitle: "Estratégia HTC", poster: "/depoimentos/thiago.jpg", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a8036f215dab5e858e0db.mp4",
+    // Thiago não está no mural: frase transcrita do próprio vídeo, só limpando as hesitações.
+    quote: "Quando eu me deparei com o trabalho de vocês, falei: não vou pagar R$ 5 mil numa mentoria. Não pelo dinheiro, mas pela entrega que vocês têm antes de qualquer coisa. Hoje estou no trial de 30 dias, mas se fosse para contratar direto, não seria problema nenhum, por essa trilha de conhecimento e um onboarding excepcional." },
+  { title: "Ana Carolina", subtitle: "Mercado Imobiliário", poster: "/depoimentos/carol.jpg", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68793614e8df547974938398.mp4",
+    quote: "Com o GHL, a entrega da minha agência virou um simples ctrl c + ctrl v. O que antes levava dias para implementar para um cliente, hoje levo apenas horas." },
+  { title: "Pietro", subtitle: "Agência para Clínicas", poster: "/depoimentos/pietro.jpg", focus: "50% 18%", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937136ccf56fee2a8f3ee.mp4",
+    quote: "Dividimos nossa agência em “antes do GHL” e “depois do GHL”, pois nossa entrega melhorou em 1000%. O GHL veio para revolucionar o mercado de agências, aumentando o LTV através de uma entrega excepcional." },
+  { title: "Lucas Alves", subtitle: "Agência para Advocacias", poster: "/depoimentos/lucas.jpg", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/687937a202da4799be447450.mp4",
+    quote: "Compramos cursos e mentorias sobre o GHL, e não encontramos nada no Brasil que se compare ao High Ticket Clube. Ninguém ensina e domina a ferramenta tão bem quanto eles." },
+  { title: "Jones Medrado", subtitle: "Resultado Elite", poster: "/depoimentos/jones.jpg", focus: "50% 30%", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6879359502da47bdbe447226.mp4",
+    quote: "Hoje, o GHL é nossa principal ferramenta. Já temos clientes rodando ela e o feedback tem sido ótimo. A galera está curtindo muito, principalmente pelo fato de nos posicionarmos como uma empresa de tecnologia que também fornece o software." },
+  { title: "Luan Alves", subtitle: "Membro HTC", poster: "/depoimentos/luan.jpg", url: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/68792a702035ba567e93b456.mp4",
+    quote: "Antes eu usava várias ferramentas e hoje eu faço tudo dentro do GoHighLevel. O cara que tem agência, ou ele tem 10 ferramentas, ou ele tem o GoHighLevel. Quanto à comunidade, mesmo que tivesse custo, ainda valeria a pena, mas a pessoa nem tem custo, só vai pagar a ferramenta… então todo mundo ganha, ninguém sai perdendo. Não tem porque não, não tem riscos!" }
+] as { title: string; subtitle: string; poster: string; url: string; quote?: string; focus?: string }[];
 
 const SocialProof = ({ onOpenMural, onSelectImage }: { onOpenMural: () => void; onSelectImage: (img: string) => void }) => (
   <section id="prova" className="section overflow-hidden bg-raised border-y border-line">
@@ -820,22 +872,32 @@ const SocialProof = ({ onOpenMural, onSelectImage }: { onOpenMural: () => void; 
     <div className="wrap">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-14 md:mb-16">
         {proofVideos.map((item, i) => (
-          <Reveal key={item.url} delay={(i % 3) * 90}>
-            <div className="card group overflow-hidden transition-colors duration-300 hover:border-line-strong">
+          <Reveal key={item.url} delay={(i % 3) * 90} className="h-full">
+            <figure className="card group h-full flex flex-col overflow-hidden transition-colors duration-300 hover:border-line-strong">
               <div className="w-full aspect-video overflow-hidden bg-black">
                 <video
                   src={item.url}
-                  className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity"
+                  poster={item.poster}
+                  style={item.focus ? { objectPosition: item.focus } : undefined}
+                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                   controls
                   playsInline
-                  preload="metadata"
+                  preload="none"
                 ></video>
               </div>
-              <div className="p-6">
-                <p className="tag mb-1">{item.subtitle}</p>
-                <h4 className="font-display font-extrabold text-lg tracking-tight">{item.title}</h4>
+              <div className="p-6 flex-1 flex flex-col">
+                {item.quote && (
+                  <blockquote className="relative mb-5 text-sm leading-relaxed text-muted font-light">
+                    <span aria-hidden="true" className="block font-display font-extrabold text-3xl leading-none text-accent mb-1">“</span>
+                    {item.quote}
+                  </blockquote>
+                )}
+                <figcaption className="mt-auto">
+                  <p className="tag mb-1">{item.subtitle}</p>
+                  <h4 className="font-display font-extrabold text-lg tracking-tight">{item.title}</h4>
+                </figcaption>
               </div>
-            </div>
+            </figure>
           </Reveal>
         ))}
       </div>
@@ -920,11 +982,11 @@ export default function App() {
 
         <Navbar />
         <Hero onOpenGHLModal={() => setGhlModalOpen(true)} />
+        <CrmSection />
         <AssetBentoGrid />
         <TwoStepProcess />
         <ArsenalSection />
         <SocialProof onOpenMural={() => setMuralOpen(true)} onSelectImage={setSelectedImage} />
-        <CrmSection />
         <OfferStack />
         <PlugPlay />
         <FAQ />
@@ -974,13 +1036,6 @@ export default function App() {
             />
           )}
         </Modal>
-
-        {/* Floating Mobile Sticky CTA */}
-        <div className="fixed bottom-5 left-4 right-4 md:hidden z-[45]">
-          <Button size="lg" block href={SIGNUP_URL}>
-            Garantir 30 dias + bônus
-          </Button>
-        </div>
       </div>
     </MotionConfig>
   );

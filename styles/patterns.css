@@ -207,3 +207,69 @@
   background: radial-gradient(closest-side, rgba(248, 195, 19, 0.3), transparent);
   filter: blur(40px);
 }
+
+/* ---------- anotação "à caneta" (mostra que a demo do CRM é clicável) ---------- */
+.scribble {
+  position: relative;
+  z-index: 5;
+  display: block;
+  padding-left: 54px;
+  width: max-content;
+  max-width: 100%;
+  margin: -12px 0 -6px 18px;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.scribble__arrow {
+  position: absolute;
+  left: 0;
+  top: 22px;
+  overflow: visible;
+}
+
+.scribble__arrow--md { display: none; }
+
+.scribble__text {
+  font-family: 'Caveat', 'Segoe Print', cursive;
+  font-weight: 700;
+  font-size: clamp(1.45rem, 4.6vw, 1.85rem);
+  line-height: 1;
+  transform: rotate(-4deg);
+  transform-origin: left center;
+  animation: scribble-nudge 2.8s ease-in-out infinite;
+}
+
+/* sublinhado à mão embaixo da palavra-chave */
+.scribble__mark {
+  position: relative;
+  white-space: nowrap;
+}
+
+.scribble__mark::after {
+  content: '';
+  position: absolute;
+  left: -3px;
+  right: -4px;
+  bottom: -7px;
+  height: 9px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 9' preserveAspectRatio='none'%3E%3Cpath d='M2 6c20-4 44-5 70-3s34 2 46-1' fill='none' stroke='%23f8c313' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+}
+
+@keyframes scribble-nudge {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(-2.5deg) translateY(-3px); }
+}
+
+@media (min-width: 768px) {
+  .scribble {
+    margin: -20px 0 -8px 28px;
+    padding-left: 66px;
+  }
+  .scribble__arrow--sm { display: none; }
+  .scribble__arrow--md { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scribble__text { animation: none; }
+}

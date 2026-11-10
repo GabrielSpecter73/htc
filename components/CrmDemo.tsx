@@ -1523,7 +1523,7 @@ const scenes: Scene[] = [
   { id: 'relatorios', label: 'Relatórios', icon: TrendingUp, desc: 'Anúncios, atribuição e ligações em relatórios prontos.', view: Reports, tabs: ['Personalizados', 'Google Ads', 'Anúncios Meta', 'Atribuição', 'Ligações'], tab: 2 }
 ]
 
-export function CrmDemo() {
+export function CrmDemo({ onInteract }: { onInteract?: () => void } = {}) {
   const frameRef = useRef<HTMLDivElement>(null)
   const tabsRef = useRef<HTMLDivElement>(null)
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -1573,6 +1573,7 @@ export function CrmDemo() {
   useEffect(() => () => window.clearTimeout(resumeRef.current), [])
 
   const hold = () => {
+    onInteract?.()
     setAuto(false)
     window.clearTimeout(resumeRef.current)
     resumeRef.current = window.setTimeout(() => setAuto(true), RESUME_AFTER)
