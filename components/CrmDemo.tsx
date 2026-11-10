@@ -47,7 +47,9 @@ import {
   Wand2,
   Workflow,
   Youtube,
-  Zap
+  Zap,
+  MapPin,
+  ChevronsUpDown
 } from 'lucide-react'
 import { NumberTicker } from '../fx/NumberTicker'
 
@@ -1605,12 +1607,19 @@ export function CrmDemo({ onInteract }: { onInteract?: () => void } = {}) {
         <div className="crm__app">
           <aside className="crm__side">
             <div className="hidden md:block px-3 pt-3 pb-2">
-              <div className="flex items-center gap-2 rounded-[8px] border border-line-strong bg-surface-2 px-2.5 py-1.5">
-                <span className="flex-none w-6 h-6 rounded-full bg-[#101828] text-white flex items-center justify-center font-bold text-[0.5rem]">SA</span>
-                <div className="min-w-0">
-                  <p className="text-[0.68rem] font-semibold leading-tight truncate">Sua Agência</p>
-                  <p className="text-[0.56rem] text-dim uppercase truncate">São Paulo, SP</p>
-                </div>
+              {/* igual ao GHL white label: logo da agência no topo e, embaixo, o seletor com o nome da conta */}
+              <div className="flex items-center justify-center gap-1.5 h-8 mb-2 text-[#101828]">
+                <span className="w-5 h-5 rounded-[5px] border-[1.5px] border-dashed border-[#98a2b3] flex items-center justify-center">
+                  <Sparkles className="w-2.5 h-2.5 text-[#98a2b3]" />
+                </span>
+                <span className="font-display font-extrabold text-[0.8rem] tracking-tight">Sua Logo</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-[8px] border border-line-strong bg-surface-2 px-2.5 py-2">
+                <span className="flex-none w-6 h-6 rounded-full bg-white border border-line flex items-center justify-center">
+                  <MapPin className="w-3 h-3 text-[#344054]" />
+                </span>
+                <p className="flex-1 min-w-0 text-[0.68rem] font-semibold leading-tight truncate">Sua Agência</p>
+                <ChevronsUpDown className="flex-none w-3 h-3 text-dim" />
               </div>
             </div>
             <div ref={tabsRef} className="relative flex md:flex-col gap-0.5 p-2 md:px-2 md:py-1 overflow-x-auto md:overflow-y-auto no-scrollbar md:flex-1 md:min-h-0">

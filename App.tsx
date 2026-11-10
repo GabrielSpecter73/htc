@@ -223,10 +223,10 @@ const InteractiveHint = ({ hidden }: { hidden: boolean }) => (
     animate={{ opacity: hidden ? 0 : 1, y: hidden ? -6 : 0 }}
     transition={{ duration: 0.4 }}
   >
-    {/* desktop: menu lateral, a seta desce até "Pergunte à IA" */}
-    <svg className="scribble__arrow scribble__arrow--md" width="72" height="132" viewBox="0 0 72 132" fill="none">
-      <ScribbleStroke d="M64 12C38 2 12 14 12 46c0 30 6 56 20 76" delay={0.5} duration={0.8} />
-      <ScribbleStroke d="M21 115l11 9 3-14" delay={1.25} duration={0.25} />
+    {/* desktop: menu lateral; a seta desce pela margem (sem cobrir a logo) até "Pergunte à IA" */}
+    <svg className="scribble__arrow scribble__arrow--md" width="72" height="182" viewBox="0 0 72 182" fill="none">
+      <ScribbleStroke d="M64 12C30 0-22 8-22 46v76c0 22 2 38 12 50" delay={0.5} duration={0.8} />
+      <ScribbleStroke d="M-20 164l10 9 4-13" delay={1.25} duration={0.25} />
     </svg>
     {/* celular: abas em linha logo abaixo da barra */}
     <svg className="scribble__arrow scribble__arrow--sm" width="60" height="84" viewBox="0 0 60 84" fill="none">
