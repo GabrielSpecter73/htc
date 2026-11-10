@@ -122,3 +122,61 @@
     stroke-dashoffset: -0.2;
   }
 }
+
+/* ---------- entradas do hero em CSS puro ----------
+   Mesmos valores das animações que eram feitas com motion, mas rodando sem JavaScript:
+   o hero aparece assim que o HTML pré-renderizado pinta (LCP), não depois do bundle. */
+.blur-word {
+  animation: blur-word-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes blur-word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(14px);
+  }
+}
+
+.hero-pop {
+  animation: hero-pop 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes hero-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(10px);
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.hero-rise--blur {
+  animation-name: hero-rise-blur;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@keyframes hero-rise-blur {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blur-word,
+  .hero-pop,
+  .hero-rise {
+    animation: none;
+  }
+}

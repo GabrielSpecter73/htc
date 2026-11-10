@@ -67,10 +67,6 @@
   animation: marquee 48s linear infinite;
 }
 
-.marquee--reverse .marquee__track {
-  animation-direction: reverse;
-}
-
 .marquee:hover .marquee__track {
   animation-play-state: paused;
 }
@@ -78,59 +74,6 @@
 @keyframes marquee {
   to {
     transform: translateX(calc(-100% / 3));
-  }
-}
-
-/* ---------- órbita: fichas girando em volta de um núcleo ----------
-   No elemento .orbit defina --u (quanto vale 1% do diâmetro, ex.: 5.6px para 560px).
-   Em cada .orbit__chip defina --r (raio em %), --dur e --delay (negativo, para espalhar). */
-.orbit {
-  position: relative;
-  aspect-ratio: 1;
-  --u: 5.6px;
-}
-
-.orbit__chip {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 104px;
-  margin: -17px 0 0 -52px;
-  text-align: center;
-  --rad: calc(var(--r) * var(--u));
-  animation: orbit-move var(--dur) linear var(--delay) infinite;
-}
-
-.orbit__chip--rev {
-  animation-direction: reverse;
-}
-
-@keyframes orbit-move {
-  from {
-    transform: rotate(0deg) translateX(var(--rad)) rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg) translateX(var(--rad)) rotate(-360deg);
-  }
-}
-
-/* ondas saindo do núcleo */
-.orbit__pulse {
-  position: absolute;
-  inset: 35%;
-  border-radius: 50%;
-  border: 1px solid var(--accent);
-  animation: orbit-pulse 4s ease-out infinite;
-}
-
-@keyframes orbit-pulse {
-  from {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  to {
-    transform: scale(3.1);
-    opacity: 0;
   }
 }
 

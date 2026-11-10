@@ -16,7 +16,6 @@ import {
   Facebook,
   Filter,
   Folder,
-  GitBranch,
   Globe,
   HelpCircle,
   Image as ImageIcon,

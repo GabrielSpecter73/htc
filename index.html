@@ -26,16 +26,23 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#050505">
 
+    <!-- Pixels: os eventos entram na fila na hora, mas os scripts (Meta ~114 kB, OpenAI, TikTok) só baixam
+         depois que a página termina de carregar, para não disputar banda com o topo da página no celular. -->
+    <script>window.__depoisDoLoad=function(f){function go(){setTimeout(f,0)}if(document.readyState==='complete')go();else addEventListener('load',go)};</script>
+
     <!-- Pixel do ChatGPT Ads (OpenAI) -->
-    <script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"KC2JwQZwYteRBaU9jF6Xxc",debug:true});</script>
+    <script>!function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;w.__depoisDoLoad(function(){var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)})}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");oaiq("init",{pixelId:"KC2JwQZwYteRBaU9jF6Xxc",debug:true});</script>
 
     <!-- Pixel da Meta (HTC Pixel, 09/11/2026): PageView em toda visita e InitiateCheckout no clique do "30 dias grátis".
          Os eventos que as campanhas otimizam (opt-in, CompleteRegistration, StartTrial) continuam saindo do GoHighLevel. -->
-    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2617879218422684');fbq('track','PageView');</script>
+    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];f.__depoisDoLoad(function(){t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)})}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2617879218422684');fbq('track','PageView');</script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@700;800&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Pixel do TikTok (10/11/2026): PageView em toda visita -->
+    <script>!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};w.__depoisDoLoad(function(){var c=document.createElement("script");c.type="text/javascript",c.async=!0,c.src=r+"?sdkid="+e+"&lib="+t;var x=document.getElementsByTagName("script")[0];x.parentNode.insertBefore(c,x)})};ttq.load("DBPM9BJC77UBQ4PDSSP0");ttq.page();}(window,document,"ttq");</script>
+
+    <!-- Fontes no próprio site (styles/fonts.css): baixam junto com a página, sem esperar o Google Fonts -->
+    <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/sora-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/index.css">
 </head>
 <body>

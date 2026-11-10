@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { CSSProperties, MouseEvent, ReactNode } from 'react';
 import {
   AnimatePresence,
@@ -50,7 +50,7 @@ import { SpotlightCard } from './fx/SpotlightCard';
 
 const ease = [0.2, 0.7, 0.2, 1] as const;
 
-const GHL_LOGO = 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6653bac54215bc47d820199b.jpeg';
+const GHL_LOGO = '/img/logo-ghl.webp';
 
 // Link de afiliado do GHL: destino de todos os botões de cadastro.
 const SIGNUP_URL = 'https://gohighlevel.com/high-ticket-clube-offer-br?fp_ref=high-ticket-clube54&fp_sid=homehtc';
@@ -59,7 +59,7 @@ type TitlePart = { text: string; hl?: boolean };
 
 const Brand = ({ size = 34 }: { size?: number }) => (
   <div className="flex items-center gap-3">
-    <img src="/logo.png" alt="Logo HTC" width={size} height={size} className="logo" style={{ width: size, height: size }} />
+    <img src="/img/logo-htc.webp" alt="Logo HTC" width={size} height={size} className="logo" style={{ width: size, height: size }} />
     <span className="wordmark hidden sm:block md:hidden lg:block">High Ticket Clube</span>
   </div>
 );
@@ -143,14 +143,10 @@ const Hero = ({ onOpenGHLModal }: { onOpenGHLModal: () => void }) => {
 
       <div className="wrap relative !max-w-6xl">
         {/* Logos HTC + GHL */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          transition={{ duration: 1, ease }}
-          className="flex flex-col items-center mb-9 md:mb-10"
-        >
+        {/* Entradas do hero em CSS (.hero-pop / .hero-rise em styles/fx.css): rodam já no HTML pré-renderizado */}
+        <div className="hero-pop flex flex-col items-center mb-9 md:mb-10">
           <div className="flex items-center gap-6 md:gap-9">
-            <img src="/logo.png" alt="Logo HTC" width={112} height={112} className="logo hero-logo" />
+            <img src="/img/logo-htc.webp" alt="Logo HTC" width={112} height={112} className="logo hero-logo" />
             <div className="h-12 w-px bg-line-strong rotate-[20deg]" />
             <img src={GHL_LOGO} alt="Logo GHL" width={112} height={112} className="logo hero-logo" />
           </div>
@@ -161,7 +157,7 @@ const Hero = ({ onOpenGHLModal }: { onOpenGHLModal: () => void }) => {
               Parceria Oficial GoHighLevel Brasil
             </span>
           </div>
-        </motion.div>
+        </div>
 
         <BlurText
           as="h1"
@@ -171,23 +167,17 @@ const Hero = ({ onOpenGHLModal }: { onOpenGHLModal: () => void }) => {
           parts={[{ text: 'Não Assine o GoHighLevel Sozinho.' }, { text: 'Você Vai Falhar.', hl: true }]}
         />
 
-        <motion.p
-          initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 0.9, delay: 0.75, ease }}
-          className="mx-auto mt-8 md:mt-10 max-w-4xl text-base sm:text-lg md:text-2xl font-light leading-relaxed text-muted"
+        <p
+          className="hero-rise hero-rise--blur [animation-delay:0.75s] mx-auto mt-8 md:mt-10 max-w-4xl text-base sm:text-lg md:text-2xl font-light leading-relaxed text-muted"
         >
           Comece com{' '}
           <strong className="font-semibold text-white underline decoration-accent decoration-4 underline-offset-4 md:underline-offset-8">30 DIAS GRÁTIS</strong>{' '}
           (Exclusivo HTC) e receba +R$ 12.485 em Snapshots, IA e Mentoria...{' '}
           <strong className="font-semibold italic text-white">Gratuitamente.</strong>
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.95, ease }}
-          className="mt-10 md:mt-14 flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
+        <div
+          className="hero-rise [animation-delay:0.95s] mt-10 md:mt-14 flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
         >
           <Button size="lg" href={SIGNUP_URL} className="btn--xl w-full sm:w-auto">
             Garantir 30 dias grátis + bônus
@@ -195,7 +185,7 @@ const Hero = ({ onOpenGHLModal }: { onOpenGHLModal: () => void }) => {
           <Button size="lg" variant="ghost" onClick={onOpenGHLModal} className="btn--xl w-full sm:w-auto">
             Já tenho o GHL
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -265,7 +255,7 @@ const assets = [
     icon: Laptop,
     title: 'Curso - Trilha de Implementação GHL',
     desc: 'Aprenda passo a passo desde a configuração inicial até a entrega de resultados para clientes. Tudo com foco em agências que querem crescer com um modelo escalável.',
-    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a66d4b700a2a5f0748590.png',
+    img: '/img/recurso-curso.webp',
     alt: 'Laptop mostrando o curso'
   },
   {
@@ -273,7 +263,7 @@ const assets = [
     icon: Box,
     title: 'Templates Prontos (Plug & Play)',
     desc: 'Importe funis, automações e IAs que uso para mim e para meus clientes, assim você economiza semanas de implementação e entrega valor imediato.',
-    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a64a201e8bbb6e4e38087.png',
+    img: '/img/recurso-templates.webp',
     alt: 'Templates e Funis'
   },
   {
@@ -281,7 +271,7 @@ const assets = [
     icon: Video,
     title: 'Office Hours',
     desc: 'Calls de Seg-Qui para tirar dúvidas. Levante a mão e resolva qualquer bug no seu GHL com suporte especializado em tempo real.',
-    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6983c8c113fe2b52a1aad8dc.png',
+    img: '/img/recurso-office-hours.webp',
     alt: 'Office Hours Zoom Call'
   },
   {
@@ -289,7 +279,7 @@ const assets = [
     icon: Brain,
     title: 'Mentoria ao Vivo Semanal',
     desc: 'Toda semana, você participa de chamadas ao vivo comigo e com convidados, faturando +8 dígitos por ano, para tirar dúvidas e receber ajuda.',
-    img: 'https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a6e1f1fd82703fd6ea8ee.png',
+    img: '/img/recurso-mentoria.webp',
     alt: 'Mentoria'
   }
 ];
@@ -318,7 +308,10 @@ const AssetBentoGrid = () => (
                 <img
                   src={item.img}
                   alt={item.alt}
+                  width={1200}
+                  height={675}
                   loading="lazy"
+                  decoding="async"
                   className="w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:scale-[1.04]"
                 />
               </div>
@@ -463,8 +456,11 @@ const OfferStack = () => (
         <div>
           <div className="inline-block relative">
             <motion.img
-              src="https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/6978f249eb0d1a8301bd4098.png"
+              src="/img/easter-egg.webp"
               alt="Easter Egg Gabriel Oliveira"
+              width={352}
+              height={352}
+              loading="lazy"
               className="absolute bottom-[82%] -right-4 md:-right-28 w-24 md:w-44 pointer-events-none z-20"
               initial={{ opacity: 0, y: 60, scale: 0.6 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -654,7 +650,7 @@ const Footer = () => (
     <div className="wrap grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr] gap-12 md:gap-16 items-start">
       <div>
         <div className="flex items-center gap-4 mb-6">
-          <img src="/logo.png" alt="Logo HTC" width={48} height={48} className="logo w-12 h-12" />
+          <img src="/img/logo-htc.webp" alt="Logo HTC" width={48} height={48} className="logo w-12 h-12" />
           <span className="wordmark !text-[0.8rem]">High Ticket Clube</span>
         </div>
         <p className="lead">
@@ -795,13 +791,31 @@ const GHLAlreadyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => 
 );
 
 const proofImages = [
-  { name: "Frederik Ebener", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783ca81f2e2c7a.png" },
-  { name: "Your Fav Agency", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3266d7332f405173e.png" },
-  { name: "Lais Araújo", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3e1783cce122e2c79.png" },
-  { name: "Cleberson Leite", img: "https://storage.googleapis.com/msgsndr/CNK54gfLcK1jQllAu8Xm/media/697a7bc3b700a2747e78a692.png" }
+  { name: "Frederik Ebener", thumb: "/img/prova-1-thumb.webp", img: "/img/prova-1.webp" },
+  { name: "Your Fav Agency", thumb: "/img/prova-2-thumb.webp", img: "/img/prova-2.webp" },
+  { name: "Lais Araújo", thumb: "/img/prova-3-thumb.webp", img: "/img/prova-3.webp" },
+  { name: "Cleberson Leite", thumb: "/img/prova-4-thumb.webp", img: "/img/prova-4.webp" }
 ];
 
 // Citações tiradas do mural original (lp.htclube.com/mural-depoimentos-htc), casadas pelo vídeo.
+// Vídeo de depoimento cuja capa só baixa quando o card chega perto da tela: com `poster` direto,
+// o navegador baixava as 6 capas (~250 kB) junto com o topo da página.
+const LazyPosterVideo = ({ poster, ...props }: { src: string; poster: string; className?: string; style?: React.CSSProperties }) => {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || near) return;
+    if (!('IntersectionObserver' in window)) { setNear(true); return; }
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { setNear(true); io.disconnect(); }
+    }, { rootMargin: '800px 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
+  return <video ref={ref} {...props} poster={near ? poster : undefined} controls playsInline preload="none" />;
+};
+
 // Capas geradas de um frame de cada vídeo (public/depoimentos): sem poster, iOS e alguns navegadores mostram tela preta.
 // focus = enquadramento dos vídeos verticais dentro do card 16:9 (mantém o rosto à vista).
 const proofVideos = [
@@ -852,9 +866,12 @@ const SocialProof = ({ onOpenMural, onSelectImage }: { onOpenMural: () => void; 
               </div>
               <div className="relative overflow-hidden rounded-[14px] border border-line">
                 <img
-                  src={item.img}
+                  src={item.thumb}
                   alt={`Prova Social ${item.name}`}
+                  width={640}
+                  height={360}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -875,15 +892,12 @@ const SocialProof = ({ onOpenMural, onSelectImage }: { onOpenMural: () => void; 
           <Reveal key={item.url} delay={(i % 3) * 90} className="h-full">
             <figure className="card group h-full flex flex-col overflow-hidden transition-colors duration-300 hover:border-line-strong">
               <div className="w-full aspect-video overflow-hidden bg-black">
-                <video
+                <LazyPosterVideo
                   src={item.url}
                   poster={item.poster}
                   style={item.focus ? { objectPosition: item.focus } : undefined}
                   className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                  controls
-                  playsInline
-                  preload="none"
-                ></video>
+                />
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 {item.quote && (
