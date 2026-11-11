@@ -249,6 +249,43 @@ const CrmSection = () => {
   );
 };
 
+const AuthoritySection = () => (
+  <section id="autoridade" className="section">
+    <div className="wrap">
+      <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="lg:col-span-5">
+          <SectionHead
+            eyebrow="Quem está por trás"
+            parts={[{ text: 'Lado a lado com' }, { text: 'os criadores do GoHighLevel.', hl: true }]}
+            lead="Gabriel e João, fundadores do High Ticket Clube, no palco do HighLevel Level Up. Você aprende com quem está dentro do ecossistema, não com quem só assiste de fora."
+          />
+        </div>
+        <Reveal className="lg:col-span-7">
+          <figure className="glow-behind">
+            <div className="card relative overflow-hidden p-2">
+              <img
+                src="/img/htc-highlevel-palco.webp"
+                srcSet="/img/htc-highlevel-palco-900.webp 900w, /img/htc-highlevel-palco.webp 1600w"
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                alt="Gabriel e João, do High Ticket Clube, no palco do HighLevel Level Up ao lado dos criadores do GoHighLevel"
+                width={1600}
+                height={1066}
+                loading="lazy"
+                decoding="async"
+                className="block w-full h-auto rounded-[14px]"
+              />
+            </div>
+            <figcaption className="mt-4 flex items-center gap-3 text-muted text-sm font-light">
+              <img src={GHL_LOGO} alt="" width={20} height={20} className="w-5 h-5 rounded" loading="lazy" />
+              HighLevel Level Up · Gabriel e João com os criadores do GoHighLevel
+            </figcaption>
+          </figure>
+        </Reveal>
+      </div>
+    </div>
+  </section>
+);
+
 const assets = [
   {
     tag: 'Treinamento',
@@ -998,6 +1035,7 @@ export default function App() {
         <Hero onOpenGHLModal={() => setGhlModalOpen(true)} />
         <CrmSection />
         <AssetBentoGrid />
+        <AuthoritySection />
         <TwoStepProcess />
         <ArsenalSection />
         <SocialProof onOpenMural={() => setMuralOpen(true)} onSelectImage={setSelectedImage} />
