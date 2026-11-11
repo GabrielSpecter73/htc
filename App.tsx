@@ -255,9 +255,9 @@ const AuthoritySection = () => (
       <div className="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
         <div className="lg:col-span-5">
           <SectionHead
-            eyebrow="Quem está por trás"
-            parts={[{ text: 'Lado a lado com' }, { text: 'os criadores do GoHighLevel.', hl: true }]}
-            lead="Gabriel e João, fundadores do High Ticket Clube, no palco do HighLevel Level Up. Você aprende com quem está dentro do ecossistema, não com quem só assiste de fora."
+            eyebrow="Reconhecimento"
+            parts={[{ text: 'Premiados pelos' }, { text: 'criadores do GoHighLevel.', hl: true }]}
+            lead="Reconhecidos como a maior comunidade do Brasil, com mais de 300 agências crescendo com a gente."
           />
         </div>
         <Reveal className="lg:col-span-7">
@@ -267,7 +267,7 @@ const AuthoritySection = () => (
                 src="/img/htc-highlevel-palco.webp"
                 srcSet="/img/htc-highlevel-palco-900.webp 900w, /img/htc-highlevel-palco.webp 1600w"
                 sizes="(min-width: 1024px) 58vw, 100vw"
-                alt="Gabriel e João, do High Ticket Clube, no palco do HighLevel Level Up ao lado dos criadores do GoHighLevel"
+                alt="Gabriel e João, do High Ticket Clube, premiados no palco do HighLevel Level Up pelos criadores e cofundadores do GoHighLevel"
                 width={1600}
                 height={1066}
                 loading="lazy"
@@ -277,7 +277,7 @@ const AuthoritySection = () => (
             </div>
             <figcaption className="mt-4 flex items-center gap-3 text-muted text-sm font-light">
               <img src={GHL_LOGO} alt="" width={20} height={20} className="w-5 h-5 rounded" loading="lazy" />
-              HighLevel Level Up · Gabriel e João com os criadores do GoHighLevel
+              Palco do HighLevel Level Up
             </figcaption>
           </figure>
         </Reveal>
