@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Entrando no curso…</title>
+<!-- Sem pixel, sem script de fora: o link traz o token de login do aluno e ele não pode sair daqui pra Meta/OpenAI. -->
+<script>
+// O e-mail manda: /acesso-curso.html?u={{membership_contact.login_url}}
+// O login_url entra logado na raiz da comunidade (que abre o grupo do HTC). Aqui o token vai direto pra página do curso.
+(function () {
+  var CURSO = "https://comunidade.htclube.com/courses/products/4b45f2de-a534-4344-b3e3-2a4b572827d2";
+  var q = location.search.slice(1), u = "", i = q.indexOf("u=");
+  if (i >= 0) { u = q.slice(i + 2); try { u = decodeURIComponent(u); } catch (e) {} }
+  var m = u.match(/[?&]token=([^&#\s]+)/);
+  location.replace(m ? CURSO + "?token=" + m[1] : CURSO);
+})();
+</script>
+<style>body{font-family:-apple-system,Helvetica,Arial,sans-serif;background:#0b0b10;color:#e5e7eb;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0}a{color:#8b95ff}</style>
+</head>
+<body>
+<p>Entrando no curso… Se não abrir, <a href="https://comunidade.htclube.com/courses/products/4b45f2de-a534-4344-b3e3-2a4b572827d2">clique aqui</a>.</p>
+</body>
+</html>
